@@ -26,7 +26,6 @@
     "react-query": "3.39.3"
   },
   "devDependencies": {
-    "@tailwindcss/postcss": "^4.1.8",
     "@testing-library/jest-dom": "6.1.4",
     "@testing-library/react": "^14.1.2",
     "@types/react": "^18.2.15",
