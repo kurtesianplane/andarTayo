@@ -1,0 +1,116 @@
+{
+  "regular": {
+    "base_fare": 15.00,
+    "per_km": 2.65,
+    "min_km": 4
+  },
+  "student": {
+    "base_fare": 12.00,
+    "per_km": 2.12,
+    "min_km": 4
+  },
+  "pwd": {
+    "base_fare": 12.00,
+    "per_km": 2.12,
+    "min_km": 4
+  },
+  "senior": {
+    "base_fare": 12.00,
+    "per_km": 2.12,
+    "min_km": 4
+  },
+  "northbound": {
+    "PITX": {
+      "CITY_OF_DREAMS": 0.7,
+      "DFA": 1.5,
+      "ROXAS_EB": 2.6,
+      "TAFT_EB": 3.6,
+      "ONE_AYALA": 5.8,
+      "BUENDIA": 7.8,
+      "GUADALUPE": 10.8,
+      "ORTIGAS": 13.4,
+      "SANTOLAN": 15.8,
+      "MAIN_AVE": 17.4,
+      "NEPA_QMART": 19.2,
+      "QUEZON_AVE": 20.5,
+      "NORTH_AVE": 22.0,
+      "MUNOZ": 23.1,
+      "KAINGIN": 24.2,
+      "BALINTAWAK": 25.0,
+      "BAGONG_BARRIO": 26.55,
+      "MONUMENTO": 28.1
+    },
+    "fares": {
+      "CITY_OF_DREAMS": 15.00,
+      "DFA": 15.00,
+      "ROXAS_EB": 15.00,
+      "TAFT_EB": 15.00,
+      "ONE_AYALA": 24.00,
+      "BUENDIA": 26.50,
+      "GUADALUPE": 31.50,
+      "ORTIGAS": 38.00,
+      "SANTOLAN": 44.75,
+      "MAIN_AVE": 46.50,
+      "NEPA_QMART": 51.25,
+      "QUEZON_AVE": 55.50,
+      "NORTH_AVE": 59.00,
+      "MUNOZ": 63.50,
+      "KAINGIN": 65.75,
+      "BALINTAWAK": 67.75,
+      "BAGONG_BARRIO": 69.50,
+      "MONUMENTO": 73.00
+    }
+  },
+  "southbound": {
+    "MONUMENTO": {
+      "BAGONG_BARRIO": 0.55,
+      "BALINTAWAK": 2.10,
+      "KAINGIN": 2.90,
+      "MUNOZ": 4.00,
+      "NORTH_AVE": 5.50,
+      "QUEZON_AVE": 6.80,
+      "NEPA_QMART": 8.60,
+      "MAIN_AVE": 10.20,
+      "SANTOLAN": 11.00,
+      "ORTIGAS": 13.40,
+      "GUADALUPE": 15.80,
+      "BUENDIA": 18.80,
+      "ONE_AYALA": 20.80,
+      "TRAMO": 22.30,
+      "TAFT_WB": 23.30,
+      "ROXAS_WB": 25.90,
+      "MOA": 26.90,
+      "DFA": 27.70,
+      "AYALA_MALLS_MB": 28.40,
+      "PITX": 28.10
+    },
+    "fares": {
+      "BAGONG_BARRIO": 15.00,
+      "BALINTAWAK": 15.00,
+      "KAINGIN": 15.00,
+      "MUNOZ": 15.00,
+      "NORTH_AVE": 15.75,
+      "QUEZON_AVE": 19.25,
+      "NEPA_QMART": 23.50,
+      "MAIN_AVE": 28.00,
+      "SANTOLAN": 29.75,
+      "ORTIGAS": 36.50,
+      "GUADALUPE": 42.75,
+      "BUENDIA": 48.00,
+      "ONE_AYALA": 50.25,
+      "TRAMO": 58.75,
+      "TAFT_WB": 59.50,
+      "ROXAS_WB": 62.00,
+      "MOA": 64.25,
+      "DFA": 68.00,
+      "AYALA_MALLS_MB": 71.75,
+      "PITX": 75.50
+    }
+  },
+  "discounts": {
+    "regular": 1.0,
+    "student": 0.8,
+    "pwd": 0.8,
+    "senior": 0.8
+  }
+} 

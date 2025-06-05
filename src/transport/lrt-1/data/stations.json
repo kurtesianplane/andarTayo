@@ -1,0 +1,962 @@
+{  "line_info": {
+    "name": "LRT-1 (Light Rail Transit Line 1)",
+    "official_name": "Green Line",
+    "operator": "Light Rail Transit Authority (LRTA)",
+    "total_stations": 25,
+    "total_length": 32.4,
+    "opening_year": 1984,
+    "northern_terminus": "Fernando Poe Jr.",
+    "southern_terminus": "Dr. Santos",
+    "color": "#FFCC00",
+    "operating_hours": {
+      "weekdays": {
+        "first_train": "04:30",
+        "last_train": "22:30"
+      },
+      "weekends": {
+        "first_train": "04:30",
+        "last_train": "22:30"
+      }
+    },
+    "frequency": {
+      "peak": "3-4 minutes",
+      "off_peak": "5-7 minutes"
+    },
+    "fare_structure": {
+      "type": "distance_based",
+      "payment_methods": {        "beep_card": {
+          "description": "Stored value card with distance-based fares",
+          "min_fare": 11,
+          "max_fare": 35
+        },
+        "single_journey": {
+          "description": "Single journey ticket with distance-based fares", 
+          "min_fare": 12,
+          "max_fare": 36
+        },
+        "discounted": {
+          "description": "20% discount for PWD/Senior citizens on SJT rates",
+          "min_fare": 10,
+          "max_fare": 29
+        }
+      }
+    },
+    "technical_specs": {
+      "power_supply": "600V DC third rail",
+      "max_speed": "60 km/h",
+      "rolling_stock": ["LRTA 1000 series", "LRTA 1100 series", "LRTA 1200 series"],
+      "car_configuration": "4 cars per train"
+    },
+    "daily_ridership": 445000
+  },
+  "stations": [
+    {
+      "station_id": "lrt1_fernando_poe_jr",
+      "name": "Fernando Poe Jr.",
+      "municipality": "Quezon City",
+      "sequence": 1,
+      "coordinates": {
+        "latitude": 14.6525,
+        "longitude": 121.0237
+      },
+      "elevation": 34.5,
+      "opening_date": "2010-04-15",
+      "interchange": false,
+      "accessibility": {
+        "wheelchair_accessible": true,
+        "elevator": true,
+        "escalator": true
+      },
+      "facilities": {
+        "parking": true,
+        "restroom": true,
+        "commercial_area": false,
+        "atm": true
+      },
+      "connections": {
+        "jeepney_routes": [
+          "Roosevelt-Litex",
+          "Roosevelt-SM North EDSA",
+          "Roosevelt-Fairview"
+        ],
+        "uv_express": [
+          "Roosevelt-Makati",
+          "Roosevelt-Ortigas"
+        ],
+        "bus_rapid_transit": [
+          "EDSA Carousel Roosevelt Station"
+        ],
+        "nearby_landmarks": [
+          "SM City North EDSA",
+          "TriNoma Mall",
+          "Quezon Memorial Circle"
+        ]
+      }
+    },
+    {
+      "station_id": "lrt1_balintawak",
+      "name": "Balintawak",
+      "municipality": "Quezon City",
+      "sequence": 2,
+      "coordinates": {
+        "latitude": 14.6447,
+        "longitude": 121.0194
+      },
+      "elevation": 32.1,
+      "opening_date": "2010-04-15",
+      "interchange": false,
+      "accessibility": {
+        "wheelchair_accessible": true,
+        "elevator": true,
+        "escalator": true
+      },
+      "facilities": {
+        "parking": false,
+        "restroom": true,
+        "commercial_area": false,
+        "atm": false
+      },
+      "connections": {
+        "jeepney_routes": [
+          "Balintawak-Monumento",
+          "Balintawak-Novaliches"
+        ],
+        "bus_rapid_transit": [
+          "EDSA Carousel Balintawak Station"
+        ],
+        "nearby_landmarks": [
+          "Balintawak Market",
+          "Cloverleaf Interchange"
+        ]
+      }
+    },
+    {
+      "station_id": "lrt1_monumento",
+      "name": "Monumento",
+      "municipality": "Caloocan City",
+      "sequence": 3,
+      "coordinates": {
+        "latitude": 14.6544,
+        "longitude": 120.9842
+      },
+      "elevation": 12.8,
+      "opening_date": "1984-12-01",
+      "interchange": false,
+      "accessibility": {
+        "wheelchair_accessible": false,
+        "elevator": false,
+        "escalator": true
+      },
+      "facilities": {
+        "parking": false,
+        "restroom": true,
+        "commercial_area": true,
+        "atm": true
+      },
+      "connections": {
+        "jeepney_routes": [
+          "Monumento-Malabon",
+          "Monumento-Navotas",
+          "Monumento-Valenzuela"
+        ],
+        "bus_rapid_transit": [
+          "EDSA Carousel Monumento Station"
+        ],
+        "nearby_landmarks": [
+          "Andres Bonifacio Monument",
+          "Monumento Circle", "SM Grand Central"
+        ]
+      }
+    },
+    {
+      "station_id": "lrt1_5th_avenue",
+      "name": "5th Avenue",
+      "municipality": "Caloocan City",
+      "sequence": 4,
+      "coordinates": {
+        "latitude": 14.6436,
+        "longitude": 120.9825
+      },
+      "elevation": 11.2,
+      "opening_date": "1984-12-01",
+      "interchange": false,
+      "accessibility": {
+        "wheelchair_accessible": false,
+        "elevator": false,
+        "escalator": true
+      },
+      "facilities": {
+        "parking": false,
+        "restroom": true,
+        "commercial_area": false,
+        "atm": false
+      },
+      "connections": {
+        "jeepney_routes": [
+          "5th Avenue-Grace Park",
+          "5th Avenue-Maypajo"
+        ],
+        "nearby_landmarks": [
+          "Grace Park",
+          "Caloocan City Hall"
+        ]
+      }
+    },
+    {
+      "station_id": "lrt1_r_papa",
+      "name": "R. Papa",
+      "municipality": "Quezon City",
+      "sequence": 5,
+      "coordinates": {
+        "latitude": 14.6330,
+        "longitude": 120.9842
+      },
+      "elevation": 13.5,
+      "opening_date": "1984-12-01",
+      "interchange": false,
+      "accessibility": {
+        "wheelchair_accessible": false,
+        "elevator": false,
+        "escalator": true
+      },
+      "facilities": {
+        "parking": false,
+        "restroom": true,
+        "commercial_area": false,
+        "atm": false
+      },
+      "connections": {
+        "jeepney_routes": [
+          "R. Papa-Project 6",
+          "R. Papa-Novaliches"
+        ],
+        "nearby_landmarks": [
+          "Santo Domingo Church"
+        ]
+      }
+    },
+    {
+      "station_id": "lrt1_abad_santos",
+      "name": "Abad Santos",
+      "municipality": "Manila",
+      "sequence": 6,
+      "coordinates": {
+        "latitude": 14.6187,
+        "longitude": 120.9858
+      },
+      "elevation": 14.7,
+      "opening_date": "1984-12-01",
+      "interchange": false,
+      "accessibility": {
+        "wheelchair_accessible": false,
+        "elevator": false,
+        "escalator": true
+      },
+      "facilities": {
+        "parking": false,
+        "restroom": true,
+        "commercial_area": false,
+        "atm": false
+      },
+      "connections": {
+        "jeepney_routes": [
+          "Abad Santos-Divisoria",
+          "Abad Santos-Blumentritt"
+        ],
+        "nearby_landmarks": [
+          "Abad Santos Avenue",
+          "Samson Road"
+        ]
+      }
+    },
+    {
+      "station_id": "lrt1_blumentritt",
+      "name": "Blumentritt",
+      "municipality": "Manila",
+      "sequence": 7,
+      "coordinates": {
+        "latitude": 14.6108,
+        "longitude": 120.9881
+      },
+      "elevation": 15.3,
+      "opening_date": "1984-12-01",
+      "interchange": false,
+      "accessibility": {
+        "wheelchair_accessible": false,
+        "elevator": false,
+        "escalator": true
+      },
+      "facilities": {
+        "parking": false,
+        "restroom": true,
+        "commercial_area": false,
+        "atm": false
+      },
+      "connections": {
+        "rail": [
+          "PNR Blumentritt Station"
+        ],
+        "jeepney_routes": [
+          "Blumentritt-Santa Mesa",
+          "Blumentritt-San Lazaro"
+        ],
+        "nearby_landmarks": [
+          "Jose Rizal University",
+          "Blumentritt Market"
+        ]
+      }
+    },
+    {
+      "station_id": "lrt1_tayuman",
+      "name": "Tayuman",
+      "municipality": "Manila",
+      "sequence": 8,
+      "coordinates": {
+        "latitude": 14.6044,
+        "longitude": 120.9897
+      },
+      "elevation": 16.1,
+      "opening_date": "1984-12-01",
+      "interchange": false,
+      "accessibility": {
+        "wheelchair_accessible": false,
+        "elevator": false,
+        "escalator": true
+      },
+      "facilities": {
+        "parking": false,
+        "restroom": true,
+        "commercial_area": false,
+        "atm": false
+      },
+      "connections": {
+        "jeepney_routes": [
+          "Tayuman-Divisoria",
+          "Tayuman-Sta. Cruz"
+        ],
+        "nearby_landmarks": [
+          "Tayuman Street",
+          "Dagupan Bus Terminal"
+        ]
+      }
+    },
+    {
+      "station_id": "lrt1_bambang",
+      "name": "Bambang",
+      "municipality": "Manila",
+      "sequence": 9,
+      "coordinates": {
+        "latitude": 14.5975,
+        "longitude": 120.9919
+      },
+      "elevation": 16.8,
+      "opening_date": "1984-12-01",
+      "interchange": false,
+      "accessibility": {
+        "wheelchair_accessible": false,
+        "elevator": false,
+        "escalator": true
+      },
+      "facilities": {
+        "parking": false,
+        "restroom": true,
+        "commercial_area": false,
+        "atm": false
+      },
+      "connections": {
+        "jeepney_routes": [
+          "Bambang-Divisoria",
+          "Bambang-Quiapo"
+        ],
+        "nearby_landmarks": [
+          "Bambang Street",
+          "Pritil Market"
+        ]
+      }
+    },
+    {
+      "station_id": "lrt1_doroteo_jose",
+      "name": "Doroteo Jose",
+      "municipality": "Manila",
+      "sequence": 10,
+      "coordinates": {
+        "latitude": 14.5914,
+        "longitude": 120.9936
+      },
+      "elevation": 17.5,
+      "opening_date": "1984-12-01",
+      "interchange": false,
+      "accessibility": {
+        "wheelchair_accessible": false,
+        "elevator": false,
+        "escalator": true
+      },
+      "facilities": {
+        "parking": false,
+        "restroom": true,
+        "commercial_area": true,
+        "atm": true
+      },      "connections": {
+        "rail": [
+          "LRT-2 Recto Station (5-minute walk via bridge)"
+        ],
+        "jeepney_routes": [
+          "Doroteo Jose-Quiapo",
+          "Doroteo Jose-Sta. Cruz"
+        ],
+        "nearby_landmarks": [
+          "Doroteo Jose Street",
+          "Manila Central University"
+        ]
+      }
+    },
+    {
+      "station_id": "lrt1_carriedo",
+      "name": "Carriedo",
+      "municipality": "Manila",
+      "sequence": 11,
+      "coordinates": {
+        "latitude": 14.5858,
+        "longitude": 120.9953
+      },
+      "elevation": 18.2,
+      "opening_date": "1984-12-01",
+      "interchange": false,
+      "accessibility": {
+        "wheelchair_accessible": false,
+        "elevator": false,
+        "escalator": true
+      },
+      "facilities": {
+        "parking": false,
+        "restroom": true,
+        "commercial_area": true,
+        "atm": true
+      },
+      "connections": {
+        "jeepney_routes": [
+          "Carriedo-Quiapo",
+          "Carriedo-Binondo",
+          "Carriedo-Sta. Cruz"
+        ],
+        "nearby_landmarks": [
+          "Carriedo Fountain",
+          "Quiapo Church",
+          "Plaza Miranda"
+        ]
+      }
+    },
+    {
+      "station_id": "lrt1_central_terminal",
+      "name": "Central Terminal",
+      "municipality": "Manila",
+      "sequence": 12,
+      "coordinates": {
+        "latitude": 14.5786,
+        "longitude": 120.9975
+      },
+      "elevation": 19.1,
+      "opening_date": "1984-12-01",
+      "interchange": false,
+      "accessibility": {
+        "wheelchair_accessible": false,
+        "elevator": false,
+        "escalator": true
+      },
+      "facilities": {
+        "parking": false,
+        "restroom": true,
+        "commercial_area": true,
+        "atm": true
+      },
+      "connections": {
+        "jeepney_routes": [
+          "Central Terminal-Binondo",
+          "Central Terminal-Ermita"
+        ],
+        "nearby_landmarks": [
+          "Central Market",
+          "Escolta Street"
+        ]
+      }
+    },
+    {
+      "station_id": "lrt1_united_nations",
+      "name": "United Nations",
+      "municipality": "Manila",
+      "sequence": 13,
+      "coordinates": {
+        "latitude": 14.5725,
+        "longitude": 120.9997
+      },
+      "elevation": 19.8,
+      "opening_date": "1984-12-01",
+      "interchange": false,
+      "accessibility": {
+        "wheelchair_accessible": false,
+        "elevator": false,
+        "escalator": true
+      },
+      "facilities": {
+        "parking": false,
+        "restroom": true,
+        "commercial_area": false,
+        "atm": false
+      },
+      "connections": {
+        "jeepney_routes": [
+          "UN Avenue-Ermita",
+          "UN Avenue-Malate"
+        ],
+        "nearby_landmarks": [
+          "United Nations Avenue",
+          "Manila City Hall"
+        ]
+      }
+    },
+    {
+      "station_id": "lrt1_pedro_gil",
+      "name": "Pedro Gil",
+      "municipality": "Manila",
+      "sequence": 14,
+      "coordinates": {
+        "latitude": 14.5653,
+        "longitude": 121.0019
+      },
+      "elevation": 20.5,
+      "opening_date": "1984-12-01",
+      "interchange": false,
+      "accessibility": {
+        "wheelchair_accessible": false,
+        "elevator": false,
+        "escalator": true
+      },
+      "facilities": {
+        "parking": false,
+        "restroom": true,
+        "commercial_area": false,
+        "atm": false
+      },
+      "connections": {
+        "jeepney_routes": [
+          "Pedro Gil-Paco",
+          "Pedro Gil-Ermita"
+        ],
+        "nearby_landmarks": [
+          "Robinsons Place Manila",
+          "Manila Zoo"
+        ]
+      }
+    },
+    {
+      "station_id": "lrt1_quirino",
+      "name": "Quirino",
+      "municipality": "Manila",
+      "sequence": 15,
+      "coordinates": {
+        "latitude": 14.5586,
+        "longitude": 121.0042
+      },
+      "elevation": 21.2,
+      "opening_date": "1984-12-01",
+      "interchange": false,
+      "accessibility": {
+        "wheelchair_accessible": false,
+        "elevator": false,
+        "escalator": true
+      },
+      "facilities": {
+        "parking": false,
+        "restroom": true,
+        "commercial_area": false,
+        "atm": false
+      },
+      "connections": {
+        "jeepney_routes": [
+          "Quirino-Malate",
+          "Quirino-San Andres"
+        ],
+        "nearby_landmarks": [
+          "Quirino Avenue",
+          "Malate Church"
+        ]
+      }
+    },
+    {
+      "station_id": "lrt1_vito_cruz",
+      "name": "Vito Cruz",
+      "municipality": "Manila",
+      "sequence": 16,
+      "coordinates": {
+        "latitude": 14.5519,
+        "longitude": 121.0064
+      },
+      "elevation": 21.9,
+      "opening_date": "1984-12-01",
+      "interchange": false,
+      "accessibility": {
+        "wheelchair_accessible": false,
+        "elevator": false,
+        "escalator": true
+      },
+      "facilities": {
+        "parking": false,
+        "restroom": true,
+        "commercial_area": false,
+        "atm": false
+      },
+      "connections": {
+        "rail": [
+          "PNR Vito Cruz Station"
+        ],
+        "jeepney_routes": [
+          "Vito Cruz-Malate",
+          "Vito Cruz-San Andres"
+        ],
+        "nearby_landmarks": [
+          "De La Salle University",
+          "College of Saint Benilde", "St. Scholastica's College"
+        ]
+      }
+    },
+    {
+      "station_id": "lrt1_gil_puyat",
+      "name": "Gil Puyat",
+      "municipality": "Pasay City",
+      "sequence": 17,
+      "coordinates": {
+        "latitude": 14.5444,
+        "longitude": 121.0089
+      },
+      "elevation": 22.6,
+      "opening_date": "1984-12-01",
+      "interchange": false,
+      "accessibility": {
+        "wheelchair_accessible": false,
+        "elevator": false,
+        "escalator": true
+      },
+      "facilities": {
+        "parking": false,
+        "restroom": true,
+        "commercial_area": false,
+        "atm": false
+      },
+      "connections": {
+        "jeepney_routes": [
+          "Gil Puyat-Makati",
+          "Gil Puyat-Pasay"
+        ],
+        "nearby_landmarks": [
+          "Buendia Avenue",
+          "Gil Puyat Avenue"
+        ]
+      }
+    },
+    {
+      "station_id": "lrt1_libertad",
+      "name": "Libertad",
+      "municipality": "Pasay City",
+      "sequence": 18,
+      "coordinates": {
+        "latitude": 14.5375,
+        "longitude": 121.0111
+      },
+      "elevation": 23.3,
+      "opening_date": "1984-12-01",
+      "interchange": false,
+      "accessibility": {
+        "wheelchair_accessible": false,
+        "elevator": false,
+        "escalator": true
+      },
+      "facilities": {
+        "parking": false,
+        "restroom": true,
+        "commercial_area": false,
+        "atm": false
+      },
+      "connections": {
+        "jeepney_routes": [
+          "Libertad-EDSA",
+          "Libertad-Pasay"
+        ],
+        "nearby_landmarks": [
+          "Libertad Street",
+          "EDSA"
+        ]
+      }
+    },
+    {
+      "station_id": "lrt1_edsa",
+      "name": "EDSA",
+      "municipality": "Pasay City",
+      "sequence": 19,
+      "coordinates": {
+        "latitude": 14.5308,
+        "longitude": 121.0133
+      },
+      "elevation": 24.1,
+      "opening_date": "1984-12-01",
+      "interchange": true,
+      "accessibility": {
+        "wheelchair_accessible": true,
+        "elevator": true,
+        "escalator": true
+      },
+      "facilities": {
+        "parking": true,
+        "restroom": true,
+        "commercial_area": true,
+        "atm": true
+      },
+      "connections": {
+        "rail": [
+          "MRT-3 (Taft Avenue Station)"
+        ],
+        "bus_rapid_transit": [
+          "EDSA Carousel Taft Avenue Station"
+        ],
+        "jeepney_routes": [
+          "EDSA-Makati",
+          "EDSA-MOA"
+        ],
+        "bus_terminals": [
+          "EDSA Bus Terminal"
+        ],
+        "nearby_landmarks": [
+          "SM Mall of Asia",
+          "EDSA",
+          "Taft Avenue"
+        ]
+      }
+    },
+    {
+      "station_id": "lrt1_baclaran",
+      "name": "Baclaran",
+      "municipality": "Pasay City",
+      "sequence": 20,
+      "coordinates": {
+        "latitude": 14.5242,
+        "longitude": 121.0156
+      },
+      "elevation": 24.8,
+      "opening_date": "1984-12-01",
+      "interchange": false,
+      "accessibility": {
+        "wheelchair_accessible": false,
+        "elevator": false,
+        "escalator": true
+      },
+      "facilities": {
+        "parking": true,
+        "restroom": true,
+        "commercial_area": true,
+        "atm": true
+      },
+      "connections": {
+        "bus_terminals": [
+          "Baclaran Bus Terminal"
+        ],
+        "jeepney_routes": [
+          "Baclaran-MOA",
+          "Baclaran-Alabang",
+          "Baclaran-Las Piñas"
+        ],        "nearby_landmarks": [
+          "Baclaran Church",
+          "Redemptorist Church",
+          "Baclaran Market"
+        ]
+      }
+    },
+    {
+      "station_id": "lrt1_redemptorist_aseana",
+      "name": "Redemptorist-Aseana",
+      "municipality": "Pasay City",
+      "sequence": 21,
+      "coordinates": {
+        "latitude": 14.5191,
+        "longitude": 121.0127
+      },
+      "elevation": 25.2,
+      "opening_date": "2024-11-16",
+      "interchange": false,
+      "cavite_extension_phase": 1,
+      "accessibility": {
+        "wheelchair_accessible": true,
+        "elevator": true,
+        "escalator": true
+      },
+      "facilities": {
+        "parking": true,
+        "restroom": true,
+        "commercial_area": true,
+        "atm": true
+      },
+      "connections": {
+        "jeepney_routes": [
+          "Aseana-MOA",
+          "Aseana-Alabang"
+        ],
+        "bus_terminals": [
+          "Aseana Terminal"
+        ],
+        "nearby_landmarks": [
+          "Aseana Business Park",
+          "Newport World Resorts",
+          "Redemptorist Church"
+        ]
+      }
+    },
+    {
+      "station_id": "lrt1_mia_road",
+      "name": "MIA Road",
+      "municipality": "Pasay City", 
+      "sequence": 22,
+      "coordinates": {
+        "latitude": 14.5142,
+        "longitude": 121.0089
+      },
+      "elevation": 26.1,
+      "opening_date": "2024-11-16",
+      "interchange": false,
+      "cavite_extension_phase": 1,
+      "accessibility": {
+        "wheelchair_accessible": true,
+        "elevator": true,
+        "escalator": true
+      },
+      "facilities": {
+        "parking": true,
+        "restroom": true,
+        "commercial_area": false,
+        "atm": true
+      },
+      "connections": {
+        "jeepney_routes": [
+          "MIA-Alabang",
+          "MIA-Sucat"
+        ],
+        "nearby_landmarks": [
+          "Manila International Airport Road",
+          "Ninoy Aquino International Airport Terminal 1"
+        ]
+      }
+    },
+    {
+      "station_id": "lrt1_pitx",
+      "name": "PITX",
+      "municipality": "Parañaque City",
+      "sequence": 23,
+      "coordinates": {
+        "latitude": 14.5089,
+        "longitude": 121.0045
+      },
+      "elevation": 27.3,
+      "opening_date": "2024-11-16",
+      "interchange": true,
+      "cavite_extension_phase": 1,
+      "accessibility": {
+        "wheelchair_accessible": true,
+        "elevator": true,
+        "escalator": true
+      },
+      "facilities": {
+        "parking": true,
+        "restroom": true,
+        "commercial_area": true,
+        "atm": true
+      },
+      "connections": {
+        "bus_terminals": [
+          "Parañaque Integrated Terminal Exchange"
+        ],
+        "jeepney_routes": [
+          "PITX-Alabang",
+          "PITX-Las Piñas",
+          "PITX-Bacoor"
+        ],
+        "nearby_landmarks": [
+          "Parañaque Integrated Terminal Exchange",
+          "SM City Sucat",
+          "Festival Mall"
+        ]
+      }
+    },
+    {
+      "station_id": "lrt1_ninoy_aquino_avenue",
+      "name": "Ninoy Aquino Avenue",
+      "municipality": "Parañaque City",
+      "sequence": 24,
+      "coordinates": {
+        "latitude": 14.5023,
+        "longitude": 120.9989
+      },
+      "elevation": 28.1,
+      "opening_date": "2024-11-16",
+      "interchange": false,
+      "cavite_extension_phase": 1,
+      "accessibility": {
+        "wheelchair_accessible": true,
+        "elevator": true,
+        "escalator": true
+      },
+      "facilities": {
+        "parking": true,
+        "restroom": true,
+        "commercial_area": false,
+        "atm": true
+      },
+      "connections": {
+        "jeepney_routes": [
+          "Ninoy Aquino Ave-Alabang",
+          "Ninoy Aquino Ave-Las Piñas"
+        ],
+        "nearby_landmarks": [
+          "Ninoy Aquino Avenue",
+          "Better Living Subdivision"
+        ]
+      }
+    },
+    {
+      "station_id": "lrt1_dr_santos",
+      "name": "Dr. Santos",
+      "municipality": "Parañaque City",
+      "sequence": 25,
+      "coordinates": {
+        "latitude": 14.4956,
+        "longitude": 120.9943
+      },
+      "elevation": 29.2,
+      "opening_date": "2024-11-16",
+      "interchange": false,
+      "cavite_extension_phase": 1,
+      "accessibility": {
+        "wheelchair_accessible": true,
+        "elevator": true,
+        "escalator": true
+      },
+      "facilities": {
+        "parking": true,
+        "restroom": true,
+        "commercial_area": true,
+        "atm": true
+      },
+      "connections": {
+        "jeepney_routes": [
+          "Dr. Santos-Alabang",
+          "Dr. Santos-Las Piñas",
+          "Dr. Santos-Bacoor"
+        ],
+        "bus_terminals": [
+          "Dr. Santos Terminal"
+        ],
+        "nearby_landmarks": [
+          "Dr. Santos Avenue",
+          "Sucat Market",
+          "Las Piñas-Parañaque Wetland Park"
+        ]
+      }
+    }
+  ]
+}

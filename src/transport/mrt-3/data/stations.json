@@ -1,0 +1,624 @@
+{
+  "line_info": {
+    "name": "MRT-3 (Metro Rail Transit Line 3)",
+    "official_name": "Blue Line",
+    "operator": "Metro Rail Transit Corporation (MRTC)",
+    "total_stations": 13,
+    "total_length": 16.9,
+    "opening_year": 1999,
+    "northern_terminus": "North Avenue",
+    "southern_terminus": "Taft Avenue",
+    "color": "#1e40af",
+    "operating_hours": {
+      "weekdays": {
+        "first_train": "04:30",
+        "last_train": "23:30"
+      },
+      "weekends": {
+        "first_train": "04:30",
+        "last_train": "22:30"
+      }
+    },
+    "frequency": {
+      "peak": "3-5 minutes",
+      "off_peak": "5-7 minutes"
+    },
+    "fare_structure": {
+      "type": "distance_based",
+      "base_fare": 13,
+      "fare_tiers": [
+        {"stations": "1-2", "fare": 13},
+        {"stations": "3-4", "fare": 16},
+        {"stations": "5-7", "fare": 20},
+        {"stations": "8-10", "fare": 24},
+        {"stations": "11+", "fare": 28}
+      ]
+    },
+    "technical_specs": {
+      "power_supply": "750V DC overhead catenary",
+      "max_speed": "60 km/h",
+      "rolling_stock": ["MRTC 3000 class", "MRTC 3100 class"],
+      "car_configuration": "3-4 cars per train"
+    },
+    "daily_ridership": 375474
+  },
+  "stations": [
+    {
+      "station_id": "mrt3_north_avenue",
+      "name": "North Avenue",
+      "municipality": "Quezon City",
+      "sequence": 1,
+      "coordinates": {
+        "lat": 14.6563,
+        "lng": 121.0321
+      },
+      "elevation": "elevated",
+      "opening_date": "1999-12-15",
+      "facilities": {
+        "accessibility": ["PWD-friendly", "elevator", "escalator"],
+        "amenities": ["restrooms", "security", "CCTV", "ticket_booth", "retail_shops"],
+        "parking": true,
+        "atm": true
+      },
+      "connections": {
+        "bus_rapid_transit": [
+          {
+            "system": "EDSA Carousel",
+            "stop": "North Avenue Station",
+            "connection_type": "direct_access",
+            "walking_time": 1
+          }
+        ],
+        "bus_terminals": [
+          "North Avenue Bus Terminal",
+          "SM North EDSA Terminal"
+        ],
+        "jeepney_routes": [
+          "North Avenue-Fairview",
+          "North Avenue-Novaliches",
+          "North Avenue-Lagro"
+        ]
+      },
+      "nearby_landmarks": [
+        "SM North EDSA",
+        "TriNoma Mall",
+        "North EDSA Medical Center"
+      ],
+      "passenger_volume": {
+        "daily_average": 45000,
+        "peak_hour": "7:00-9:00 AM, 5:00-7:00 PM"
+      }
+    },
+    {
+      "station_id": "mrt3_quezon_avenue",
+      "name": "Quezon Avenue",
+      "municipality": "Quezon City",
+      "sequence": 2,
+      "coordinates": {
+        "lat": 14.6422,
+        "lng": 121.0317
+      },
+      "elevation": "elevated",
+      "opening_date": "1999-12-15",
+      "facilities": {
+        "accessibility": ["PWD-friendly", "elevator", "escalator"],
+        "amenities": ["restrooms", "security", "CCTV", "ticket_booth"],
+        "parking": false,
+        "atm": true
+      },
+      "connections": {
+        "bus_rapid_transit": [
+          {
+            "system": "EDSA Carousel",
+            "stop": "Quezon Avenue Station",
+            "connection_type": "pedestrian_overpass",
+            "walking_time": 3
+          }
+        ],
+        "jeepney_routes": [
+          "Quezon Avenue-Cubao",
+          "Quezon Avenue-Project 8",
+          "Quezon Avenue-Fairview"
+        ]
+      },
+      "nearby_landmarks": [
+        "GMA Network Center",
+        "ABS-CBN Broadcasting Center",
+        "Quezon Memorial Circle"
+      ],
+      "passenger_volume": {
+        "daily_average": 32000,
+        "peak_hour": "7:00-9:00 AM, 5:00-7:00 PM"
+      }
+    },
+    {
+      "station_id": "mrt3_kamuning",
+      "name": "Kamuning",
+      "municipality": "Quezon City",
+      "sequence": 3,
+      "coordinates": {
+        "lat": 14.6298,
+        "lng": 121.0312
+      },
+      "elevation": "elevated",
+      "opening_date": "2000-07-20",
+      "facilities": {
+        "accessibility": ["PWD-friendly", "elevator", "escalator"],
+        "amenities": ["restrooms", "security", "CCTV", "ticket_booth"],
+        "parking": false,
+        "atm": false
+      },
+      "connections": {
+        "bus_rapid_transit": [
+          {
+            "system": "EDSA Carousel",
+            "stop": "Kamuning Station",
+            "connection_type": "pedestrian_overpass",
+            "walking_time": 2
+          }
+        ],
+        "jeepney_routes": [
+          "Kamuning-Cubao",
+          "Kamuning-Project 6"
+        ]
+      },
+      "nearby_landmarks": [
+        "Kamuning Market",
+        "Teacher's Village",
+        "UP Diliman (nearby)"
+      ],
+      "passenger_volume": {
+        "daily_average": 25000,
+        "peak_hour": "7:00-9:00 AM, 5:00-7:00 PM"
+      }
+    },
+    {
+      "station_id": "mrt3_cubao",
+      "name": "Cubao",
+      "municipality": "Quezon City",
+      "sequence": 4,
+      "coordinates": {
+        "lat": 14.6197,
+        "lng": 121.0306
+      },
+      "elevation": "elevated",
+      "opening_date": "2000-07-20",
+      "facilities": {
+        "accessibility": ["PWD-friendly", "elevator", "escalator"],
+        "amenities": ["restrooms", "security", "CCTV", "ticket_booth", "retail_shops"],
+        "parking": true,
+        "atm": true
+      },
+      "connections": {
+        "rail": [
+          {
+            "line": "LRT-1",
+            "station": "EDSA",
+            "connection_type": "pedestrian_walkway",
+            "walking_time": 5
+          }
+        ],
+        "bus_rapid_transit": [
+          {
+            "system": "EDSA Carousel",
+            "stop": "Cubao Station",
+            "connection_type": "direct_access",
+            "walking_time": 1
+          }
+        ],
+        "bus_terminals": [
+          "Cubao Bus Terminal",
+          "Araneta Bus Terminal"
+        ],
+        "jeepney_routes": [
+          "Cubao-Fairview",
+          "Cubao-Antipolo",
+          "Cubao-Marikina"
+        ]
+      },
+      "nearby_landmarks": [
+        "Araneta Coliseum",
+        "Smart Araneta Coliseum",
+        "Gateway Mall",
+        "Cubao X"
+      ],
+      "passenger_volume": {
+        "daily_average": 55000,
+        "peak_hour": "7:00-9:00 AM, 5:00-7:00 PM"
+      }
+    },
+    {
+      "station_id": "mrt3_santolan_annapolis",
+      "name": "Santolan-Annapolis",
+      "municipality": "Pasig City",
+      "sequence": 5,
+      "coordinates": {
+        "lat": 14.6096,
+        "lng": 121.0299
+      },
+      "elevation": "elevated",
+      "opening_date": "2000-07-20",
+      "facilities": {
+        "accessibility": ["PWD-friendly", "elevator", "escalator"],
+        "amenities": ["restrooms", "security", "CCTV", "ticket_booth"],
+        "parking": false,
+        "atm": true
+      },
+      "connections": {
+        "bus_rapid_transit": [
+          {
+            "system": "EDSA Carousel",
+            "stop": "Santolan Station",
+            "connection_type": "pedestrian_overpass",
+            "walking_time": 2
+          }
+        ],
+        "jeepney_routes": [
+          "Santolan-Marikina",
+          "Santolan-Antipolo"
+        ]
+      },
+      "nearby_landmarks": [
+        "Eastwood City",
+        "Libis area",
+        "Santolan Town Plaza"
+      ],
+      "passenger_volume": {
+        "daily_average": 28000,
+        "peak_hour": "7:00-9:00 AM, 5:00-7:00 PM"
+      }
+    },
+    {
+      "station_id": "mrt3_ortigas",
+      "name": "Ortigas",
+      "municipality": "Pasig City",
+      "sequence": 6,
+      "coordinates": {
+        "lat": 14.5878,
+        "lng": 121.0564
+      },
+      "elevation": "elevated",
+      "opening_date": "2000-07-20",
+      "facilities": {
+        "accessibility": ["PWD-friendly", "elevator", "escalator"],
+        "amenities": ["restrooms", "security", "CCTV", "ticket_booth", "retail_shops"],
+        "parking": true,
+        "atm": true
+      },
+      "connections": {
+        "bus_rapid_transit": [
+          {
+            "system": "EDSA Carousel",
+            "stop": "Ortigas Station",
+            "connection_type": "direct_access",
+            "walking_time": 1
+          }
+        ],
+        "bus_terminals": [
+          "Ortigas Bus Terminal"
+        ],
+        "jeepney_routes": [
+          "Ortigas-Antipolo",
+          "Ortigas-Marikina",
+          "Ortigas-Cainta"
+        ]
+      },
+      "nearby_landmarks": [
+        "Ortigas Center",
+        "SM Megamall",
+        "Robinsons Galleria",
+        "ADB Headquarters"
+      ],
+      "passenger_volume": {
+        "daily_average": 48000,
+        "peak_hour": "7:00-9:00 AM, 5:00-7:00 PM"
+      }
+    },
+    {
+      "station_id": "mrt3_shaw_boulevard",
+      "name": "Shaw Boulevard",
+      "municipality": "Mandaluyong City",
+      "sequence": 7,
+      "coordinates": {
+        "lat": 14.5813,
+        "lng": 121.0536
+      },
+      "elevation": "elevated",
+      "opening_date": "2000-07-20",
+      "facilities": {
+        "accessibility": ["PWD-friendly", "elevator", "escalator"],
+        "amenities": ["restrooms", "security", "CCTV", "ticket_booth"],
+        "parking": false,
+        "atm": true
+      },
+      "connections": {
+        "bus_rapid_transit": [
+          {
+            "system": "EDSA Carousel",
+            "stop": "Shaw Boulevard Station",
+            "connection_type": "pedestrian_overpass",
+            "walking_time": 2
+          }
+        ],
+        "jeepney_routes": [
+          "Shaw-Greenhills",
+          "Shaw-Kapitolyo"
+        ]
+      },
+      "nearby_landmarks": [
+        "Shaw Boulevard",
+        "Starmall EDSA-Shaw",
+        "Shangri-La Plaza Mall"
+      ],
+      "passenger_volume": {
+        "daily_average": 35000,
+        "peak_hour": "7:00-9:00 AM, 5:00-7:00 PM"
+      }
+    },
+    {
+      "station_id": "mrt3_boni",
+      "name": "Boni",
+      "municipality": "Mandaluyong City",
+      "sequence": 8,
+      "coordinates": {
+        "lat": 14.5744,
+        "lng": 121.0517
+      },
+      "elevation": "elevated",
+      "opening_date": "2000-12-15",
+      "facilities": {
+        "accessibility": ["PWD-friendly", "elevator", "escalator"],
+        "amenities": ["restrooms", "security", "CCTV", "ticket_booth"],
+        "parking": false,
+        "atm": false
+      },
+      "connections": {
+        "bus_rapid_transit": [
+          {
+            "system": "EDSA Carousel",
+            "stop": "Boni Station",
+            "connection_type": "pedestrian_overpass",
+            "walking_time": 3
+          }
+        ],
+        "jeepney_routes": [
+          "Boni-Guadalupe",
+          "Boni-Kapitolyo"
+        ]
+      },
+      "nearby_landmarks": [
+        "Boni Avenue",
+        "Forum Robinsons",
+        "Pioneer Center"
+      ],
+      "passenger_volume": {
+        "daily_average": 22000,
+        "peak_hour": "7:00-9:00 AM, 5:00-7:00 PM"
+      }
+    },
+    {
+      "station_id": "mrt3_guadalupe",
+      "name": "Guadalupe",
+      "municipality": "Makati City",
+      "sequence": 9,
+      "coordinates": {
+        "lat": 14.5654,
+        "lng": 121.0493
+      },
+      "elevation": "elevated",
+      "opening_date": "2000-12-15",
+      "facilities": {
+        "accessibility": ["PWD-friendly", "elevator", "escalator"],
+        "amenities": ["restrooms", "security", "CCTV", "ticket_booth"],
+        "parking": false,
+        "atm": true
+      },
+      "connections": {
+        "bus_rapid_transit": [
+          {
+            "system": "EDSA Carousel",
+            "stop": "Guadalupe Station",
+            "connection_type": "direct_access",
+            "walking_time": 1
+          }
+        ],
+        "jeepney_routes": [
+          "Guadalupe-Makati CBD",
+          "Guadalupe-Fort Bonifacio"
+        ]
+      },
+      "nearby_landmarks": [
+        "Guadalupe Bridge",
+        "Landmark Department Store",
+        "Makati Commercial Center"
+      ],
+      "passenger_volume": {
+        "daily_average": 40000,
+        "peak_hour": "7:00-9:00 AM, 5:00-7:00 PM"
+      }
+    },
+    {
+      "station_id": "mrt3_buendia",
+      "name": "Buendia",
+      "municipality": "Makati City",
+      "sequence": 10,
+      "coordinates": {
+        "lat": 14.5563,
+        "lng": 121.0468
+      },
+      "elevation": "elevated",
+      "opening_date": "2000-12-15",
+      "facilities": {
+        "accessibility": ["PWD-friendly", "elevator", "escalator"],
+        "amenities": ["restrooms", "security", "CCTV", "ticket_booth"],
+        "parking": false,
+        "atm": true
+      },
+      "connections": {
+        "bus_rapid_transit": [
+          {
+            "system": "EDSA Carousel",
+            "stop": "Buendia Station",
+            "connection_type": "pedestrian_overpass",
+            "walking_time": 2
+          }
+        ],
+        "jeepney_routes": [
+          "Buendia-Makati CBD",
+          "Buendia-Pasay"
+        ]
+      },
+      "nearby_landmarks": [
+        "Gil Puyat Avenue",
+        "Makati Stock Exchange",
+        "Nielsen Tower"
+      ],
+      "passenger_volume": {
+        "daily_average": 38000,
+        "peak_hour": "7:00-9:00 AM, 5:00-7:00 PM"
+      }
+    },
+    {
+      "station_id": "mrt3_ayala",
+      "name": "Ayala",
+      "municipality": "Makati City",
+      "sequence": 11,
+      "coordinates": {
+        "lat": 14.5485,
+        "lng": 121.0285
+      },
+      "elevation": "elevated",
+      "opening_date": "2000-12-15",
+      "facilities": {
+        "accessibility": ["PWD-friendly", "elevator", "escalator"],
+        "amenities": ["restrooms", "security", "CCTV", "ticket_booth", "retail_shops"],
+        "parking": true,
+        "atm": true
+      },
+      "connections": {
+        "bus_rapid_transit": [
+          {
+            "system": "EDSA Carousel",
+            "stop": "Ayala Station",
+            "connection_type": "direct_access",
+            "walking_time": 1
+          }
+        ],
+        "bus_terminals": [
+          "Ayala Bus Terminal"
+        ],
+        "jeepney_routes": [
+          "Ayala-Makati CBD",
+          "Ayala-Alabang",
+          "Ayala-Taguig"
+        ]
+      },
+      "nearby_landmarks": [
+        "Ayala Center",
+        "Greenbelt Mall",
+        "Glorietta Mall",
+        "Makati CBD"
+      ],
+      "passenger_volume": {
+        "daily_average": 65000,
+        "peak_hour": "7:00-9:00 AM, 5:00-7:00 PM"
+      }
+    },
+    {
+      "station_id": "mrt3_magallanes",
+      "name": "Magallanes",
+      "municipality": "Makati City",
+      "sequence": 12,
+      "coordinates": {
+        "lat": 14.5421,
+        "lng": 121.0201
+      },
+      "elevation": "elevated",
+      "opening_date": "2000-12-15",
+      "facilities": {
+        "accessibility": ["PWD-friendly", "elevator", "escalator"],
+        "amenities": ["restrooms", "security", "CCTV", "ticket_booth"],
+        "parking": false,
+        "atm": true
+      },
+      "connections": {
+        "bus_rapid_transit": [
+          {
+            "system": "EDSA Carousel",
+            "stop": "Magallanes Station",
+            "connection_type": "pedestrian_overpass",
+            "walking_time": 2
+          }
+        ],
+        "jeepney_routes": [
+          "Magallanes-Alabang",
+          "Magallanes-Fort Bonifacio"
+        ]
+      },
+      "nearby_landmarks": [
+        "Magallanes Interchange",
+        "South Luzon Expressway (SLEX)",
+        "Fort Bonifacio (nearby)"
+      ],
+      "passenger_volume": {
+        "daily_average": 30000,
+        "peak_hour": "7:00-9:00 AM, 5:00-7:00 PM"
+      }
+    },
+    {
+      "station_id": "mrt3_taft_avenue",
+      "name": "Taft Avenue",
+      "municipality": "Pasay City",
+      "sequence": 13,
+      "coordinates": {
+        "lat": 14.5377,
+        "lng": 121.0196
+      },
+      "elevation": "elevated",
+      "opening_date": "2000-12-15",
+      "facilities": {
+        "accessibility": ["PWD-friendly", "elevator", "escalator"],
+        "amenities": ["restrooms", "security", "CCTV", "ticket_booth", "retail_shops"],
+        "parking": true,
+        "atm": true
+      },
+      "connections": {
+        "rail": [
+          {
+            "line": "LRT-1",
+            "station": "EDSA",
+            "connection_type": "pedestrian_walkway",
+            "walking_time": 3
+          }
+        ],
+        "bus_rapid_transit": [
+          {
+            "system": "EDSA Carousel",
+            "stop": "Taft Avenue Station",
+            "connection_type": "direct_access",
+            "walking_time": 1
+          }
+        ],
+        "bus_terminals": [
+          "Taft Avenue Bus Terminal",
+          "Pasay Bus Terminal"
+        ],
+        "jeepney_routes": [
+          "Taft-Baclaran",
+          "Taft-Alabang",
+          "Taft-MOA"
+        ]
+      },
+      "nearby_landmarks": [
+        "Taft Avenue",
+        "Mall of Asia (nearby)",
+        "Pasay Rotonda",
+        "LRT-1 EDSA Station"
+      ],
+      "passenger_volume": {
+        "daily_average": 42000,
+        "peak_hour": "7:00-9:00 AM, 5:00-7:00 PM"
+      }
+    }
+  ]
+}

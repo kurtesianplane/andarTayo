@@ -1,0 +1,309 @@
+[
+  {
+    "stop_id": "MONUMENTO",
+    "name": "MCU / Monumento Station",
+    "lat": 14.654419,
+    "lng": 120.984052,
+    "sequence": 1,
+    "direction": "both",
+    "features": ["covered_waiting_area", "cctv", "lrt_connection"],
+    "connections": {
+      "rail": ["LRT-1"],
+      "terminal": null
+    }
+  },
+  {
+    "stop_id": "BAGONG_BARRIO",
+    "name": "Bagong Barrio Station",
+    "lat": 14.6528,
+    "lng": 120.9892,
+    "sequence": 2,
+    "direction": "both",
+    "features": ["covered_waiting_area"],
+    "connections": {
+      "rail": null,
+      "terminal": null
+    }
+  },
+  {
+    "stop_id": "KAINGIN",
+    "name": "Kaingin Road Station",
+    "lat": 14.6504,
+    "lng": 121.0199,
+    "sequence": 3,
+    "direction": "southbound",
+    "features": ["covered_waiting_area"],
+    "connections": {
+      "rail": null,
+      "terminal": null
+    }
+  },
+  {
+    "stop_id": "MUNOZ",
+    "name": "Muñoz Station",
+    "lat": 14.6577,
+    "lng": 121.0134,
+    "sequence": 4,
+    "direction": "both",
+    "features": ["covered_waiting_area", "cctv"],
+    "connections": {
+      "rail": null,
+      "terminal": null
+    }
+  },
+  {
+    "stop_id": "NORTH_AVE",
+    "name": "North Avenue Station",
+    "lat": 14.642893,
+    "lng": 121.036675,
+    "sequence": 5,
+    "direction": "both",
+    "features": ["covered_waiting_area", "cctv", "mrt_connection"],
+    "connections": {
+      "rail": ["MRT-3"],
+      "terminal": "North Avenue Common Station",
+      "future_rail": ["MRT-7", "Metro Manila Subway"]
+    }
+  },
+  {
+    "stop_id": "QUEZON_AVE",
+    "name": "Quezon Avenue Station",
+    "lat": 14.631519,
+    "lng": 121.040183,
+    "sequence": 6,
+    "direction": "both",
+    "features": ["covered_waiting_area", "cctv", "mrt_connection"],
+    "connections": {
+      "rail": ["MRT-3"],
+      "terminal": null
+    }
+  },
+  {
+    "stop_id": "NEPA_QMART",
+    "name": "Nepa Q-Mart Station",
+    "lat": 14.6280,
+    "lng": 121.0436,
+    "sequence": 7,
+    "direction": "both",
+    "features": ["covered_waiting_area", "cctv"],
+    "connections": {
+      "rail": null,
+      "terminal": null,
+      "mall": "Nepa Q-Mart"
+    }
+  },
+  {
+    "stop_id": "MAIN_AVE",
+    "name": "Main Avenue Station",
+    "lat": 14.6221,
+    "lng": 121.0350,
+    "sequence": 8,
+    "direction": "both",
+    "features": ["covered_waiting_area", "cctv"],
+    "connections": {
+      "rail": null,
+      "terminal": null
+    }
+  },
+  {
+    "stop_id": "SANTOLAN",
+    "name": "Santolan-Annapolis Station",
+    "lat": 14.608634,
+    "lng": 121.036743,
+    "sequence": 9,
+    "direction": "both",
+    "features": ["covered_waiting_area", "cctv", "mrt_connection"],
+    "connections": {
+      "rail": ["MRT-3"],
+      "terminal": null
+    }
+  },
+  {
+    "stop_id": "ORTIGAS",
+    "name": "Ortigas Station",
+    "lat": 14.587251,
+    "lng": 121.056427,
+    "sequence": 10,
+    "direction": "both",
+    "features": ["covered_waiting_area", "cctv", "mrt_connection"],
+    "connections": {
+      "rail": ["MRT-3"],
+      "terminal": null,
+      "mall": "SM Megamall"
+    }
+  },
+  {
+    "stop_id": "GUADALUPE",
+    "name": "Guadalupe Station",
+    "lat": 14.567142,
+    "lng": 121.043623,
+    "sequence": 11,
+    "direction": "both",
+    "features": ["covered_waiting_area", "cctv", "mrt_connection"],
+    "connections": {
+      "rail": ["MRT-3"],
+      "terminal": null
+    }
+  },
+  {
+    "stop_id": "BUENDIA",
+    "name": "Buendia Station",
+    "lat": 14.5539,
+    "lng": 121.0328,
+    "sequence": 12,
+    "direction": "both",
+    "features": ["covered_waiting_area", "cctv", "mrt_connection"],
+    "connections": {
+      "rail": ["MRT-3"],
+      "terminal": null
+    }
+  },
+  {
+    "stop_id": "ONE_AYALA",
+    "name": "One Ayala Terminal",
+    "lat": 14.549832,
+    "lng": 121.028513,
+    "sequence": 13,
+    "direction": "both",
+    "features": ["covered_waiting_area", "cctv", "mrt_connection", "mall_connection"],
+    "connections": {
+      "rail": ["MRT-3"],
+      "terminal": "One Ayala Terminal",
+      "mall": ["Glorietta", "SM Makati", "Greenbelt"]
+    }
+  },
+  {
+    "stop_id": "TRAMO",
+    "name": "Tramo Station",
+    "lat": 14.537624,
+    "lng": 120.999143,
+    "sequence": 14,
+    "direction": "southbound",
+    "features": ["covered_waiting_area"],
+    "connections": {
+      "rail": null,
+      "terminal": null
+    }
+  },
+  {
+    "stop_id": "TAFT_EB",
+    "name": "Taft Avenue Station (Eastbound)",
+    "lat": 14.537624,
+    "lng": 120.999143,
+    "sequence": 15,
+    "direction": "northbound",
+    "features": ["covered_waiting_area", "cctv", "mrt_connection", "lrt_connection"],
+    "connections": {
+      "rail": ["MRT-3", "LRT-1"],
+      "terminal": null
+    }
+  },
+  {
+    "stop_id": "TAFT_WB",
+    "name": "Taft Avenue Station (Westbound)",
+    "lat": 14.537624,
+    "lng": 120.999143,
+    "sequence": 15,
+    "direction": "southbound",
+    "features": ["covered_waiting_area", "cctv", "mrt_connection", "lrt_connection"],
+    "connections": {
+      "rail": ["MRT-3", "LRT-1"],
+      "terminal": null
+    }
+  },
+  {
+    "stop_id": "ROXAS_EB",
+    "name": "Roxas Boulevard Station (Eastbound)",
+    "lat": 14.535312,
+    "lng": 120.989234,
+    "sequence": 16,
+    "direction": "northbound",
+    "features": ["covered_waiting_area"],
+    "connections": {
+      "rail": null,
+      "terminal": null
+    }
+  },
+  {
+    "stop_id": "ROXAS_WB",
+    "name": "Roxas Boulevard Station (Westbound)",
+    "lat": 14.535312,
+    "lng": 120.989234,
+    "sequence": 16,
+    "direction": "southbound",
+    "features": ["covered_waiting_area"],
+    "connections": {
+      "rail": null,
+      "terminal": null
+    }
+  },
+  {
+    "stop_id": "MOA",
+    "name": "SM Mall of Asia Station",
+    "lat": 14.535312,
+    "lng": 120.984123,
+    "sequence": 17,
+    "direction": "southbound",
+    "features": ["covered_waiting_area", "mall_connection"],
+    "connections": {
+      "rail": null,
+      "terminal": null,
+      "mall": "SM Mall of Asia"
+    },
+    "special_note": "This stop may be skipped depending on passenger volume. For northbound passengers at MOA, take a southbound bus to Ayala Malls Manila Bay, then transfer at City of Dreams."
+  },
+  {
+    "stop_id": "DFA",
+    "name": "DFA - Office of Consular Affairs",
+    "lat": 14.535312,
+    "lng": 120.984123,
+    "sequence": 18,
+    "direction": "both",
+    "features": ["covered_waiting_area"],
+    "connections": {
+      "rail": null,
+      "terminal": null
+    }
+  },
+  {
+    "stop_id": "CITY_OF_DREAMS",
+    "name": "City of Dreams",
+    "lat": 14.516734,
+    "lng": 120.983312,
+    "sequence": 19,
+    "direction": "northbound",
+    "features": ["covered_waiting_area"],
+    "connections": {
+      "rail": null,
+      "terminal": null
+    }
+  },
+  {
+    "stop_id": "AYALA_MALLS_MB",
+    "name": "Ayala Malls Manila Bay Terminal",
+    "lat": 14.516734,
+    "lng": 120.983312,
+    "sequence": 19,
+    "direction": "southbound",
+    "features": ["terminal", "covered_waiting_area", "mall_connection"],
+    "connections": {
+      "rail": null,
+      "terminal": "Ayala Malls Manila Bay Terminal",
+      "mall": "Ayala Malls Manila Bay"
+    }
+  },
+  {
+    "stop_id": "PITX",
+    "name": "Parañaque Integrated Terminal Exchange",
+    "lat": 14.516734,
+    "lng": 120.983312,
+    "sequence": 20,
+    "direction": "both",
+    "features": ["terminal", "covered_waiting_area", "cctv", "mall_connection"],
+    "connections": {
+      "rail": null,
+      "terminal": "PITX Main Terminal",
+      "mall": "PITX Mall"
+    }
+  }
+] 

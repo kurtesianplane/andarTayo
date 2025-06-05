@@ -1,0 +1,1 @@
+export { default as LRT1 } from './LRT1';

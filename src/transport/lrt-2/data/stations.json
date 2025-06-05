@@ -1,0 +1,597 @@
+{
+  "line_info": {
+    "name": "LRT-2 (Light Rail Transit Line 2)",
+    "official_name": "Purple Line",
+    "operator": "Light Rail Transit Authority (LRTA)",
+    "total_stations": 13,
+    "total_length": 13.8,
+    "opening_year": 2003,
+    "western_terminus": "Recto",
+    "eastern_terminus": "Antipolo",
+    "color": "#8E44AD",
+    "operating_hours": {
+      "weekdays": {
+        "first_train": "05:00",
+        "last_train": "21:30"
+      },
+      "weekends": {
+        "first_train": "05:00",
+        "last_train": "21:30"
+      }
+    },
+    "frequency": {
+      "peak": "4-6 minutes",
+      "off_peak": "6-8 minutes"
+    },    "fare_structure": {
+      "type": "distance_based",
+      "payment_methods": {
+        "beep_card": {
+          "description": "Stored value card with distance-based fares",
+          "min_fare": 13,
+          "max_fare": 32
+        },
+        "single_journey": {
+          "description": "Single journey ticket with distance-based fares", 
+          "min_fare": 15,
+          "max_fare": 35
+        },
+        "discounted": {
+          "description": "20% discount for PWD/Senior citizens on SJT rates",
+          "min_fare": 12,
+          "max_fare": 28
+        }
+      }
+    },
+    "technical_specs": {
+      "power_supply": "750V DC third rail",
+      "max_speed": "70 km/h",
+      "rolling_stock": ["LRTA 2000 series"],
+      "car_configuration": "4 cars per train"
+    },
+    "daily_ridership": 185000
+  },
+  "stations": [
+    {
+      "station_id": "lrt2_recto",
+      "name": "Recto",
+      "municipality": "Manila",
+      "sequence": 1,
+      "coordinates": {
+        "lat": 14.6037,
+        "lng": 120.9914
+      },
+      "elevation": "ground",
+      "opening_date": "2003-10-29",
+      "facilities": {
+        "accessibility": ["PWD-friendly", "elevator", "escalator"],
+        "amenities": ["restrooms", "security", "CCTV", "ticket_booth", "retail_shops"],
+        "parking": false,
+        "atm": true
+      },
+      "connections": {
+        "rail": [
+          {
+            "line": "LRT-1",
+            "station": "Doroteo Jose",
+            "connection_type": "direct_walkway",
+            "walking_time": 2
+          }
+        ],
+        "bus_rapid_transit": [
+          {
+            "system": "EDSA Carousel",
+            "stop": "EDSA-Taft",
+            "connection_type": "walking_distance",
+            "walking_time": 15
+          }
+        ],
+        "bus_terminals": [
+          "Divisoria Bus Terminal",
+          "Lawton Bus Terminal"
+        ],
+        "jeepney_routes": [
+          "Divisoria-Quiapo",
+          "Recto-Baclaran", 
+          "Manila-Fairview",
+          "Recto-Mabini",
+          "Divisoria-Sta. Cruz"
+        ]
+      },
+      "nearby_landmarks": [
+        "Isetann Cinerama Complex",
+        "Raon Shopping Center",
+        "Far Eastern University (FEU)",
+        "University of the East (UE)",
+        "Divisoria Market",
+        "Tutuban Center Mall",
+        "Manila City Hall"
+      ],
+      "passenger_volume": {
+        "daily_average": 28000,
+        "peak_hour": "7:00-9:00 AM, 5:00-7:00 PM"
+      }
+    },
+    {
+      "station_id": "lrt2_legarda",
+      "name": "Legarda",
+      "municipality": "Manila",
+      "sequence": 2,
+      "coordinates": {
+        "lat": 14.6089,
+        "lng": 120.9936
+      },
+      "elevation": "elevated",
+      "opening_date": "2003-10-29",
+      "facilities": {
+        "accessibility": ["PWD-friendly", "elevator", "escalator"],
+        "amenities": ["restrooms", "security", "CCTV", "ticket_booth"],
+        "parking": false,
+        "atm": false
+      },
+      "connections": {
+        "jeepney_routes": [
+          "Legarda-Quiapo",
+          "Manila-San Mateo",
+          "Sampaloc-Divisoria",
+          "Legarda-Pier",
+          "España-Quiapo"
+        ]
+      },
+      "nearby_landmarks": [
+        "San Beda University",
+        "Centro Escolar University",
+        "La Consolacion College",
+        "University Belt Area",
+        "Malacañang Palace Complex"
+      ],
+      "passenger_volume": {
+        "daily_average": 18000,
+        "peak_hour": "7:00-9:00 AM, 5:00-7:00 PM"
+      }
+    },
+    {
+      "station_id": "lrt2_pureza",
+      "name": "Pureza",
+      "municipality": "Manila",
+      "sequence": 3,
+      "coordinates": {
+        "lat": 14.6156,
+        "lng": 120.9975
+      },
+      "elevation": "elevated",
+      "opening_date": "2003-10-29",
+      "facilities": {
+        "accessibility": ["PWD-friendly", "elevator", "escalator"],
+        "amenities": ["restrooms", "security", "CCTV", "ticket_booth"],
+        "parking": false,
+        "atm": false
+      },
+      "connections": {
+        "jeepney_routes": [
+          "Pureza-Quiapo",
+          "Sta. Mesa-Divisoria",
+          "PUP-Pier",
+          "Sta. Mesa-Cubao",
+          "Pureza-Baclaran"
+        ]
+      },
+      "nearby_landmarks": [
+        "Polytechnic University of the Philippines (PUP)",
+        "Eulogio 'Amang' Rodriguez Institute of Science and Technology (EARIST)",
+        "Sta. Mesa District Hospital",
+        "Dr. Jose Rizal Memorial Hospital"
+      ],
+      "passenger_volume": {
+        "daily_average": 22000,
+        "peak_hour": "7:00-9:00 AM, 5:00-7:00 PM"
+      }
+    },
+    {
+      "station_id": "lrt2_v_mapa",
+      "name": "V. Mapa",
+      "municipality": "Manila",
+      "sequence": 4,
+      "coordinates": {
+        "lat": 14.6225,
+        "lng": 121.0047
+      },
+      "elevation": "elevated",
+      "opening_date": "2003-10-29",
+      "facilities": {
+        "accessibility": ["PWD-friendly", "elevator", "escalator"],
+        "amenities": ["restrooms", "security", "CCTV", "ticket_booth", "retail_shops"],
+        "parking": false,
+        "atm": true
+      },
+      "connections": {
+        "jeepney_routes": [
+          "V. Mapa-Quiapo",
+          "Sta. Mesa-Cubao",
+          "V. Mapa-Divisoria",
+          "Sta. Mesa Heights-Lawton",
+          "V. Mapa-Pier"
+        ]
+      },
+      "nearby_landmarks": [
+        "SM City Sta. Mesa",
+        "University of the East Ramon Magsaysay (UERM) Memorial Medical Center",
+        "V. Mapa High School",
+        "Sta. Mesa Market"
+      ],
+      "passenger_volume": {
+        "daily_average": 25000,
+        "peak_hour": "7:00-9:00 AM, 5:00-7:00 PM"
+      }
+    },
+    {
+      "station_id": "lrt2_j_ruiz",
+      "name": "J. Ruiz",
+      "municipality": "San Juan",
+      "sequence": 5,
+      "coordinates": {
+        "lat": 14.6289,
+        "lng": 121.0128
+      },
+      "elevation": "elevated",
+      "opening_date": "2003-10-29",
+      "facilities": {
+        "accessibility": ["PWD-friendly", "elevator", "escalator"],
+        "amenities": ["restrooms", "security", "CCTV", "ticket_booth"],
+        "parking": false,
+        "atm": false
+      },
+      "connections": {
+        "jeepney_routes": [
+          "San Juan-Quiapo",
+          "San Juan-Cubao",
+          "San Juan-Divisoria",
+          "Greenhills-Lawton",
+          "J. Ruiz-Baclaran"
+        ]
+      },
+      "nearby_landmarks": [
+        "San Juan City Hall",
+        "Pinaglabanan Shrine",
+        "St. John the Baptist Church",
+        "San Juan Central Post Office",
+        "Greenhills Shopping Center"
+      ],
+      "passenger_volume": {
+        "daily_average": 19000,
+        "peak_hour": "7:00-9:00 AM, 5:00-7:00 PM"
+      }
+    },
+    {
+      "station_id": "lrt2_gilmore",
+      "name": "Gilmore",
+      "municipality": "Quezon City",
+      "sequence": 6,
+      "coordinates": {
+        "lat": 14.6356,
+        "lng": 121.0203
+      },
+      "elevation": "elevated",
+      "opening_date": "2003-10-29",
+      "facilities": {
+        "accessibility": ["PWD-friendly", "elevator", "escalator"],
+        "amenities": ["restrooms", "security", "CCTV", "ticket_booth", "retail_shops"],
+        "parking": false,
+        "atm": true
+      },
+      "connections": {
+        "jeepney_routes": [
+          "Gilmore-Quiapo",
+          "Gilmore-Cubao",
+          "New Manila-Divisoria",
+          "Gilmore-Baclaran",
+          "Aurora Boulevard-Lawton"
+        ]
+      },
+      "nearby_landmarks": [
+        "St. Luke's Medical Center",
+        "Robinsons Magnolia",
+        "Gilmore IT Center",
+        "St. Paul University Quezon City",
+        "New Manila District"
+      ],
+      "passenger_volume": {
+        "daily_average": 21000,
+        "peak_hour": "7:00-9:00 AM, 5:00-7:00 PM"
+      }
+    },
+    {
+      "station_id": "lrt2_betty_go_belmonte",
+      "name": "Betty Go-Belmonte",
+      "municipality": "Quezon City",
+      "sequence": 7,
+      "coordinates": {
+        "lat": 14.6414,
+        "lng": 121.0267
+      },
+      "elevation": "elevated",
+      "opening_date": "2003-10-29",
+      "facilities": {
+        "accessibility": ["PWD-friendly", "elevator", "escalator"],
+        "amenities": ["restrooms", "security", "CCTV", "ticket_booth"],
+        "parking": false,
+        "atm": false
+      },
+      "connections": {
+        "jeepney_routes": [
+          "Cubao-Quiapo",
+          "New Manila-Divisoria",
+          "Betty Go-Belmonte-Lawton",
+          "Timog-Divisoria",
+          "E. Rodriguez-Quiapo"
+        ]
+      },
+      "nearby_landmarks": [
+        "Kalayaan College",
+        "Cubao Cathedral",
+        "New Manila District",
+        "E. Rodriguez Sr. Avenue"
+      ],
+      "passenger_volume": {
+        "daily_average": 16000,
+        "peak_hour": "7:00-9:00 AM, 5:00-7:00 PM"
+      }
+    },
+    {
+      "station_id": "lrt2_araneta_cubao",
+      "name": "Araneta Center–Cubao",
+      "municipality": "Quezon City",
+      "sequence": 8,
+      "coordinates": {
+        "lat": 14.6475,
+        "lng": 121.0331
+      },
+      "elevation": "elevated",
+      "opening_date": "2003-10-29",
+      "facilities": {
+        "accessibility": ["PWD-friendly", "elevator", "escalator"],
+        "amenities": ["restrooms", "security", "CCTV", "ticket_booth", "retail_shops"],
+        "parking": true,
+        "atm": true
+      },
+      "connections": {
+        "rail": [
+          {
+            "line": "MRT-3",
+            "station": "Cubao",
+            "connection_type": "walkway_via_mall",
+            "walking_time": 5
+          }
+        ],
+        "bus_rapid_transit": [
+          {
+            "system": "EDSA Carousel",
+            "stop": "Cubao Station",
+            "connection_type": "walking_distance",
+            "walking_time": 8
+          }
+        ],
+        "bus_terminals": [
+          "Araneta Bus Terminal",
+          "Genesis Bus Terminal",
+          "Victory Liner Terminal"
+        ],
+        "jeepney_routes": [
+          "Cubao-Quiapo",
+          "Cubao-Fairview",
+          "Cubao-Antipolo",
+          "Cubao-Divisoria",
+          "Araneta-Baclaran"
+        ]
+      },
+      "nearby_landmarks": [
+        "Araneta City",
+        "Gateway Mall",
+        "Farmers Plaza",
+        "Smart Araneta Coliseum",
+        "New Frontier Theater",
+        "SM Cubao"
+      ],
+      "passenger_volume": {
+        "daily_average": 45000,
+        "peak_hour": "7:00-9:00 AM, 5:00-7:00 PM"
+      }
+    },
+    {
+      "station_id": "lrt2_anonas",
+      "name": "Anonas",
+      "municipality": "Quezon City",
+      "sequence": 9,
+      "coordinates": {
+        "lat": 14.6567,
+        "lng": 121.0444
+      },
+      "elevation": "elevated",
+      "opening_date": "2003-10-29",
+      "facilities": {
+        "accessibility": ["PWD-friendly", "elevator", "escalator"],
+        "amenities": ["restrooms", "security", "CCTV", "ticket_booth"],
+        "parking": false,
+        "atm": false
+      },
+      "connections": {
+        "jeepney_routes": [
+          "Anonas-Quiapo",
+          "Anonas-Project 8",
+          "Project 6-Divisoria",
+          "Anonas-Cubao",
+          "Roosevelt-Lawton"
+        ]
+      },
+      "nearby_landmarks": [
+        "Technological Institute of the Philippines (TIP)",
+        "Anonas City Center",
+        "Project 8 Market",
+        "Roosevelt Avenue"
+      ],
+      "passenger_volume": {
+        "daily_average": 20000,
+        "peak_hour": "7:00-9:00 AM, 5:00-7:00 PM"
+      }
+    },
+    {
+      "station_id": "lrt2_katipunan",
+      "name": "Katipunan",
+      "municipality": "Quezon City",
+      "sequence": 10,
+      "coordinates": {
+        "lat": 14.6653,
+        "lng": 121.0561
+      },
+      "elevation": "underground",
+      "opening_date": "2003-10-29",
+      "special_notes": "Only underground station on LRT-2",
+      "facilities": {
+        "accessibility": ["PWD-friendly", "elevator", "escalator"],
+        "amenities": ["restrooms", "security", "CCTV", "ticket_booth"],
+        "parking": false,
+        "atm": true
+      },
+      "connections": {
+        "jeepney_routes": [
+          "Katipunan-Quiapo",
+          "UP Diliman-Cubao",
+          "Miriam-Fairview",
+          "Katipunan-Divisoria",
+          "Loyola Heights-Lawton"
+        ]
+      },
+      "nearby_landmarks": [
+        "Ateneo de Manila University",
+        "Miriam College",
+        "University of the Philippines Diliman",
+        "Loyola Heights",
+        "Katipunan Avenue"
+      ],
+      "passenger_volume": {
+        "daily_average": 32000,
+        "peak_hour": "7:00-9:00 AM, 5:00-7:00 PM"
+      }
+    },
+    {
+      "station_id": "lrt2_santolan",
+      "name": "Santolan",
+      "municipality": "Marikina",
+      "sequence": 11,
+      "coordinates": {
+        "lat": 14.6789,
+        "lng": 121.0775
+      },
+      "elevation": "elevated",
+      "opening_date": "2004-04-05",
+      "facilities": {
+        "accessibility": ["PWD-friendly", "elevator", "escalator"],
+        "amenities": ["restrooms", "security", "CCTV", "ticket_booth", "retail_shops"],
+        "parking": true,
+        "atm": true
+      },
+      "connections": {
+        "bus_terminals": [
+          "BFCT East Metro Manila Transport Terminal"
+        ],
+        "jeepney_routes": [
+          "Santolan-Cubao",
+          "Marikina-Antipolo",
+          "Santolan-Quiapo",
+          "Marikina-Pasig",
+          "Riverbanks-Divisoria"
+        ]
+      },
+      "nearby_landmarks": [
+        "SM City Marikina",
+        "Riverbanks Center",
+        "BFCT East Metro Manila Transport Terminal",
+        "Marikina Sports Center",
+        "Marikina City Hall"
+      ],
+      "passenger_volume": {
+        "daily_average": 26000,
+        "peak_hour": "7:00-9:00 AM, 5:00-7:00 PM"
+      }
+    },
+    {
+      "station_id": "lrt2_marikina_pasig",
+      "name": "Marikina–Pasig",
+      "municipality": "Marikina",
+      "sequence": 12,
+      "coordinates": {
+        "lat": 14.6867,
+        "lng": 121.0889
+      },
+      "elevation": "elevated",
+      "opening_date": "2004-04-05",
+      "facilities": {
+        "accessibility": ["PWD-friendly", "elevator", "escalator"],
+        "amenities": ["restrooms", "security", "CCTV", "ticket_booth", "retail_shops"],
+        "parking": true,
+        "atm": true
+      },
+      "connections": {
+        "jeepney_routes": [
+          "Marikina-Antipolo",
+          "Pasig-Cubao",
+          "Marikina-Pasig City",
+          "Riverbanks-Ortigas",
+          "Feliz-Divisoria"
+        ]
+      },
+      "nearby_landmarks": [
+        "Robinsons Metro East",
+        "Sta. Lucia East Grand Mall",
+        "Ayala Malls Feliz",
+        "Pasig City Hall",
+        "Ortigas Center East"
+      ],
+      "passenger_volume": {
+        "daily_average": 24000,
+        "peak_hour": "7:00-9:00 AM, 5:00-7:00 PM"
+      }
+    },
+    {
+      "station_id": "lrt2_antipolo",
+      "name": "Antipolo",
+      "municipality": "Rizal",
+      "sequence": 13,
+      "coordinates": {
+        "lat": 14.7044,
+        "lng": 121.1056
+      },
+      "elevation": "elevated",
+      "opening_date": "2004-04-05",
+      "special_notes": "Eastern terminus of LRT-2",
+      "facilities": {
+        "accessibility": ["PWD-friendly", "elevator", "escalator"],
+        "amenities": ["restrooms", "security", "CCTV", "ticket_booth", "retail_shops"],
+        "parking": true,
+        "atm": true
+      },
+      "connections": {
+        "bus_terminals": [
+          "East Gate Business Center"
+        ],
+        "jeepney_routes": [
+          "Antipolo-Cubao",
+          "Antipolo-Marikina",
+          "Upper Antipolo-Lower Antipolo",
+          "Antipolo-Cainta",
+          "Antipolo-Pasig"
+        ]
+      },
+      "nearby_landmarks": [
+        "SM City Masinag",
+        "East Gate Business Center",
+        "Filinvest East Homes",
+        "Antipolo Cathedral",
+        "Our Lady of Peace and Good Voyage"
+      ],
+      "passenger_volume": {
+        "daily_average": 22000,
+        "peak_hour": "7:00-9:00 AM, 5:00-7:00 PM"
+      }
+    }
+  ]
+}

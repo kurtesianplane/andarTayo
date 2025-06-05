@@ -1,0 +1,187 @@
+{
+  "stops": {
+    "MONUMENTO": {
+      "type": "median",
+      "connections": {
+        "rail": ["LRT-1 Monumento Station"],
+        "mall": ["Araneta Square Mall"],
+        "other": ["MCU Hospital"]
+      },
+      "distance_to_next": 0.55
+    },
+    "BAGONG_BARRIO": {
+      "type": "median",
+      "connections": {
+        "other": ["Residential area"]
+      },
+      "distance_to_next": 1.55
+    },
+    "BALINTAWAK": {
+      "type": "median",
+      "connections": {
+        "rail": ["LRT-1 Balintawak Station"],
+        "mall": ["Cloverleaf Mall"],
+        "other": ["Balintawak Market"]
+      },
+      "distance_to_next": 0.80
+    },
+    "KAINGIN": {
+      "type": "median",
+      "connections": {
+        "other": ["Industrial area"]
+      },
+      "distance_to_next": 1.10
+    },
+    "MUNOZ": {
+      "type": "median",
+      "connections": {
+        "rail": ["LRT-1 Roosevelt Station"],
+        "mall": ["WalterMart North EDSA"],
+        "other": ["Muñoz Market"]
+      },
+      "distance_to_next": 1.50
+    },
+    "NORTH_AVE": {
+      "type": "median",
+      "connections": {
+        "rail": ["MRT-3 North Avenue Station"],
+        "mall": ["SM North EDSA", "Trinoma Mall"],
+        "terminal": ["North EDSA Bus Terminal"]
+      },
+      "distance_to_next": 1.30
+    },
+    "QUEZON_AVE": {
+      "type": "median",
+      "connections": {
+        "rail": ["MRT-3 Quezon Avenue Station"],
+        "mall": ["Fisher Mall", "Eton Centris"],
+        "other": ["Quezon Memorial Circle"]
+      },
+      "distance_to_next": 1.60
+    },
+    "NEPA_QMART": {
+      "type": "median",
+      "connections": {
+        "other": ["Nepa Q-Mart Market", "EDSA-Kamuning area"]
+      },
+      "distance_to_next": 1.60
+    },
+    "MAIN_AVE": {
+      "type": "median",
+      "connections": {
+        "mall": ["Araneta City", "Ali Mall"],
+        "other": ["Cubao area"]
+      },
+      "distance_to_next": 0.80
+    },
+    "SANTOLAN": {
+      "type": "median",
+      "connections": {
+        "rail": ["MRT-3 Santolan Station"],
+        "other": ["Camp Aguinaldo"]
+      },
+      "distance_to_next": 2.40
+    },
+    "ORTIGAS": {
+      "type": "median",
+      "connections": {
+        "rail": ["MRT-3 Ortigas Station"],
+        "mall": ["Robinsons Galleria", "SM Megamall"]
+      },
+      "distance_to_next": 2.40
+    },
+    "GUADALUPE": {
+      "type": "median",
+      "connections": {
+        "rail": ["MRT-3 Guadalupe Station"],
+        "other": ["Guadalupe Commercial Complex", "San Carlos Seminary"]
+      },
+      "distance_to_next": 2.00
+    },
+    "BUENDIA": {
+      "type": "median",
+      "connections": {
+        "rail": ["MRT-3 Buendia Station"],
+        "other": ["Makati Central Business District"]
+      },
+      "distance_to_next": 3.00
+    },
+    "AYALA_NB": {
+      "type": "curbside",
+      "connections": {
+        "rail": ["MRT-3 Ayala Station"],
+        "mall": ["Glorietta", "Greenbelt", "Ayala Center"]
+      },
+      "distance_to_next": 1.00
+    },
+    "ONE_AYALA": {
+      "type": "terminal",
+      "connections": {
+        "rail": ["MRT-3 Ayala Station"],
+        "mall": ["Glorietta", "Greenbelt", "Ayala Center"]
+      },
+      "distance_to_next": 1.00
+    },
+    "TRAMO": {
+      "type": "median",
+      "connections": {
+        "other": ["Residential area"]
+      },
+      "distance_to_next": 1.50
+    },
+    "TAFT": {
+      "type": "median",
+      "connections": {
+        "rail": ["MRT-3 Taft Avenue Station", "LRT-1 EDSA Station"],
+        "mall": ["Metropoint Mall"],
+        "terminal": ["MRT-3 Terminal", "EDSA Taft Bus Terminal"]
+      },
+      "distance_to_next": 1.00
+    },
+    "ROXAS": {
+      "type": "median",
+      "connections": {
+        "other": ["Heritage Hotel", "EDSA Extension"]
+      },
+      "distance_to_next": 2.60
+    },
+    "MOA": {
+      "type": "curbside",
+      "connections": {
+        "mall": ["SM Mall of Asia"],
+        "other": ["SMX Convention Center", "SM By the Bay"]
+      },
+      "distance_to_next": 1.00
+    },
+    "DFA": {
+      "type": "curbside",
+      "connections": {
+        "other": ["Department of Foreign Affairs Office of Consular Affairs", "Aseana City"]
+      },
+      "distance_to_next": 0.80
+    },
+    "AMBAYMALL": {
+      "type": "curbside",
+      "connections": {
+        "mall": ["Ayala Malls Manila Bay"],
+        "other": ["City of Dreams Manila"]
+      },
+      "distance_to_next": 0.70
+    },
+    "COD": {
+      "type": "curbside",
+      "connections": {
+        "other": ["City of Dreams Manila", "Hyatt Regency", "Nobu Hotel"]
+      },
+      "distance_to_next": 0.70
+    },
+    "PITX": {
+      "type": "terminal",
+      "connections": {
+        "terminal": ["Parañaque Integrated Terminal Exchange"],
+        "other": ["NAIA Terminals (via Bus)"]
+      },
+      "distance_to_next": null
+    }
+  }
+} 
