@@ -26,15 +26,6 @@
     transition: all 0.3s ease;
   }
 
-  .andartayo-brand {
-    background: linear-gradient(135deg, #dc2626 0%, #eab308 50%, #2563eb 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    font-weight: 700;
-    letter-spacing: -0.02em;
-  }
-
   .andartayo-brand-hover {
     background: linear-gradient(135deg, #b91c1c 0%, #ca8a04 50%, #1d4ed8 100%);
     -webkit-background-clip: text;
@@ -53,26 +44,26 @@
   }
 
   ::-webkit-scrollbar-thumb {
-    background: theme('colors.neutral.300');
+    background: #cbd5e1;
     border-radius: 9999px;
     border: 2px solid transparent;
     background-clip: content-box;
   }
 
   ::-webkit-scrollbar-thumb:hover {
-    background: theme('colors.neutral.400');
+    background: #94a3b8;
     border: 2px solid transparent;
     background-clip: content-box;
   }
 
   .dark ::-webkit-scrollbar-thumb {
-    background: theme('colors.neutral.600');
+    background: #475569;
     border: 2px solid transparent;
     background-clip: content-box;
   }
 
   .dark ::-webkit-scrollbar-thumb:hover {
-    background: theme('colors.neutral.500');
+    background: #64748b;
     border: 2px solid transparent;
     background-clip: content-box;
   }

@@ -112,9 +112,8 @@ module.exports = {
       fontFamily: {
         sans: ['Inter var', 'sans-serif'],
       },
-    },
-  },
+    },  },
   plugins: [
-    require('tailwind-scrollbar')({ nocompatible: true }),
+    require('tailwind-scrollbar'),
   ],
-} 
+}
