@@ -1,4 +1,5 @@
-{  "line_info": {
+{  
+  "line_info": {
     "name": "LRT-1 (Light Rail Transit Line 1)",
     "official_name": "Green Line",
     "operator": "Light Rail Transit Authority (LRTA)",
@@ -84,7 +85,12 @@
           "Roosevelt-Ortigas"
         ],
         "bus_rapid_transit": [
-          "EDSA Carousel Roosevelt Station"
+          {
+            "system": "EDSA Carousel",
+            "stop": "Roosevelt Stop",
+            "connection_type": "pedestrian_overpass",
+            "walking_time": 5
+          }
         ],
         "nearby_landmarks": [
           "SM City North EDSA",
@@ -122,7 +128,12 @@
           "Balintawak-Novaliches"
         ],
         "bus_rapid_transit": [
-          "EDSA Carousel Balintawak Station"
+          {
+            "system": "EDSA Carousel",
+            "stop": "Balintawak Stop",
+            "connection_type": "pedestrian_overpass",
+            "walking_time": 5
+          }
         ],
         "nearby_landmarks": [
           "Balintawak Market",
@@ -160,7 +171,12 @@
           "Monumento-Valenzuela"
         ],
         "bus_rapid_transit": [
-          "EDSA Carousel Monumento Station"
+          {
+            "system": "EDSA Carousel",
+            "stop": "Monumento Stop",
+            "connection_type": "pedestrian_overpass",
+            "walking_time": 5
+          }
         ],
         "nearby_landmarks": [
           "Andres Bonifacio Monument",
@@ -398,7 +414,12 @@
         "atm": true
       },      "connections": {
         "rail": [
-          "LRT-2 Recto Station (5-minute walk via bridge)"
+          {
+            "line": "LRT-2",
+            "station": "Recto",
+            "walking_time": 5,
+            "connection_type": "pedestrian_overpass"
+          }
         ],
         "jeepney_routes": [
           "Doroteo Jose-Quiapo",
@@ -607,7 +628,12 @@
       },
       "connections": {
         "rail": [
-          "PNR Vito Cruz Station"
+          {
+            "line": "PNR",
+            "station": "Vito Cruz Station",
+            "walking_time": 15,
+            "connection_type": "pedestrian_overpass"
+          }
         ],
         "jeepney_routes": [
           "Vito Cruz-Malate",
@@ -712,17 +738,27 @@
       },
       "connections": {
         "rail": [
-          "MRT-3 (Taft Avenue Station)"
+          {
+            "line": "MRT-3",
+            "station": "Taft Avenue Station",
+            "walking_time": 5,
+            "connection_type": "pedestrian_overpass"
+          }
         ],
         "bus_rapid_transit": [
-          "EDSA Carousel Taft Avenue Station"
+          {
+            "system": "EDSA Carousel",
+            "stop": "Taft Avenue Stop",
+            "connection_type": "pedestrian_overpass",
+            "walking_time": 7
+          }
         ],
         "jeepney_routes": [
           "EDSA-Makati",
           "EDSA-MOA"
         ],
         "bus_terminals": [
-          "EDSA Bus Terminal"
+          "EDSA-Taft Bus Terminals"
         ],
         "nearby_landmarks": [
           "SM Mall of Asia",
@@ -799,11 +835,11 @@
           "Aseana-Alabang"
         ],
         "bus_terminals": [
-          "Aseana Terminal"
+          "Aseana Business Park Bus Terminal"
         ],
         "nearby_landmarks": [
           "Aseana Business Park",
-          "Newport World Resorts",
+          "SM Mall of Asia Complex",
           "Redemptorist Church"
         ]
       }
@@ -838,8 +874,9 @@
           "MIA-Sucat"
         ],
         "nearby_landmarks": [
-          "Manila International Airport Road",
-          "Ninoy Aquino International Airport Terminal 1"
+          "MIA Road",
+          "Philippine Airlines Headquarters",
+          "Villamor Airbase"
         ]
       }
     },
@@ -868,8 +905,15 @@
         "atm": true
       },
       "connections": {
+        "bus_rapid_transit": [
+          {
+            "system": "EDSA Carousel",
+            "stop": "PITX Stop",
+            "connection_type": "direct"
+          }
+        ],
         "bus_terminals": [
-          "Parañaque Integrated Terminal Exchange"
+          "PITX City and Provincial Bus Terminals"
         ],
         "jeepney_routes": [
           "PITX-Alabang",
@@ -877,9 +921,7 @@
           "PITX-Bacoor"
         ],
         "nearby_landmarks": [
-          "Parañaque Integrated Terminal Exchange",
-          "SM City Sucat",
-          "Festival Mall"
+
         ]
       }
     },
@@ -913,8 +955,6 @@
           "Ninoy Aquino Ave-Las Piñas"
         ],
         "nearby_landmarks": [
-          "Ninoy Aquino Avenue",
-          "Better Living Subdivision"
         ]
       }
     },
@@ -949,12 +989,12 @@
           "Dr. Santos-Bacoor"
         ],
         "bus_terminals": [
-          "Dr. Santos Terminal"
+
         ],
         "nearby_landmarks": [
           "Dr. Santos Avenue",
-          "Sucat Market",
-          "Las Piñas-Parañaque Wetland Park"
+          "Parañaque City Hall",
+          "Parañaque Sports Complex"
         ]
       }
     }

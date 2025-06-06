@@ -340,10 +340,9 @@ export default function EDSACarouselRoutePlanner({ initialFromStop, onRouteChang
         initial="hidden"
         animate="visible"
         className="text-center"
-      >
-        <motion.h1 
+      >        <motion.h1 
           variants={itemVariants}
-          className="text-3xl font-bold text-gray-900 dark:text-white mb-2"
+          className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900 dark:text-white mb-2"
         >
           EDSA Carousel Route Planner
         </motion.h1>
@@ -494,8 +493,7 @@ export default function EDSACarouselRoutePlanner({ initialFromStop, onRouteChang
             exit="hidden"
             className="bg-orange-50 dark:bg-orange-900/20 rounded-xl shadow-lg p-6 border border-orange-200 dark:border-orange-800"
           >
-            <div className="flex items-center justify-between mb-4">
-              <h2 className="text-xl font-semibold text-orange-600 dark:text-orange-400">
+            <div className="flex items-center justify-between mb-4">              <h2 className="text-lg sm:text-xl font-semibold text-orange-600 dark:text-orange-400">
                 Trip Summary
               </h2>
               <div className="text-sm text-orange-600 dark:text-orange-400">
@@ -505,27 +503,26 @@ export default function EDSACarouselRoutePlanner({ initialFromStop, onRouteChang
 
             <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
               <div className="text-center">
-                <div className="text-2xl font-bold text-orange-600 dark:text-orange-400">
+                <div className="text-xl sm:text-2xl font-bold text-orange-600 dark:text-orange-400">
                   ₱{result.fare}
                 </div>
                 <div className="text-sm text-gray-600 dark:text-gray-300">
                   {category.charAt(0).toUpperCase() + category.slice(1)} Fare
                 </div>
-              </div>
-              <div className="text-center">
-                <div className="text-2xl font-bold text-orange-600 dark:text-orange-400">
+              </div>              <div className="text-center">
+                <div className="text-xl sm:text-2xl font-bold text-orange-600 dark:text-orange-400">
                   {result.distance}km
                 </div>
                 <div className="text-sm text-gray-600 dark:text-gray-300">Distance</div>
               </div>
               <div className="text-center">
-                <div className="text-2xl font-bold text-orange-600 dark:text-orange-400">
+                <div className="text-xl sm:text-2xl font-bold text-orange-600 dark:text-orange-400">
                   {result.estimatedTime}min
                 </div>
                 <div className="text-sm text-gray-600 dark:text-gray-300">Estimated Time</div>
               </div>
               <div className="text-center">
-                <div className="text-2xl font-bold text-orange-600 dark:text-orange-400">
+                <div className="text-xl sm:text-2xl font-bold text-orange-600 dark:text-orange-400">
                   {result.numberOfStops}
                 </div>
                 <div className="text-sm text-gray-600 dark:text-gray-300">Stops</div>

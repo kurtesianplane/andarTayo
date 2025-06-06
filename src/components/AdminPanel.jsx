@@ -44,20 +44,16 @@ export default function AdminPanel({ onExit, initialAdminCode = '12345', onAdmin
   const [newAdminCode, setNewAdminCode] = useState('');
   const [showSettings, setShowSettings] = useState(false);
   
-  // Use AlertContext
   const { alerts, updateAlerts } = useAlerts();
   
-  // Data states
   const [stops, setStops] = useState(stopsData);
   const [fares, setFares] = useState(fareData);
-    // UI states
   const [searchTerm, setSearchTerm] = useState('');
   const [editingStop, setEditingStop] = useState(null);
   const [editingAlert, setEditingAlert] = useState(null);
   const [showAddStop, setShowAddStop] = useState(false);
   const [showAddAlert, setShowAddAlert] = useState(false);
   const [isStopDropdownOpen, setIsStopDropdownOpen] = useState(false);
-    // Form states
   const [stopForm, setStopForm] = useState({
     stop_id: '',
     name: '',
@@ -849,12 +845,11 @@ export default function AdminPanel({ onExit, initialAdminCode = '12345', onAdmin
     switch (activeTab) {
       case 'stops':
         return (
-          <div className="space-y-6">
-            <div className="flex items-center justify-between">
-              <h2 className="text-xl font-semibold text-neutral-900 dark:text-neutral-100">
+          <div className="space-y-6">            <div className="flex items-center justify-between">
+              <h2 className="text-lg sm:text-xl font-semibold text-neutral-900 dark:text-neutral-100">
                 Manage Stops ({stops.length})
               </h2>
-              <motion.button 
+              <motion.button
                 onClick={() => {
                   setShowAddStop(true);
                   resetStopForm();
@@ -1013,9 +1008,8 @@ export default function AdminPanel({ onExit, initialAdminCode = '12345', onAdmin
 
       case 'maintenance':
         return (
-          <div className="space-y-6">
-            <div className="flex items-center justify-between">
-              <h2 className="text-xl font-semibold text-neutral-900 dark:text-neutral-100">
+          <div className="space-y-6">            <div className="flex items-center justify-between">
+              <h2 className="text-lg sm:text-xl font-semibold text-neutral-900 dark:text-neutral-100">
                 Maintenance Management
               </h2>
               <div className="flex items-center gap-2">
@@ -1039,9 +1033,8 @@ export default function AdminPanel({ onExit, initialAdminCode = '12345', onAdmin
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <div className="p-4 bg-white dark:bg-neutral-800 rounded-lg border border-neutral-200 dark:border-neutral-700">
                 <div className="flex items-center justify-between">
-                  <div>
-                    <h3 className="text-sm font-medium text-neutral-900 dark:text-neutral-100">Active Maintenance</h3>
-                    <p className="text-2xl font-bold text-orange-600 dark:text-orange-400 mt-1">
+                  <div>                    <h3 className="text-sm font-medium text-neutral-900 dark:text-neutral-100">Active Maintenance</h3>
+                    <p className="text-xl sm:text-2xl font-bold text-orange-600 dark:text-orange-400 mt-1">
                       {maintenanceSchedule.filter(m => m.status === 'active').length}
                     </p>
                   </div>
@@ -1053,7 +1046,7 @@ export default function AdminPanel({ onExit, initialAdminCode = '12345', onAdmin
                 <div className="flex items-center justify-between">
                   <div>
                     <h3 className="text-sm font-medium text-neutral-900 dark:text-neutral-100">Scheduled</h3>
-                    <p className="text-2xl font-bold text-blue-600 dark:text-blue-400 mt-1">
+                    <p className="text-xl sm:text-2xl font-bold text-blue-600 dark:text-blue-400 mt-1">
                       {maintenanceSchedule.filter(m => m.status === 'scheduled').length}
                     </p>
                   </div>
@@ -1065,7 +1058,7 @@ export default function AdminPanel({ onExit, initialAdminCode = '12345', onAdmin
                 <div className="flex items-center justify-between">
                   <div>
                     <h3 className="text-sm font-medium text-neutral-900 dark:text-neutral-100">Overdue</h3>
-                    <p className="text-2xl font-bold text-red-600 dark:text-red-400 mt-1">
+                    <p className="text-xl sm:text-2xl font-bold text-red-600 dark:text-red-400 mt-1">
                       {maintenanceSchedule.filter(m => {
                         const dueDate = new Date(m.scheduled_date);
                         return dueDate < new Date() && m.status !== 'completed';
@@ -1312,9 +1305,8 @@ export default function AdminPanel({ onExit, initialAdminCode = '12345', onAdmin
 
       case 'fares':
         return (
-          <div className="space-y-6">
-            <div className="flex items-center justify-between">
-              <h2 className="text-xl font-semibold text-neutral-900 dark:text-neutral-100">
+          <div className="space-y-6">            <div className="flex items-center justify-between">
+              <h2 className="text-lg sm:text-xl font-semibold text-neutral-900 dark:text-neutral-100">
                 Manage Fares
               </h2>
             </div>
@@ -1414,9 +1406,8 @@ export default function AdminPanel({ onExit, initialAdminCode = '12345', onAdmin
           </div>
         );case 'alerts':
         return (
-          <div className="space-y-6">
-            <div className="flex items-center justify-between">
-              <h2 className="text-xl font-semibold text-neutral-900 dark:text-neutral-100">
+          <div className="space-y-6">            <div className="flex items-center justify-between">
+              <h2 className="text-lg sm:text-xl font-semibold text-neutral-900 dark:text-neutral-100">
                 Service Alerts ({alerts.length})
               </h2>
               <motion.button 

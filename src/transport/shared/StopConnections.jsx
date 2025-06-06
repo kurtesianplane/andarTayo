@@ -33,10 +33,10 @@ export default function StopConnections({ connections }) {
                     className="inline-flex items-center px-2 py-1 rounded-md text-xs font-medium bg-ph-blue-50 dark:bg-ph-blue-500/10 text-ph-blue-600 dark:text-ph-blue-400"
                     title={stationName ? `${stationName}${walkingTime ? ` (${walkingTime} min walk)` : ''}` : displayText}
                   >
-                    {displayText}
+                    {typeof connection === 'object' && connection.station ? `${connection.line}: ${connection.station}` : displayText}
                     {walkingTime && (
-                      <span className="ml-1 text-xs opacity-75">
-                        ({walkingTime}min)
+                      <span className="ml-1 text-[12px] opacity-75">
+                        ({walkingTime} min)
                       </span>
                     )}
                   </span>
@@ -49,7 +49,6 @@ export default function StopConnections({ connections }) {
 
       {future_rail && (
         <div className="flex items-start gap-2">
-          {/* todo: replace with <ClockIcon className="w-5 h-5 text-ph-yellow-500 dark:text-ph-yellow-400 shrink-0 mt-0.5" /> */}
           <span className="w-5 h-5 inline-flex items-center justify-center text-ph-yellow-500 dark:text-ph-yellow-400">⏳</span>
           <div>
             <p className="text-sm font-medium text-neutral-900 dark:text-neutral-100">
@@ -128,10 +127,10 @@ export default function StopConnections({ connections }) {
                     className="inline-flex items-center px-2 py-1 rounded-md text-xs font-medium bg-red-50 dark:bg-red-500/10 text-red-600 dark:text-red-400"
                     title={stopName ? `${stopName}${walkingTime ? ` (${walkingTime} min walk)` : ''}` : displayText}
                   >
-                    {displayText}
+                    {typeof brt === 'object' && brt.stop ? `${brt.system}: ${brt.stop}` : displayText}
                     {walkingTime && (
-                      <span className="ml-1 text-xs opacity-75">
-                        ({walkingTime}min)
+                      <span className="ml-1 text-[12px] opacity-75">
+                        ({walkingTime} min)
                       </span>
                     )}
                   </span>

@@ -18,7 +18,6 @@ import FareInfoTooltip from './components/FareInfoTooltip';
 import { AlertProvider, useAlerts } from './context/AlertContext';
 import andarTayoLogo from './assets/andarTayo_logo.svg';
 
-// Animation configuration
 const springTransition = {
   type: "spring",
   damping: 25,

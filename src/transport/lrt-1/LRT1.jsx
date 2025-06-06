@@ -13,7 +13,7 @@ const LRT1 = () => {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.4 }}
       >        <div className="max-w-7xl mx-auto">
-          <h1 className="text-2xl font-semibold text-neutral-900 dark:text-white">
+          <h1 className="text-lg sm:text-xl lg:text-2xl font-semibold text-neutral-900 dark:text-white">
             LRT-1 Green Line
           </h1>
           <p className="text-sm text-neutral-600 dark:text-neutral-400 mt-1">

@@ -14,7 +14,7 @@ const MRT3 = () => {
         transition={{ duration: 0.4 }}
       >
         <div className="max-w-7xl mx-auto">
-          <h1 className="text-2xl font-semibold text-neutral-900 dark:text-white">
+          <h1 className="text-lg sm:text-xl lg:text-2xl font-semibold text-neutral-900 dark:text-white">
             MRT-3 Blue Line
           </h1>
           <p className="text-sm text-neutral-600 dark:text-neutral-400 mt-1">

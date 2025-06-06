@@ -70,6 +70,9 @@ export default function MRT3RoutePlanner({ initialFromStation, onRouteChange }) 
     isOpen: false,
     alerts: []  });
 
+  const containerRef = useRef(null);
+  const routeDetailsRef = useRef(null);
+
   // disabled station in case of service alerts
   const handleDisabledStationClick = useCallback((stationId) => {
     const alerts = getStopAlerts(stationId);
@@ -252,8 +255,18 @@ export default function MRT3RoutePlanner({ initialFromStation, onRouteChange }) 
       };
 
       setResult(routeResult);
-      
-      toast.success(`Route calculated: ₱${fare} • ${estimatedTime} min`);
+        toast.success(`Route calculated: ₱${fare} • ${estimatedTime} min`);
+
+      // auto scroll
+      setTimeout(() => {
+        if (routeDetailsRef.current) {
+          routeDetailsRef.current.scrollIntoView({ 
+            behavior: 'smooth', 
+            block: 'start',
+            inline: 'nearest'
+          });
+        }
+      }, 600);
       
     } catch (err) {
       console.error('Route calculation error:', err);
@@ -263,6 +276,17 @@ export default function MRT3RoutePlanner({ initialFromStation, onRouteChange }) 
       setIsLoading(false);
     }
   }, [fromStation, toStation, availableFromStations, calculateFare, category, direction]);
+  useEffect(() => {
+    setTimeout(() => {
+      if (containerRef.current) {
+        containerRef.current.scrollIntoView({ 
+          behavior: 'smooth', 
+          block: 'start',
+          inline: 'nearest'
+        });
+      }
+    }, 1000);
+  }, []);
 
   useEffect(() => {
     if (fromStation && toStation) {
@@ -338,9 +362,8 @@ export default function MRT3RoutePlanner({ initialFromStation, onRouteChange }) 
           <div className="flex items-center gap-3 mb-6">
             <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
               <span className="text-xl">🚆</span>
-            </div>
-            <div>
-              <h2 className="text-xl font-semibold text-gray-900 dark:text-white">MRT-3 Route Planner</h2>
+            </div>            <div>
+              <h2 className="text-lg sm:text-xl font-semibold text-gray-900 dark:text-white">MRT-3 Route Planner</h2>
               <p className="text-sm text-gray-500 dark:text-gray-400">Blue Line • North Avenue ↔ Taft Avenue</p>
             </div>
           </div>
@@ -349,11 +372,18 @@ export default function MRT3RoutePlanner({ initialFromStation, onRouteChange }) 
             <motion.div variants={itemVariants}>
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                 From Station
-              </label>
-              <select
+              </label>              <select
                 value={fromStation}
                 onChange={(e) => handleFromStationChange(e.target.value)}
-                className="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+                className="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 bg-white dark:bg-gray-700 text-gray-900 dark:text-white appearance-none pr-10"
+                style={{
+                  WebkitAppearance: 'none',
+                  MozAppearance: 'none',
+                  backgroundImage: `url("data:image/svg+xml;utf8,<svg fill='%23374151' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/></svg>")`,
+                  backgroundRepeat: 'no-repeat',
+                  backgroundPosition: 'right 0.75rem center',
+                  backgroundSize: '1.5em'
+                }}
               >
                 <option value="">Select departure station</option>
                 {availableFromStations.map((station) => (
@@ -367,16 +397,23 @@ export default function MRT3RoutePlanner({ initialFromStation, onRouteChange }) 
                 ))}
               </select>
             </motion.div>
-\
+
             <motion.div variants={itemVariants}>
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                 To Station
-              </label>
-              <select
+              </label>              <select
                 value={toStation}
                 onChange={(e) => handleToStationChange(e.target.value)}
                 disabled={!fromStation}
-                className="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 disabled:bg-gray-50 dark:disabled:bg-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+                className="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 disabled:bg-gray-50 dark:disabled:bg-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white appearance-none pr-10"
+                style={{
+                  WebkitAppearance: 'none',
+                  MozAppearance: 'none',
+                  backgroundImage: `url("data:image/svg+xml;utf8,<svg fill='%23374151' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/></svg>")`,
+                  backgroundRepeat: 'no-repeat',
+                  backgroundPosition: 'right 0.75rem center',
+                  backgroundSize: '1.5em'
+                }}
               >
                 <option value="">Select destination station</option>
                 {availableToStations.map((station) => (
@@ -473,15 +510,14 @@ export default function MRT3RoutePlanner({ initialFromStation, onRouteChange }) 
                 <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-2">Plan Your MRT-3 Journey</h3>
                 <p className="text-gray-500 dark:text-gray-400">Select your departure and destination stations to see route details, fare, and travel time.</p>
               </motion.div>
-            ) : (
-              <motion.div
+            ) : (              <motion.div
                 key="results"
                 variants={fadeVariants}
                 initial="hidden"
                 animate="visible"
                 exit="hidden"
               >
-                <div className="bg-blue-50 dark:bg-blue-900/20 rounded-lg p-4 mb-6">                  <div className="flex items-center justify-between mb-3">
+                <div ref={routeDetailsRef} className="bg-blue-50 dark:bg-blue-900/20 rounded-lg p-4 mb-6">                  <div className="flex items-center justify-between mb-3">
                     <h3 className="font-semibold text-gray-900 dark:text-white">Trip Summary</h3>
                     <div className="flex items-center gap-2 text-sm text-blue-600 dark:text-blue-400">
                       <span className="hidden sm:block capitalize">{result.direction}</span>
@@ -492,10 +528,9 @@ export default function MRT3RoutePlanner({ initialFromStation, onRouteChange }) 
                       <span>{result.distance} station{result.distance !== 1 ? 's' : ''}</span>
                     </div>
                   </div>
-                  
-                  <div className="grid grid-cols-2 gap-4">
+                    <div className="grid grid-cols-2 gap-4">
                     <div className="text-center">
-                      <div className="text-2xl font-bold text-blue-600 dark:text-blue-400">₱{result.fare}</div>
+                      <div className="text-xl sm:text-2xl font-bold text-blue-600 dark:text-blue-400">₱{result.fare}</div>
                       <div className="text-sm text-gray-600 dark:text-gray-300">
                         {paymentMethods.find(p => p.id === category)?.name}
                         {category === 'discounted' && (
@@ -504,7 +539,7 @@ export default function MRT3RoutePlanner({ initialFromStation, onRouteChange }) 
                       </div>
                     </div>
                     <div className="text-center">
-                      <div className="text-2xl font-bold text-blue-600 dark:text-blue-400">{result.estimatedTime}</div>
+                      <div className="text-xl sm:text-2xl font-bold text-blue-600 dark:text-blue-400">{result.estimatedTime}</div>
                       <div className="text-sm text-gray-600 dark:text-gray-300">minutes</div>
                     </div>
                   </div>
@@ -528,13 +563,17 @@ export default function MRT3RoutePlanner({ initialFromStation, onRouteChange }) 
                       const isExpanded = expandedStations.has(station.station_id);
                       const uniqueConnections = getUniqueConnectionTypes(station);
 
-                      return (
-                        <motion.div
+                      return (                        <motion.div
                           key={station.station_id}
-                          className="relative"
+                          className={`relative cursor-pointer transition-all duration-200 hover:bg-gray-50 dark:hover:bg-gray-700/50 rounded-lg p-2 ${
+                            !showCommuteDetails && uniqueConnections.length > 0 ? 'hover:shadow-md' : ''
+                          }`}
                           initial={{ opacity: 0, x: -10 }}
                           animate={{ opacity: 1, x: 0 }}
                           transition={{ delay: index * 0.1 }}
+                          onClick={() => !showCommuteDetails && uniqueConnections.length > 0 && toggleStationExpansion(station.station_id)}
+                          whileHover={{ scale: !showCommuteDetails && uniqueConnections.length > 0 ? 1.02 : 1 }}
+                          whileTap={{ scale: !showCommuteDetails && uniqueConnections.length > 0 ? 0.98 : 1 }}
                         >
                           <div className="flex items-start gap-3">
                             <div className="flex flex-col items-center">
@@ -559,21 +598,21 @@ export default function MRT3RoutePlanner({ initialFromStation, onRouteChange }) 
                                 </div>
 
                                 {!showCommuteDetails && uniqueConnections.length > 0 && (
-                                  <button
-                                    onClick={() => toggleStationExpansion(station.station_id)}
-                                    className="text-xs text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 ml-2"
-                                  >
-                                    {isExpanded ? 'less' : 'more'}
-                                  </button>
+                                  <div className="text-xs text-blue-600 dark:text-blue-400 ml-2 pointer-events-none">
+                                    {isExpanded ? '▲' : '▼'}
+                                  </div>
                                 )}
-                              </div>
-
-                              {!showCommuteDetails && isExpanded && (
+                              </div>                              {!showCommuteDetails && isExpanded && (
                                 <motion.div
                                   initial={{ opacity: 0, height: 0 }}
                                   animate={{ opacity: 1, height: 'auto' }}
                                   exit={{ opacity: 0, height: 0 }}
-                                  className="mt-3 pl-4 border-l-2 border-blue-200 dark:border-blue-600"
+                                  transition={{ 
+                                    duration: 0.3, 
+                                    ease: "easeInOut",
+                                    height: { type: "spring", stiffness: 300, damping: 30 }
+                                  }}
+                                  className="mt-3 pl-4 border-l-2 border-blue-200 dark:border-blue-600 overflow-hidden"
                                 >
                                   <StopConnections 
                                     connections={station.connections} 
