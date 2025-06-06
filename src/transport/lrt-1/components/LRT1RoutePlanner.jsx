@@ -1,13 +1,15 @@
-import React, { useState, useEffect, useRef, useCallback } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import PropTypes from 'prop-types';
 import toast from 'react-hot-toast';
 import { motion, AnimatePresence, LayoutGroup } from 'framer-motion';
 import { ExclamationTriangleIcon, InformationCircleIcon } from '@heroicons/react/24/outline';
 import Tooltip from '../../../components/Tooltip';
 import AlertPopup from '../../../components/AlertPopup';
+import SocialMediaIcon from '../../../components/SocialMediaIcon';
 import StopConnections from '../../shared/StopConnections';
 import stationsData from "../data/stations.json";
 import fareMatrix from "../data/fareMatrix.json";
+import socialsData from "../data/socials.json";
 import _ from 'lodash';
 import { useAlerts } from '../../../context/AlertContext';
 
@@ -338,6 +340,26 @@ export default function LRT1RoutePlanner({ initialFromStation, onRouteChange }) 
     });
   }, []);
 
+  // swap stations functionality
+  const handleSwapStations = useCallback(() => {
+    if (!fromStation || !toStation) {
+      toast.error('Please select both departure and destination stations first');
+      return;
+    }
+
+    const tempFromStation = fromStation;
+    const tempToStation = toStation;
+    
+    setFromStation(tempToStation);
+    setToStation(tempFromStation);
+    
+    // Update available stations for the new "to" selection
+    const filtered = availableFromStations.filter(station => station.station_id !== tempToStation);
+    setAvailableToStations(filtered);
+    
+    toast.success('Stations swapped successfully');
+  }, [fromStation, toStation, availableFromStations]);
+
   return (
     <LayoutGroup>
       <motion.div 
@@ -400,14 +422,43 @@ export default function LRT1RoutePlanner({ initialFromStation, onRouteChange }) 
                       </option>
                     </React.Fragment>
                   );
-                })}
-              </motion.select>
+                })}              </motion.select>
+            </motion.div>
+
+            {/* Swap Button */}
+            <motion.div 
+              className="flex justify-center"
+              variants={itemVariants}
+            >
+              <motion.button
+                onClick={handleSwapStations}
+                disabled={isLoading || (!fromStation || !toStation)}
+                className="p-2 rounded-full bg-green-100 dark:bg-green-900/30 text-green-600 dark:text-green-400 hover:bg-green-200 dark:hover:bg-green-900/50 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+                whileHover={{ scale: 1.1, rotate: 180 }}
+                whileTap={{ scale: 0.9 }}
+                transition={springTransition}
+                title="Swap departure and destination stations"
+              >
+                <svg 
+                  className="w-5 h-5" 
+                  fill="none" 
+                  stroke="currentColor" 
+                  viewBox="0 0 24 24"
+                >
+                  <path 
+                    strokeLinecap="round" 
+                    strokeLinejoin="round" 
+                    strokeWidth={2} 
+                    d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4" 
+                  />
+                </svg>
+              </motion.button>
             </motion.div>
 
             <motion.div variants={itemVariants}>
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                 To Station
-              </label>              <motion.select
+              </label><motion.select
                 value={toStation}
                 onChange={(e) => handleToStationChange(e.target.value)}
                 className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white disabled:bg-gray-100 dark:disabled:bg-gray-800 appearance-none pr-10"
@@ -512,6 +563,25 @@ export default function LRT1RoutePlanner({ initialFromStation, onRouteChange }) 
                 </motion.div>
               )}
             </AnimatePresence>
+
+            {/* Social Media Links */}
+            <motion.div variants={itemVariants} className="pt-4 border-t border-gray-200 dark:border-gray-700">
+              <div className="flex items-center gap-2 mb-3">
+                <span className="text-sm font-medium text-gray-700 dark:text-gray-300">Follow {socialsData.transport_name}:</span>
+              </div>
+              <div className="flex items-center gap-2 flex-wrap">
+                {socialsData.social_media
+                  .filter(social => social.active)
+                  .map((social, index) => (
+                    <SocialMediaIcon 
+                      key={index}
+                      platform={social.platform} 
+                      url={social.url} 
+                      size="sm"
+                    />
+                  ))}
+              </div>
+            </motion.div>
           </div>
         </motion.div>
 
@@ -695,8 +765,7 @@ export default function LRT1RoutePlanner({ initialFromStation, onRouteChange }) 
                       );
                     })}
                   </div>
-                </div>
-                <div className="border-t border-gray-200 dark:border-gray-700 pt-4">
+                </div>                <div className="border-t border-gray-200 dark:border-gray-700 pt-4">
                   <div className="text-xs text-gray-500 dark:text-gray-400 space-y-1">
                     <div>Operating Hours: 4:30 AM - 10:30 PM</div>
                     <div>Frequency: 3-4 minutes (peak), 5-7 minutes (off-peak)</div>

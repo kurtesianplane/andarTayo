@@ -5,8 +5,10 @@ import { motion, AnimatePresence, LayoutGroup } from 'framer-motion';
 import { ExclamationTriangleIcon, InformationCircleIcon } from '@heroicons/react/24/outline';
 import Tooltip from '../../../components/Tooltip';
 import AlertPopup from '../../../components/AlertPopup';
+import SocialMediaIcon from '../../../components/SocialMediaIcon';
 import StopConnections from '../../shared/StopConnections';
 import stationsData from "../data/stations.json";
+import socialsData from "../data/socials.json";
 import _ from 'lodash';
 import { useAlerts } from '../../../context/AlertContext';
 
@@ -333,7 +335,6 @@ export default function MRT3RoutePlanner({ initialFromStation, onRouteChange }) 
       }
       return newSet;
     });  }, []);
-
   // station info
   const toggleStationExpansion = useCallback((stationId) => {
     setExpandedStations(prev => {
@@ -346,6 +347,26 @@ export default function MRT3RoutePlanner({ initialFromStation, onRouteChange }) 
       return newSet;
     });
   }, []);
+
+  // swap stations functionality
+  const handleSwapStations = useCallback(() => {
+    if (!fromStation || !toStation) {
+      toast.error('Please select both departure and destination stations first');
+      return;
+    }
+
+    const tempFromStation = fromStation;
+    const tempToStation = toStation;
+    
+    setFromStation(tempToStation);
+    setToStation(tempFromStation);
+    
+    // Update available stations for the new "to" selection
+    const filtered = availableFromStations.filter(station => station.station_id !== tempToStation);
+    setAvailableToStations(filtered);
+    
+    toast.success('Stations swapped successfully');
+  }, [fromStation, toStation, availableFromStations]);
 
   return (
     <LayoutGroup>
@@ -394,8 +415,7 @@ export default function MRT3RoutePlanner({ initialFromStation, onRouteChange }) 
                   >
                     {station.name} ({station.municipality})
                   </option>
-                ))}
-              </select>
+                ))}              </select>
             </motion.div>
 
             <motion.div variants={itemVariants}>
@@ -485,6 +505,24 @@ export default function MRT3RoutePlanner({ initialFromStation, onRouteChange }) 
                     </motion.div>
                   )}
                 </AnimatePresence>
+                {/* Social Media Links */}
+                <motion.div variants={itemVariants} className="pt-4 border-t border-gray-200 dark:border-gray-700">
+                  <div className="flex items-center gap-2 mb-3">
+                    <span className="text-sm font-medium text-gray-700 dark:text-gray-300">Follow {socialsData.transport_name}:</span>
+                  </div>
+                  <div className="flex items-center gap-2 flex-wrap">
+                    {socialsData.social_media
+                      .filter(social => social.active)
+                      .map((social, index) => (
+                        <SocialMediaIcon 
+                          key={index}
+                          platform={social.platform} 
+                          url={social.url} 
+                          size="sm"
+                        />
+                      ))}
+                  </div>
+                </motion.div>
               </div>
             </motion.div>
           </div>
