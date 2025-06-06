@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useCallback } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import PropTypes from 'prop-types';
 import toast from 'react-hot-toast';
 import { motion, AnimatePresence, LayoutGroup } from 'framer-motion';
@@ -320,7 +320,6 @@ export default function LRT2RoutePlanner({ initialFromStation, onRouteChange }) 
       return newSet;
     });
   }, []);
-
   // station info
   const toggleStationExpansion = useCallback((stationId) => {
     setExpandedStations(prev => {
@@ -333,6 +332,26 @@ export default function LRT2RoutePlanner({ initialFromStation, onRouteChange }) 
       return newSet;
     });
   }, []);
+
+  // swap stations functionality
+  const handleSwapStations = useCallback(() => {
+    if (!fromStation || !toStation) {
+      toast.error('Please select both departure and destination stations first');
+      return;
+    }
+
+    const tempFromStation = fromStation;
+    const tempToStation = toStation;
+    
+    setFromStation(tempToStation);
+    setToStation(tempFromStation);
+    
+    // Update available stations for the new "to" selection
+    const filtered = availableFromStations.filter(station => station.station_id !== tempToStation);
+    setAvailableToStations(filtered);
+    
+    toast.success('Stations swapped successfully');
+  }, [fromStation, toStation, availableFromStations]);
 
   return (
     <LayoutGroup>
@@ -374,8 +393,37 @@ export default function LRT2RoutePlanner({ initialFromStation, onRouteChange }) 
                   >
                     {station.name}
                   </option>
-                ))}
-              </select>
+                ))}              </select>
+            </motion.div>
+
+            {/* Swap Button */}
+            <motion.div 
+              className="flex justify-center"
+              variants={itemVariants}
+            >
+              <motion.button
+                onClick={handleSwapStations}
+                disabled={isLoading || (!fromStation || !toStation)}
+                className="p-2 rounded-full bg-purple-100 dark:bg-purple-900/30 text-purple-600 dark:text-purple-400 hover:bg-purple-200 dark:hover:bg-purple-900/50 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+                whileHover={{ scale: 1.1, rotate: 180 }}
+                whileTap={{ scale: 0.9 }}
+                transition={springTransition}
+                title="Swap departure and destination stations"
+              >
+                <svg 
+                  className="w-5 h-5" 
+                  fill="none" 
+                  stroke="currentColor" 
+                  viewBox="0 0 24 24"
+                >
+                  <path 
+                    strokeLinecap="round" 
+                    strokeLinejoin="round" 
+                    strokeWidth={2} 
+                    d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4" 
+                  />
+                </svg>
+              </motion.button>
             </motion.div>
 
             <motion.div variants={itemVariants}>
