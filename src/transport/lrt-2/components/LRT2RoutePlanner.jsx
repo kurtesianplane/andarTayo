@@ -5,9 +5,11 @@ import { motion, AnimatePresence, LayoutGroup } from 'framer-motion';
 import { ExclamationTriangleIcon, InformationCircleIcon } from '@heroicons/react/24/outline';
 import Tooltip from '../../../components/Tooltip';
 import AlertPopup from '../../../components/AlertPopup';
+import SocialMediaIcon from '../../../components/SocialMediaIcon';
 import StopConnections from '../../shared/StopConnections';
 import stationsData from "../data/stations.json";
 import fareMatrix from "../data/fareMatrix.json";
+import socialsData from "../data/socials.json";
 import _ from 'lodash';
 import { useAlerts } from '../../../context/AlertContext';
 
@@ -506,6 +508,25 @@ export default function LRT2RoutePlanner({ initialFromStation, onRouteChange }) 
                 </motion.div>
               )}
             </AnimatePresence>
+
+            {/* Social Media Links */}
+            <motion.div variants={itemVariants} className="pt-4 border-t border-gray-200 dark:border-gray-700">
+              <div className="flex items-center gap-2 mb-3">
+                <span className="text-sm font-medium text-gray-700 dark:text-gray-300">Follow {socialsData.transport_name}:</span>
+              </div>
+              <div className="flex items-center gap-2 flex-wrap">
+                {socialsData.social_media
+                  .filter(social => social.active)
+                  .map((social, index) => (
+                    <SocialMediaIcon 
+                      key={index}
+                      platform={social.platform} 
+                      url={social.url} 
+                      size="sm"
+                    />
+                  ))}
+              </div>
+            </motion.div>
           </div>
         </motion.div>
         <motion.div 

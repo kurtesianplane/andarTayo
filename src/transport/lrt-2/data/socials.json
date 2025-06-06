@@ -1,0 +1,44 @@
+{
+  "transport_name": "LRT-2",
+  "transport_description": "Light Rail Transit Line 2 - Purple Line",
+  "official_name": "Light Rail Transit Authority (LRTA)",
+  "social_media": [
+    {
+      "platform": "facebook",
+      "url": "https://www.facebook.com/OfficialLRTA/",
+      "display_name": "@OfficialLRTA",
+      "active": true
+    },
+    {
+      "platform": "twitter",
+      "url": "https://x.com/OfficialLRTA",
+      "display_name": "@OfficialLRTA",
+      "active": true
+    },
+    {
+      "platform": "website",
+      "url": "https://www.lrta.gov.ph/",
+      "display_name": "Official Website",
+      "active": true
+    },
+    {
+      "platform": "email",
+      "url": "pro@lrta.gov.ph",
+      "display_name": "Public Relations Email",
+      "active": true
+    },
+    {
+      "platform": "phone",
+      "url": "09173253452",
+      "display_name": "Public Relations Phone",
+      "active": true
+    },
+    {
+      "platform": "hotline",
+      "url": "(632) 8647-3452",
+      "display_name": "Public Relations Hotline",
+      "active": true
+    }
+  ],
+  "last_updated": "2025-06-06"
+}

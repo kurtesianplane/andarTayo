@@ -1,0 +1,44 @@
+{
+  "transport_name": "LRT-1",
+  "transport_description": "Light Rail Transit Line 1 - Green Line",
+  "official_name": "Light Rail Manila Corporation (LRMC)",
+  "social_media": [
+    {
+      "platform": "facebook",
+      "url": "https://www.facebook.com/officialLRT1",
+      "display_name": "@officialLRT1",
+      "active": true
+    },
+    {
+      "platform": "twitter",
+      "url": "https://x.com/officialLRT1",
+      "display_name": "@officialLRT1",
+      "active": true
+    },
+    {
+      "platform": "youtube",
+      "url": "https://www.youtube.com/@officialLRT1",
+      "display_name": "@officialLRT1",
+      "active": true
+    },
+    {
+      "platform": "website",
+      "url": "https://lrmc.ph/",
+      "display_name": "Official Website",
+      "active": true
+    },
+    {
+      "platform": "email",
+      "url": "feedback@lrmc.com.ph",
+      "display_name": "Feedback Email",
+      "active": true
+    },
+    {
+      "platform": "phone",
+      "url": "(02) 5318-5762",
+      "display_name": "Hotline",
+      "active": true
+    }
+  ],
+  "last_updated": "2025-06-06"
+}
