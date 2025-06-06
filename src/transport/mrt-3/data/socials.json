@@ -1,0 +1,38 @@
+{
+  "transport_name": "MRT-3",
+  "transport_description": "Metro Rail Transit Line 3 - Blue Line",
+  "official_name": "Metro Rail Transit Corporation (MRTC)",
+  "social_media": [
+    {
+      "platform": "facebook",
+      "url": "https://www.facebook.com/dotrmrt3/",
+      "display_name": "@dotrmrt3",
+      "active": true
+    },
+    {
+      "platform": "twitter",
+      "url": "https://x.com/dotrmrt3",
+      "display_name": "@dotrmrt3",
+      "active": true
+    },
+    {
+      "platform": "website",
+      "url": "https://dotrmrt3.gov.ph/",
+      "display_name": "Official Website",
+      "active": true
+    },
+    {
+      "platform": "email",
+      "url": "feedback@dotrmrt3.gov.ph",
+      "display_name": "Feedback Email",
+      "active": true
+    },
+    {
+      "platform": "hotline",
+      "url": "8929-5347 local 2303",
+      "display_name": "Public Relations Hotline",
+      "active": true
+    }
+  ],
+  "last_updated": "2025-06-06"
+}
