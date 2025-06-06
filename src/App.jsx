@@ -17,6 +17,9 @@ import { ChevronDownIcon } from '@heroicons/react/24/outline';
 import FareInfoTooltip from './components/FareInfoTooltip';
 import { AlertProvider, useAlerts } from './context/AlertContext';
 import andarTayoLogo from './assets/andarTayo_logo.svg';
+// PWA imports
+import PWAManager from './components/PWA/PWAManager';
+import PWAStatusIndicator from './components/PWA/PWAStatusIndicator';
 
 const springTransition = {
   type: "spring",
@@ -238,8 +241,7 @@ function AppContent() {
                   } transition-colors`}
                 >
                   <LockClosedIcon className="h-4 w-4" />
-                </button>
-                <button
+                </button>                <button
                   onClick={toggleDarkMode}
                   className="p-1 rounded-md text-neutral-600 dark:text-neutral-400 hover:bg-neutral-100 dark:hover:bg-neutral-700 transition-colors"
                 >
@@ -249,6 +251,7 @@ function AppContent() {
                     <MoonIcon className="h-4 w-4" />
                   )}
                 </button>
+                <PWAStatusIndicator />
               </div>
 
               {/* Mobile Menu Button */}
@@ -534,7 +537,9 @@ function AppContent() {
 function App() {
   return (
     <AlertProvider>
-      <AppContent />
+      <PWAManager>
+        <AppContent />
+      </PWAManager>
     </AlertProvider>
   );
 }
