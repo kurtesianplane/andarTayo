@@ -60,15 +60,22 @@ const SocialMediaIcon = ({ platform, url, className = '', size = 'md' }) => {
       textColor: 'text-white',
       borderColor: 'border-gray-200 dark:border-gray-700',
       hoverBg: 'hover:bg-gray-50 dark:hover:bg-gray-500/10'
-    },
-    phone: {
+    },    phone: {
       icon: '📞',
       name: 'Phone',
       bgColor: 'bg-emerald-600 hover:bg-emerald-700',
       textColor: 'text-white',
       borderColor: 'border-emerald-200 dark:border-emerald-700',
       hoverBg: 'hover:bg-emerald-50 dark:hover:bg-emerald-500/10'
-      }
+    },
+    hotline: {
+      icon: '☎️',
+      name: 'Hotline',
+      bgColor: 'bg-red-600 hover:bg-red-700',
+      textColor: 'text-white',
+      borderColor: 'border-red-200 dark:border-red-700',
+      hoverBg: 'hover:bg-red-50 dark:hover:bg-red-500/10'
+    }
   };
 
   // Size configurations
@@ -91,14 +98,13 @@ const SocialMediaIcon = ({ platform, url, className = '', size = 'md' }) => {
   };
 
   const config = platformConfig[platform.toLowerCase()] || platformConfig.website;
-  const sizes = sizeConfig[size] || sizeConfig.md;
-  const handleClick = () => {
+  const sizes = sizeConfig[size] || sizeConfig.md;  const handleClick = () => {
     // Handle different URL types
     let finalUrl = url;
     
     if (platform.toLowerCase() === 'email') {
       finalUrl = url.startsWith('mailto:') ? url : `mailto:${url}`;
-    } else if (platform.toLowerCase() === 'phone') {
+    } else if (platform.toLowerCase() === 'phone' || platform.toLowerCase() === 'hotline') {
       finalUrl = url.startsWith('tel:') ? url : `tel:${url}`;
     } else if (!url.startsWith('http://') && !url.startsWith('https://')) {
       finalUrl = `https://${url}`;
@@ -114,6 +120,8 @@ const SocialMediaIcon = ({ platform, url, className = '', size = 'md' }) => {
         return 'Send us an email';
       case 'phone':
         return 'Call us';
+      case 'hotline':
+        return 'Call our hotline';
       default:
         return `Visit our ${config.name}`;
     }
@@ -125,6 +133,8 @@ const SocialMediaIcon = ({ platform, url, className = '', size = 'md' }) => {
         return 'Send us an email';
       case 'phone':
         return 'Call us';
+      case 'hotline':
+        return 'Call our hotline';
       default:
         return `Visit our ${config.name} page`;
     }
@@ -221,13 +231,19 @@ export const SocialMediaIconWithLabel = ({ platform, url, className = '', size =
       bgColor: 'bg-gray-50 dark:bg-gray-500/10 hover:bg-gray-100 dark:hover:bg-gray-500/20',
       textColor: 'text-gray-700 dark:text-gray-400',
       borderColor: 'border-gray-200 dark:border-gray-700',
-    },
-    phone: {
+    },    phone: {
       icon: '📞',
       name: 'Phone',
       bgColor: 'bg-emerald-50 dark:bg-emerald-500/10 hover:bg-emerald-100 dark:hover:bg-emerald-500/20',
       textColor: 'text-emerald-700 dark:text-emerald-400',
       borderColor: 'border-emerald-200 dark:border-emerald-700',
+    },
+    hotline: {
+      icon: '🚨',
+      name: 'Hotline',
+      bgColor: 'bg-red-50 dark:bg-red-500/10 hover:bg-red-100 dark:hover:bg-red-500/20',
+      textColor: 'text-red-700 dark:text-red-400',
+      borderColor: 'border-red-200 dark:border-red-700',
     }
   };
 
@@ -251,7 +267,6 @@ export const SocialMediaIconWithLabel = ({ platform, url, className = '', size =
       gap: 'gap-2.5'
     }
   };
-
   const config = platformConfig[platform.toLowerCase()] || platformConfig.website;
   const sizes = sizeConfig[size] || sizeConfig.md;
   const handleClick = () => {
@@ -259,7 +274,7 @@ export const SocialMediaIconWithLabel = ({ platform, url, className = '', size =
     
     if (platform.toLowerCase() === 'email') {
       finalUrl = url.startsWith('mailto:') ? url : `mailto:${url}`;
-    } else if (platform.toLowerCase() === 'phone') {
+    } else if (platform.toLowerCase() === 'phone' || platform.toLowerCase() === 'hotline') {
       finalUrl = url.startsWith('tel:') ? url : `tel:${url}`;
     } else if (!url.startsWith('http://') && !url.startsWith('https://')) {
       finalUrl = `https://${url}`;
@@ -275,6 +290,8 @@ export const SocialMediaIconWithLabel = ({ platform, url, className = '', size =
         return 'Send us an email';
       case 'phone':
         return 'Call us';
+      case 'hotline':
+        return 'Call our hotline';
       default:
         return `Visit our ${config.name}`;
     }
@@ -286,6 +303,8 @@ export const SocialMediaIconWithLabel = ({ platform, url, className = '', size =
         return 'Send us an email';
       case 'phone':
         return 'Call us';
+      case 'hotline':
+        return 'Call our hotline';
       default:
         return `Visit our ${config.name} page`;
     }
@@ -332,7 +351,7 @@ export const SocialMediaIconWithLabel = ({ platform, url, className = '', size =
 SocialMediaIcon.propTypes = {
   platform: PropTypes.oneOf([
     'facebook', 'twitter', 'instagram', 'youtube', 'linkedin', 
-    'tiktok', 'website', 'email', 'phone'
+    'tiktok', 'website', 'email', 'phone', 'hotline'
   ]).isRequired,
   url: PropTypes.string.isRequired,
   className: PropTypes.string,
@@ -342,7 +361,7 @@ SocialMediaIcon.propTypes = {
 SocialMediaIconWithLabel.propTypes = {
   platform: PropTypes.oneOf([
     'facebook', 'twitter', 'instagram', 'youtube', 'linkedin', 
-    'tiktok', 'website', 'email', 'phone'
+    'tiktok', 'website', 'email', 'phone', 'hotline'
   ]).isRequired,
   url: PropTypes.string.isRequired,
   className: PropTypes.string,
