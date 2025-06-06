@@ -37,14 +37,6 @@ const SocialMediaIcon = ({ platform, url, className = '', size = 'md' }) => {
       borderColor: 'border-red-200 dark:border-red-700',
       hoverBg: 'hover:bg-red-50 dark:hover:bg-red-500/10'
     },
-    linkedin: {
-      icon: '💼',
-      name: 'LinkedIn',
-      bgColor: 'bg-blue-700 hover:bg-blue-800',
-      textColor: 'text-white',
-      borderColor: 'border-blue-200 dark:border-blue-700',
-      hoverBg: 'hover:bg-blue-50 dark:hover:bg-blue-500/10'
-    },
     tiktok: {
       icon: '🎵',
       name: 'TikTok',
@@ -76,7 +68,7 @@ const SocialMediaIcon = ({ platform, url, className = '', size = 'md' }) => {
       textColor: 'text-white',
       borderColor: 'border-emerald-200 dark:border-emerald-700',
       hoverBg: 'hover:bg-emerald-50 dark:hover:bg-emerald-500/10'
-    }
+      }
   };
 
   // Size configurations
