@@ -311,7 +311,6 @@ export default function MRT3RoutePlanner({ initialFromStation, onRouteChange }) 
       }
       return newSet;
     });  }, []);
-
   // station info
   const toggleStationExpansion = useCallback((stationId) => {
     setExpandedStations(prev => {
@@ -324,6 +323,26 @@ export default function MRT3RoutePlanner({ initialFromStation, onRouteChange }) 
       return newSet;
     });
   }, []);
+
+  // swap stations functionality
+  const handleSwapStations = useCallback(() => {
+    if (!fromStation || !toStation) {
+      toast.error('Please select both departure and destination stations first');
+      return;
+    }
+
+    const tempFromStation = fromStation;
+    const tempToStation = toStation;
+    
+    setFromStation(tempToStation);
+    setToStation(tempFromStation);
+    
+    // Update available stations for the new "to" selection
+    const filtered = availableFromStations.filter(station => station.station_id !== tempToStation);
+    setAvailableToStations(filtered);
+    
+    toast.success('Stations swapped successfully');
+  }, [fromStation, toStation, availableFromStations]);
 
   return (
     <LayoutGroup>
@@ -366,9 +385,9 @@ export default function MRT3RoutePlanner({ initialFromStation, onRouteChange }) 
                   >
                     {station.name} ({station.municipality})
                   </option>
-                ))}
-              </select>
+                ))}              </select>
             </motion.div>
+
             <motion.div variants={itemVariants}>
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                 To Station
