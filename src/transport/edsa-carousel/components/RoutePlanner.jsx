@@ -11,6 +11,7 @@ import stopDetailsData from "../data/stopDetails.json";
 import fareMatrix from "../data/fareMatrix.json";
 import _ from 'lodash';
 import { useAlerts } from '../../../context/AlertContext';
+import { usePWA } from '../../../hooks/usePWA';
 
 // Animation variants
 const containerVariants = {
@@ -68,6 +69,7 @@ const selectTransition = {
  */
 export default function EDSACarouselRoutePlanner({ initialFromStop, onRouteChange }) {
   const { isStopDisabled, getStopAlerts } = useAlerts();
+  const { trackEngagement } = usePWA();
   const [fromStop, setFromStop] = useState("");
   const [toStop, setToStop] = useState("");
   const [category, setCategory] = useState("regular"); // Passenger category
@@ -226,9 +228,16 @@ export default function EDSACarouselRoutePlanner({ initialFromStop, onRouteChang
         numberOfStops: Math.abs(toStopData.sequence - fromStopData.sequence),
         operatingHours: "5:00 AM - 10:00 PM",
         frequency: "5-10 minutes"
-      };
+      };      setResult(routeResult);
 
-      setResult(routeResult);
+      // Track PWA engagement for route planning
+      trackEngagement('ROUTE_PLANNED', {
+        transportType: 'EDSA Carousel',
+        from: fromStopData.name,
+        to: toStopData.name,
+        fare: fareDetails.fare,
+        distance: fareDetails.distance
+      });
 
       // Notify parent component of route change
       if (onRouteChange) {

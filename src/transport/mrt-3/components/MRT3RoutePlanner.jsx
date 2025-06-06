@@ -11,6 +11,7 @@ import stationsData from "../data/stations.json";
 import socialsData from "../data/socials.json";
 import _ from 'lodash';
 import { useAlerts } from '../../../context/AlertContext';
+import { usePWA } from '../../../hooks/usePWA';
 
 const containerVariants = {
   hidden: { opacity: 0, y: 20 },
@@ -57,6 +58,7 @@ const selectTransition = {
 
 export default function MRT3RoutePlanner({ initialFromStation, onRouteChange }) {
   const { isStopDisabled, getStopAlerts } = useAlerts();
+  const { trackEngagement } = usePWA();
   const [fromStation, setFromStation] = useState("");
   const [toStation, setToStation] = useState("");
   const [category, setCategory] = useState("sjt");
@@ -254,10 +256,18 @@ export default function MRT3RoutePlanner({ initialFromStation, onRouteChange }) 
         route: routeStations,
         paymentMethod: category,
         line: 'MRT-3'
-      };
-
-      setResult(routeResult);
-        toast.success(`Route calculated: ₱${fare} • ${estimatedTime} min`);
+      };      setResult(routeResult);
+      
+      // Track PWA engagement for route planning
+      trackEngagement('ROUTE_PLANNED', {
+        transportType: 'MRT-3',
+        from: fromStationData.name,
+        to: toStationData.name,
+        fare: fare,
+        distance: distance
+      });
+      
+      toast.success(`Route calculated: ₱${fare} • ${estimatedTime} min`);
 
       // auto scroll
       setTimeout(() => {
