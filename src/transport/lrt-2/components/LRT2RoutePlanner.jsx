@@ -493,7 +493,7 @@ export default function LRT2RoutePlanner({ initialFromStation, onRouteChange }) 
                     key={station.station_id} 
                     value={station.station_id}
                   >
-                    {station.name} ({station.municipality})
+                    {station.name}
                   </option>
                 ))}
               </select>

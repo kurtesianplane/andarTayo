@@ -163,11 +163,10 @@ function AppContent() {
   };
 
   return (
-    <div className={`min-h-screen bg-neutral-50 dark:bg-neutral-900 pb-16 lg:pb-0 font-sans antialiased ${isDarkMode ? 'dark' : ''}`}>
-      <Toaster 
+    <div className={`min-h-screen bg-neutral-50 dark:bg-neutral-900 pb-16 lg:pb-0 font-sans antialiased ${isDarkMode ? 'dark' : ''}`}>      <Toaster 
         position="top-right"
         toastOptions={{
-          className: 'text-sm bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 rounded-lg',
+          className: 'text-sm bg-white dark:bg-neutral-800 text-neutral-900 dark:text-neutral-100 border border-neutral-200 dark:border-neutral-700 rounded-lg shadow-lg',
         }}
       />
       
