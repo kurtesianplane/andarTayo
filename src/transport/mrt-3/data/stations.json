@@ -82,7 +82,9 @@
       "nearby_landmarks": [
         "SM North EDSA",
         "TriNoma Mall",
-        "North EDSA Medical Center"
+        "North EDSA Medical Center",
+        "Seda Vertis North",
+        "Solaire Resort North"
       ],
       "passenger_volume": {
         "daily_average": 45000,
@@ -204,7 +206,20 @@
             "stop": "Cubao Station",
             "connection_type": "direct_access",
             "walking_time": 1
+          },
+          {
+            "system": "Antipolo-Cubao (Route 3)",
+            "stop": "Cubao",
+            "connection_type": "sidewalk",
+            "walking_time": 15
+          },
+          {
+            "system": "Q City Bus via Qc Hall-Cubao",
+            "stop": "Ali Mall",
+            "connection_type": "sidewalk",
+            "walking_time": 10
           }
+
         ],
         "bus_terminals": [
           "Cubao Bus Terminal",
@@ -230,7 +245,7 @@
     {
       "station_id": "mrt3_santolan_annapolis",
       "name": "Santolan-Annapolis",
-      "municipality": "Pasig City",
+      "municipality": "Quezon City",
       "sequence": 5,
       "coordinates": {
         "lat": 14.6096,
@@ -254,14 +269,14 @@
           }
         ],
         "jeepney_routes": [
-          "Santolan-Marikina",
-          "Santolan-Antipolo"
+          "Annapolis-Greenhills"
         ]
       },
       "nearby_landmarks": [
-        "Eastwood City",
-        "Libis area",
-        "Santolan Town Plaza"
+        "Greenhills Shopping Center",
+        "La Salle Greenhills",
+        "Camp Crame",
+        "Camp Aguinaldo"
       ],
       "passenger_volume": {
         "daily_average": 28000,
@@ -502,22 +517,33 @@
             "stop": "Ayala Station",
             "connection_type": "direct_access",
             "walking_time": 1
+          },
+          {
+            "system": "BGC Bus",
+            "stop": "Edsa Ayala Station",
+            "connection_type": "pedestrian_walkway",
+            "walking_time": 5
           }
         ],
         "bus_terminals": [
-          "Ayala Bus Terminal"
+          "One Ayala Bus Terminal"
         ],
         "jeepney_routes": [
           "Ayala-Makati CBD",
           "Ayala-Alabang",
-          "Ayala-Taguig"
+          "Ayala-Taguig",
+          "Ayala-Market-Market"
         ]
       },
       "nearby_landmarks": [
         "Ayala Center",
         "Greenbelt Mall",
         "Glorietta Mall",
-        "Makati CBD"
+        "Makati CBD",
+        "Ayala Triangle Gardens",
+        "Legazpi Village",
+        "Dasmarinas Village",
+        "Forbes Park"
       ],
       "passenger_volume": {
         "daily_average": 65000,
@@ -542,6 +568,14 @@
         "atm": true
       },
       "connections": {
+        "rail" : [
+           {
+            "line": "NSCR South Commuter",
+            "station": "Magallanes",
+            "connection_type": "pedestrian_walkway",
+            "walking_time": 5
+          }
+        ],
         "bus_rapid_transit": [
           {
             "system": "EDSA Carousel",
@@ -558,7 +592,9 @@
       "nearby_landmarks": [
         "Magallanes Interchange",
         "South Luzon Expressway (SLEX)",
-        "Fort Bonifacio (nearby)"
+        "Fort Bonifacio (nearby)",
+        "Southgate Mall",
+        "San Lorenzo Plaza Mall"
       ],
       "passenger_volume": {
         "daily_average": 30000,
@@ -601,19 +637,27 @@
         ],
         "bus_terminals": [
           "Taft Avenue Bus Terminal",
-          "Pasay Bus Terminal"
+          "Pasay Bus Terminal",
+          "Philtranco Bus Terminal",
+          "Victory Liner Pasay Terminal",
+          "Jam Liner Pasay Terminal",
+          "DLTB Pasay Terminal"
         ],
         "jeepney_routes": [
           "Taft-Baclaran",
           "Taft-Alabang",
-          "Taft-MOA"
+          "Taft-MOA",
+          "Nichols-Taft",
+          "Tenament-Taft"
         ]
       },
       "nearby_landmarks": [
         "Taft Avenue",
         "Mall of Asia (nearby)",
         "Pasay Rotonda",
-        "LRT-1 EDSA Station"
+        "LRT-1 EDSA Station",
+        "Ninoy Aquino International Airport (NAIA) Terminal 3",
+        "Metro point Mall"
       ],
       "passenger_volume": {
         "daily_average": 42000,

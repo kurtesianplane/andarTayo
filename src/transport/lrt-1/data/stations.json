@@ -43,9 +43,9 @@
       }
     },
     "technical_specs": {
-      "power_supply": "600V DC third rail",
+      "power_supply": "750V DC Overhead Catenary",
       "max_speed": "60 km/h",
-      "rolling_stock": ["LRTA 1000 series", "LRTA 1100 series", "LRTA 1200 series"],
+      "rolling_stock": ["LRTA 1000 series", "LRTA 1100 series", "LRTA 1200 series", "LRTA 13000 series"],
       "car_configuration": "4 cars per train"
     },
     "daily_ridership": 445000
@@ -53,7 +53,7 @@
   "stations": [
     {
       "station_id": "lrt1_fernando_poe_jr",
-      "name": "Fernando Poe Jr.",
+      "name": "Fernando Poe Jr. (Formerly Roosevelt)",
       "municipality": "Quezon City",
       "sequence": 1,
       "coordinates": {
@@ -95,7 +95,10 @@
         "nearby_landmarks": [
           "SM City North EDSA",
           "TriNoma Mall",
-          "Quezon Memorial Circle"
+          "Quezon Memorial Circle",
+          "Jackman Plaza - Muñoz",
+          "Waltermart - Muñoz",
+          "S&R Membership Shopping - Congressional Avenue"
         ]
       }
     },
@@ -309,8 +312,13 @@
         "atm": false
       },
       "connections": {
-        "rail": [
-          "PNR Blumentritt Station"
+         "rail": [
+          {
+            "line": "NSCR South Commuter",
+            "station": "Blumentritt Station",
+            "walking_time": 5,
+            "connection_type": "pedestrian_overpass"
+          }
         ],
         "jeepney_routes": [
           "Blumentritt-Santa Mesa",
@@ -641,7 +649,8 @@
         ],
         "nearby_landmarks": [
           "De La Salle University",
-          "College of Saint Benilde", "St. Scholastica's College"
+          "College of Saint Benilde", 
+          "St. Scholastica's College"
         ]
       }
     },
