@@ -12,6 +12,7 @@ import socialsData from "../data/socials.json";
 import _ from 'lodash';
 import { useAlerts } from '../../../context/AlertContext';
 import { usePWA } from '../../../hooks/usePWA';
+import { scrollElementIntoView } from '../../../utils/scrollUtils';
 
 const containerVariants = {
   hidden: { opacity: 0, y: 20 },
@@ -267,12 +268,10 @@ export default function MRT3RoutePlanner({ initialFromStation, onRouteChange }) 
         distance: distance
       });
       
-      toast.success(`Route calculated: ₱${fare} • ${estimatedTime} min`);
-
-      // auto scroll
+      toast.success(`Route calculated: ₱${fare} • ${estimatedTime} min`);      // auto scroll
       setTimeout(() => {
         if (routeDetailsRef.current) {
-          routeDetailsRef.current.scrollIntoView({ 
+          scrollElementIntoView(routeDetailsRef.current, { 
             behavior: 'smooth', 
             block: 'start',
             inline: 'nearest'
@@ -287,11 +286,10 @@ export default function MRT3RoutePlanner({ initialFromStation, onRouteChange }) 
     } finally {
       setIsLoading(false);
     }
-  }, [fromStation, toStation, availableFromStations, calculateFare, category, direction]);
-  useEffect(() => {
+  }, [fromStation, toStation, availableFromStations, calculateFare, category, direction]);  useEffect(() => {
     setTimeout(() => {
       if (containerRef.current) {
-        containerRef.current.scrollIntoView({ 
+        scrollElementIntoView(containerRef.current, { 
           behavior: 'smooth', 
           block: 'start',
           inline: 'nearest'
@@ -595,7 +593,7 @@ export default function MRT3RoutePlanner({ initialFromStation, onRouteChange }) 
                 animate="visible"
                 exit="hidden"
               >
-                <div ref={routeDetailsRef} className="bg-blue-50 dark:bg-blue-900/20 rounded-lg p-4 mb-6">                  <div className="flex items-center justify-between mb-3">
+                <div ref={routeDetailsRef} className="bg-blue-50 dark:bg-blue-900/20 rounded-lg p-4 mb-6 mt-6 scroll-mt-16 md:scroll-mt-12">                  <div className="flex items-center justify-between mb-3">
                     <h3 className="font-semibold text-gray-900 dark:text-white">Trip Summary</h3>
                     <div className="flex items-center gap-2 text-sm text-blue-600 dark:text-blue-400">
                       <span className="hidden sm:block capitalize">{result.direction}</span>

@@ -23,7 +23,8 @@
     "react-dom": "^18.2.0",
     "react-hot-toast": "^2.4.1",
     "react-leaflet": "^4.2.1",
-    "react-query": "3.39.3"
+    "react-query": "3.39.3",
+    "react-router-dom": "^7.6.2"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "6.1.4",
