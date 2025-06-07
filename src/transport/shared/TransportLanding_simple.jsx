@@ -100,29 +100,33 @@ const TransportLanding = ({ onModeSelect }) => {
             </p>
           </motion.div>
         </div>
-      </div>      {/* Transport Modes Section */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-16">
+      </div>
+
+      {/* Transport Modes Section */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.3 }}
-          className="text-center mb-8 lg:mb-12"
+          className="text-center mb-12"
         >
           <h2 className="text-xl sm:text-2xl lg:text-3xl xl:text-4xl font-bold text-gray-900 dark:text-white mb-4">
             Choose Your Transit Line
           </h2>
-          <p className="text-base lg:text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
+          <p className="text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
             Select from Metro Manila's rail and bus rapid transit systems to plan your journey
           </p>
-        </motion.div>{/* Transport Mode Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8">
+        </motion.div>
+
+        {/* Transport Mode Grid */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {transportModes.map((mode, index) => (
             <motion.div
               key={mode.id}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
-              className={`group relative overflow-hidden rounded-2xl bg-white dark:bg-gray-800 shadow-lg hover:shadow-2xl transition-all duration-300 flex flex-col min-h-[550px] ${
+              className={`group relative overflow-hidden rounded-2xl bg-white dark:bg-gray-800 shadow-lg hover:shadow-2xl transition-all duration-300 flex flex-col ${
                 mode.available 
                   ? 'cursor-pointer hover:-translate-y-2 border-2 border-transparent hover:border-gray-200 dark:hover:border-gray-600' 
                   : 'opacity-75 cursor-not-allowed'
@@ -131,32 +135,31 @@ const TransportLanding = ({ onModeSelect }) => {
               whileHover={mode.available ? { y: -5 } : {}}
               style={{ '--mode-color': mode.color }}
             >
-              {/* Header Section */}
               <div 
-                className="relative p-4 sm:p-6"
+                className="relative p-6 sm:p-8"
                 style={{
                   background: `linear-gradient(135deg, ${mode.color}15 0%, ${mode.color}25 100%)`
                 }}
               >
-                <div className="flex items-start justify-between gap-4">
-                  <div className="flex items-start gap-3 sm:gap-4 flex-1 min-w-0">
+                <div className="flex items-start justify-between">
+                  <div className="flex items-center gap-4">
                     <div 
-                      className="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl flex items-center justify-center text-2xl sm:text-3xl shadow-lg flex-shrink-0"
+                      className="w-12 h-12 sm:w-14 sm:h-14 lg:w-16 lg:h-16 rounded-2xl flex items-center justify-center text-2xl sm:text-3xl shadow-lg"
                       style={{ backgroundColor: `${mode.color}20` }}
                     >
                       {mode.icon}
                     </div>
-                    <div className="flex-1 min-w-0">
-                      <h3 className="text-lg sm:text-xl font-bold text-gray-900 dark:text-white mb-2 leading-tight">
+                    <div>
+                      <h3 className="text-lg sm:text-xl lg:text-2xl font-bold text-gray-900 dark:text-white mb-2">
                         {mode.name}
                       </h3>
-                      <p className="text-sm sm:text-base text-gray-600 dark:text-gray-300 leading-relaxed">
+                      <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
                         {mode.description}
                       </p>
                     </div>
                   </div>
                   {!mode.available && (
-                    <div className="bg-amber-100 dark:bg-amber-900/30 text-amber-800 dark:text-amber-200 px-2 py-1 rounded-full text-xs font-medium whitespace-nowrap flex-shrink-0">
+                    <div className="bg-amber-100 dark:bg-amber-900/30 text-amber-800 dark:text-amber-200 px-3 py-1 rounded-full text-sm font-medium whitespace-nowrap">
                       Coming Soon
                     </div>
                   )}
@@ -164,53 +167,40 @@ const TransportLanding = ({ onModeSelect }) => {
               </div>
 
               {/* Transport Stats */}
-              <div className="grid grid-cols-3 gap-2 sm:gap-4 px-4 sm:px-6 py-4 bg-gray-50 dark:bg-gray-700/50">
+              <div className="grid grid-cols-3 gap-4 p-6 bg-gray-50 dark:bg-gray-700/50">
                 <div className="text-center">
-                  <div className="text-base sm:text-lg lg:text-xl font-bold" style={{ color: mode.color }}>
+                  <div className="text-lg sm:text-xl lg:text-2xl font-bold" style={{ color: mode.color }}>
                     {mode.stats.stations.split(' ')[0]}
                   </div>
-                  <div className="text-xs sm:text-sm text-gray-500 dark:text-gray-400 mt-1">
+                  <div className="text-sm text-gray-500 dark:text-gray-400 mt-1">
                     {mode.stats.stations.includes('stations') ? 'Stations' : 'Stops'}
                   </div>
                 </div>
                 <div className="text-center">
-                  <div className="text-base sm:text-lg lg:text-xl font-bold" style={{ color: mode.color }}>
+                  <div className="text-lg sm:text-xl lg:text-2xl font-bold" style={{ color: mode.color }}>
                     {mode.stats.length}
                   </div>
-                  <div className="text-xs sm:text-sm text-gray-500 dark:text-gray-400 mt-1">Length</div>
+                  <div className="text-sm text-gray-500 dark:text-gray-400 mt-1">Length</div>
                 </div>
                 <div className="text-center">
-                  <div className="text-base sm:text-lg lg:text-xl font-bold" style={{ color: mode.color }}>
+                  <div className="text-lg sm:text-xl lg:text-2xl font-bold" style={{ color: mode.color }}>
                     {mode.stats.frequency}
                   </div>
-                  <div className="text-xs sm:text-sm text-gray-500 dark:text-gray-400 mt-1">Frequency</div>
+                  <div className="text-sm text-gray-500 dark:text-gray-400 mt-1">Frequency</div>
                 </div>
-              </div>              {/* Features */}
-              <div className="p-4 sm:p-6 pt-4 flex-grow">
-                <ul className="space-y-2.5">
-                  {mode.features.map((feature, idx) => (
+              </div>
+
+              {/* Features */}
+              <div className="p-6 pt-0">
+                <ul className="space-y-2">
+                  {mode.features.slice(0, 2).map((feature, idx) => (
                     <li key={idx} className="flex items-start gap-2 text-sm text-gray-600 dark:text-gray-300">
-                      <span className="text-green-500 mt-0.5 flex-shrink-0">•</span>
-                      <span className="leading-relaxed">{feature}</span>
+                      <span className="text-green-500 mt-0.5">•</span>
+                      <span>{feature}</span>
                     </li>
                   ))}
                 </ul>
               </div>
-
-              {/* Action Button */}
-              {mode.available && (
-                <div 
-                  className="p-4 text-center text-white font-semibold group-hover:shadow-inner transition-all duration-300 flex-shrink-0"
-                  style={{ backgroundColor: mode.color }}
-                >
-                  <div className="flex items-center justify-center gap-2">
-                    <span>Plan Route</span>
-                    <svg className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                    </svg>
-                  </div>
-                </div>
-              )}
             </motion.div>
           ))}
         </div>
