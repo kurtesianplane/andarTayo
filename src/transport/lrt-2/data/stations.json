@@ -43,7 +43,7 @@
       }
     },
     "technical_specs": {
-      "power_supply": "750V DC third rail",
+      "power_supply": "1500V DC Overhead Catenary",
       "max_speed": "70 km/h",
       "rolling_stock": ["LRTA 2000 series"],
       "car_configuration": "4 cars per train"
@@ -75,6 +75,12 @@
             "station": "Doroteo Jose",
             "connection_type": "direct_walkway",
             "walking_time": 5
+          },
+          {
+            "line": "NSCR North Commuter",
+            "station": "Tutuban",
+            "connection_type": "walking_distance",
+            "walking_time": 25
           }
         ],
         "bus_rapid_transit": [
@@ -142,7 +148,8 @@
         "Centro Escolar University",
         "La Consolacion College",
         "University Belt Area",
-        "Malacañang Palace Complex"
+        "Malacañang Palace Complex",
+        "Polytehcnic University of the Philippines (PUP) - Rizal Campus"
       ],
       "passenger_volume": {
         "daily_average": 18000,
@@ -168,10 +175,9 @@
       },
       "connections": {
         "jeepney_routes": [
-          "Pureza-Quiapo",
-          "Sta. Mesa-Divisoria",
-          "PUP-Pier",
-          "Sta. Mesa-Cubao",
+          "San Juan-Quiapo",
+          "Punta-Divisoria",
+          "Recto-Cubao",
           "Pureza-Baclaran"
         ]
       },
@@ -179,7 +185,9 @@
         "Polytechnic University of the Philippines (PUP)",
         "Eulogio 'Amang' Rodriguez Institute of Science and Technology (EARIST)",
         "Sta. Mesa District Hospital",
-        "Dr. Jose Rizal Memorial Hospital"
+        "Dr. Jose Rizal Memorial Hospital",
+        "AMA Manila Campus",
+        "Makati Science Technical Institute of the Philippines"
       ],
       "passenger_volume": {
         "daily_average": 22000,
@@ -215,8 +223,10 @@
       "nearby_landmarks": [
         "SM City Sta. Mesa",
         "University of the East Ramon Magsaysay (UERM) Memorial Medical Center",
+        "Central Colleges of the Philippines (CCP)",
         "V. Mapa High School",
-        "Sta. Mesa Market"
+        "Sta. Mesa Market",
+        "Isetann Supermarket Sta. Mesa"
       ],
       "passenger_volume": {
         "daily_average": 25000,
@@ -292,7 +302,8 @@
         "Robinsons Magnolia",
         "Gilmore IT Center",
         "St. Paul University Quezon City",
-        "New Manila District"
+        "New Manila District",
+        "Greenhills Shopping Center"
       ],
       "passenger_volume": {
         "daily_average": 21000,
@@ -368,8 +379,15 @@
             "stop": "Cubao Station",
             "connection_type": "walking_distance",
             "walking_time": 8
+          },
+          {
+            "system": "Antipolo-Cubao (Route 3)",
+            "stop": "Cubao",
+            "connection_type": "sidewalk",
+            "walking_time": 5
           }
         ],
+        
         "bus_terminals": [
           "Araneta Bus Terminal",
           "Genesis Bus Terminal",
@@ -379,6 +397,7 @@
           "Cubao-Quiapo",
           "Cubao-Fairview",
           "Cubao-Antipolo",
+          "Cubao-Padilla",
           "Cubao-Divisoria",
           "Araneta-Baclaran"
         ]
@@ -389,7 +408,10 @@
         "Farmers Plaza",
         "Smart Araneta Coliseum",
         "New Frontier Theater",
-        "SM Cubao"
+        "SM Cubao",
+        "Ali Mall",
+        "Ibis Styles Hotel",
+        "Novotel Manila Araneta City"
       ],
       "passenger_volume": {
         "daily_average": 45000,
@@ -420,6 +442,14 @@
           "Project 6-Divisoria",
           "Anonas-Cubao",
           "Roosevelt-Lawton"
+        ],
+        "bus_rapid_transit": [
+          {
+            "system": "Antipolo-Cubao (Route 3)",
+            "stop": "Anonas",
+            "connection_type": "sidewalk",
+            "walking_time": 5
+          }
         ]
       },
       "nearby_landmarks": [
@@ -458,6 +488,14 @@
           "Miriam-Fairview",
           "Katipunan-Divisoria",
           "Loyola Heights-Lawton"
+        ],
+        "bus_rapid_transit": [
+          {
+            "system": "Antipolo-Cubao (Route 3)",
+            "stop": "Katipunan",
+            "connection_type": "sidewalk",
+            "walking_time": 5
+          }
         ]
       },
       "nearby_landmarks": [
@@ -493,6 +531,14 @@
         "bus_terminals": [
           "BFCT East Metro Manila Transport Terminal"
         ],
+        "bus_rapid_transit": [
+          {
+            "system": "Antipolo-Cubao (Route 3)",
+            "stop": "Santolan",
+            "connection_type": "sidewalk",
+            "walking_time": 5
+          }
+        ],
         "jeepney_routes": [
           "Santolan-Cubao",
           "Marikina-Antipolo",
@@ -506,7 +552,8 @@
         "Riverbanks Center",
         "BFCT East Metro Manila Transport Terminal",
         "Marikina Sports Center",
-        "Marikina City Hall"
+        "Marikina City Hall",
+        "Uratex Marikina Showroom"
       ],
       "passenger_volume": {
         "daily_average": 26000,
@@ -533,15 +580,29 @@
       "connections": {
         "jeepney_routes": [
           "Marikina-Antipolo",
+          "Marikina - Paenaan",
+          "Marikina - Padilla",
+          "Sta Lucia - San Mateo",
+          "Sta Lucia - Cainta",
+          "Sta Lucia - Taytay",
           "Pasig-Cubao",
           "Marikina-Pasig City",
           "Riverbanks-Ortigas",
           "Feliz-Divisoria"
+        ],
+        "bus_rapid_transit": [
+          {
+            "system": "Antipolo-Cubao (Route 3)",
+            "stop": "Robinsoms Metro East",
+            "connection_type": "sidewalk",
+            "walking_time": 3
+          }
         ]
       },
       "nearby_landmarks": [
         "Robinsons Metro East",
         "Sta. Lucia East Grand Mall",
+        "Puregold Q Plaza",
         "Ayala Malls Feliz",
         "Pasig City Hall",
         "Ortigas Center East"
@@ -571,14 +632,18 @@
       },
       "connections": {
         "bus_terminals": [
-          "East Gate Business Center"
+          "East Gate Business Center",
+          "Antipolo-Cubao"
         ],
         "jeepney_routes": [
           "Antipolo-Cubao",
           "Antipolo-Marikina",
           "Upper Antipolo-Lower Antipolo",
           "Antipolo-Cainta",
-          "Antipolo-Pasig"
+          "Antipolo-Pasig",
+          "Antipolo-Simbahan",
+          "SM City Masinag-Padilla",
+          "SM Masinag-Pililla "
         ]
       },
       "nearby_landmarks": [
@@ -586,6 +651,10 @@
         "East Gate Business Center",
         "Filinvest East Homes",
         "Antipolo Cathedral",
+        "Diocesan Shrine and Parish of St. Therese of the Child Jesus",
+        "Cornel Medical Hospital",
+        "Metro Antipolo Hospital and Medical Center",
+        "Decathlon Antipolo",
         "Our Lady of Peace and Good Voyage"
       ],
       "passenger_volume": {
