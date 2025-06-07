@@ -423,7 +423,7 @@ export default function MRT3RoutePlanner({ initialFromStation, onRouteChange }) 
                     value={station.station_id}
                     disabled={isStopDisabled(station.station_id)}
                   >
-                    {station.name} ({station.municipality})
+                    {station.name}
                   </option>
                 ))}              </select>
             </motion.div>
@@ -480,7 +480,7 @@ export default function MRT3RoutePlanner({ initialFromStation, onRouteChange }) 
                     key={station.station_id} 
                     value={station.station_id}
                   >
-                    {station.name} ({station.municipality})
+                    {station.name}
                   </option>
                 ))}
               </select>
