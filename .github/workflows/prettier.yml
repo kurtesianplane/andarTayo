@@ -17,4 +17,5 @@ jobs:
       - name: Prettify code
         uses: creyD/prettier_action@v4.5
         with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
           prettier_options: --write **/*.{js,md,json,css,html,yml} # Customize file patterns here
