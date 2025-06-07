@@ -427,6 +427,35 @@ export default function MRT3RoutePlanner({ initialFromStation, onRouteChange }) 
                   </option>
                 ))}              </select>
             </motion.div>
+{/* Swap Button */}
+<motion.div 
+              className="flex justify-center"
+              variants={itemVariants}
+            >
+              <motion.button
+                onClick={handleSwapStations}
+                disabled={isLoading || (!fromStation || !toStation)}
+                className="p-2 rounded-full bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 hover:bg-blue-200 dark:hover:bg-blue-900/50 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+                whileHover={{ scale: 1.1, rotate: 180 }}
+                whileTap={{ scale: 0.9 }}
+                transition={springTransition}
+                title="Swap departure and destination stations"
+              >
+                <svg 
+                  className="w-5 h-5" 
+                  fill="none" 
+                  stroke="currentColor" 
+                  viewBox="0 0 24 24"
+                >
+                  <path 
+                    strokeLinecap="round" 
+                    strokeLinejoin="round" 
+                    strokeWidth={2} 
+                    d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4" 
+                  />
+                </svg>
+              </motion.button>
+            </motion.div>
 
             <motion.div variants={itemVariants}>
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
@@ -457,6 +486,7 @@ export default function MRT3RoutePlanner({ initialFromStation, onRouteChange }) 
               </select>
             </motion.div>
 
+            
             <motion.div variants={itemVariants}>
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">
                 Payment Method
