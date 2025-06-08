@@ -77,7 +77,7 @@
             "walking_time": 5
           },
           {
-            "line": "NSCR North Commuter",
+            "line": "NSCR Commuter",
             "station": "Tutuban",
             "connection_type": "walking_distance",
             "walking_time": 25
@@ -207,6 +207,22 @@
           "Punta-Divisoria",
           "Recto-Cubao",
           "Pureza-Baclaran"
+        ],
+        "rail":[
+          {
+            "line": "NSCR Commuter",
+            "station": "Santa Mesa",
+            "connection_type": "walking_distance",
+            "walking_time": 20
+          }
+        ],
+        "ferry_service": [
+          {
+            "route": "Pasig River Ferry",
+            "stop": "PUP Sta. Mesa",
+            "connection_type": "walking_distance",
+            "walking_time": 25
+          }
         ],
         "bus_rapid_transit": [
           {
