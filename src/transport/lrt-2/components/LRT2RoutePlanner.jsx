@@ -3,13 +3,14 @@ import PropTypes from 'prop-types';
 import toast from 'react-hot-toast';
 import { motion, AnimatePresence, LayoutGroup } from 'framer-motion';
 import { ExclamationTriangleIcon, InformationCircleIcon } from '@heroicons/react/24/outline';
+import BootstrapIcon from '../../../components/shared/BootstrapIcon';
 import Tooltip from '../../../components/Tooltip';
 import AlertPopup from '../../../components/AlertPopup';
 import SocialMediaIcon from '../../../components/SocialMediaIcon';
 import StopConnections from '../../shared/StopConnections';
-import stationsData from "../data/stations.json";
-import fareMatrix from "../data/fareMatrix.json";
-import socialsData from "../data/socials.json";
+import { useTransportData, useRoutePlanner } from '../../shared/hooks/useTransport';
+import { getConnectionIcon } from '../../shared/utils/connectionUtils.jsx';
+import { TRANSPORT_TYPES } from '../../shared/config/transportConfig';
 import _ from 'lodash';
 import { useAlerts } from '../../../context/AlertContext';
 import { usePWA } from '../../../hooks/usePWA';
@@ -61,12 +62,19 @@ const selectTransition = {
 export default function LRT2RoutePlanner({ initialFromStation, onRouteChange }) {
   const { isStopDisabled, getStopAlerts } = useAlerts();
   const { trackEngagement } = usePWA();
-  const [fromStation, setFromStation] = useState("");
+  const { data: transportData, loading: dataLoading, error: dataError } = useTransportData(TRANSPORT_TYPES.LRT2);
+  const { 
+    route, 
+    fare, 
+    loading: routeLoading, 
+    error: routeError, 
+    calculateRoute, 
+    clearRoute, 
+    getPaymentMethods 
+  } = useRoutePlanner(TRANSPORT_TYPES.LRT2);
+    const [fromStation, setFromStation] = useState("");
   const [toStation, setToStation] = useState("");
   const [category, setCategory] = useState("sjt");
-  const [result, setResult] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState(null);
   const [direction, setDirection] = useState('eastbound');
   const [availableToStations, setAvailableToStations] = useState([]);
   const [expandedLandmarks, setExpandedLandmarks] = useState(new Set());
@@ -80,86 +88,20 @@ export default function LRT2RoutePlanner({ initialFromStation, onRouteChange }) 
   const containerRef = useRef(null);
   const routeDetailsRef = useRef(null);
 
+  // Payment methods from unified config
+  const paymentMethods = getPaymentMethods();
+
   const handleDisabledStationClick = useCallback((stationId) => {
     const alerts = getStopAlerts(stationId);
     setAlertPopup({
       isOpen: true,
       alerts: alerts
     });
-  }, [getStopAlerts]);
-  const availableFromStations = React.useMemo(() => 
-    stationsData.stations.sort((a, b) => a.sequence - b.sequence)
-  , []);
-
+  }, [getStopAlerts]);  const availableFromStations = React.useMemo(() => 
+    transportData?.stations?.sort((a, b) => a.sequence - b.sequence) || []
+  , [transportData?.stations]);
   const calculateDirection = useCallback((fromStationData, toStationData) => {
     return fromStationData.sequence < toStationData.sequence ? 'eastbound' : 'westbound';
-  }, []);
-  const calculateFare = useCallback((fromStation, toStation, category) => {
-    try {
-      const distance = Math.abs(toStation.sequence - fromStation.sequence);
-      
-      if (distance === 0) {
-        return {
-          fare: 0,
-          distance: 0,
-          estimatedTime: 0
-        };
-      }
-
-      const fromStationName = fromStation.name;
-      const toStationName = toStation.name;
-      
-      let fare = 15; // fallback
-      
-      if (category === 'sjt') {
-        const fromIndex = fareMatrix.stations.indexOf(fromStationName);
-        const toIndex = fareMatrix.stations.indexOf(toStationName);
-        if (fromIndex !== -1 && toIndex !== -1) {
-          fare = fareMatrix.single_journey[fromStationName][toIndex];
-        }
-      } else if (category === 'beep') {
-        const fromIndex = fareMatrix.stations.indexOf(fromStationName);
-        const toIndex = fareMatrix.stations.indexOf(toStationName);
-        if (fromIndex !== -1 && toIndex !== -1) {
-          fare = fareMatrix.beep_card[fromStationName][toIndex];
-        }
-      } else if (category === 'discounted') {
-        const fromIndex = fareMatrix.stations.indexOf(fromStationName);
-        const toIndex = fareMatrix.stations.indexOf(toStationName);
-        if (fromIndex !== -1 && toIndex !== -1) {
-          const sjtFare = fareMatrix.single_journey[fromStationName][toIndex];
-          fare = Math.round(sjtFare * 0.8);
-        }
-      }
-      
-      const estimatedTime = distance * 2.5 + 3;
-      
-      return {
-        fare: fare,
-        distance: distance,
-        estimatedTime: Math.round(estimatedTime)
-      };
-    } catch (error) {
-      console.error('Error calculating fare:', error);
-      return { fare: 15, distance: 0, estimatedTime: 5 };
-    }
-  }, []);
-
-  const getConnectionIcon = useCallback((connectionType) => {
-    switch (connectionType) {
-      case 'rail':
-        return '🚆';
-      case 'bus_rapid_transit':
-        return '🚍';
-      case 'bus_terminals':
-        return '🚌';
-      case 'jeepney_routes':
-        return '🚐'
-      case 'uv_express':
-        return '🚌';
-      case 'nearby_landmarks':
-        return '🏢';
-    }
   }, []);
 
   const getUniqueConnectionTypes = useCallback((station) => {
@@ -174,9 +116,9 @@ export default function LRT2RoutePlanner({ initialFromStation, onRouteChange }) 
     }
     
     return Array.from(connectionTypes);
-  }, [getConnectionIcon]);
-
-  const handleFromStationChange = useCallback((stationId) => {    if (isStopDisabled(stationId)) {
+  }, []);
+  const handleFromStationChange = useCallback((stationId) => {
+    if (isStopDisabled(stationId)) {
       handleDisabledStationClick(stationId);
       return;
     }
@@ -195,8 +137,7 @@ export default function LRT2RoutePlanner({ initialFromStation, onRouteChange }) 
       setToStation("");
     }
     
-    setResult(null);
-    setError(null);
+    clearRoute();
     
     if (onRouteChange) {
       onRouteChange({
@@ -205,8 +146,7 @@ export default function LRT2RoutePlanner({ initialFromStation, onRouteChange }) 
         line: 'lrt2'
       });
     }
-  }, [availableFromStations, isStopDisabled, handleDisabledStationClick, toStation, onRouteChange]);
-
+  }, [availableFromStations, isStopDisabled, handleDisabledStationClick, toStation, onRouteChange, clearRoute]);
   const handleToStationChange = useCallback((stationId) => {
     if (isStopDisabled(stationId)) {
       handleDisabledStationClick(stationId);
@@ -214,8 +154,7 @@ export default function LRT2RoutePlanner({ initialFromStation, onRouteChange }) 
     }
 
     setToStation(stationId);
-    setResult(null);
-    setError(null);
+    clearRoute();
     
     if (onRouteChange) {
       const selectedFromStation = availableFromStations.find(s => s.station_id === fromStation);
@@ -229,56 +168,36 @@ export default function LRT2RoutePlanner({ initialFromStation, onRouteChange }) 
         });
       }
     }
-  }, [availableFromStations, fromStation, isStopDisabled, handleDisabledStationClick, onRouteChange]);
+  }, [availableFromStations, fromStation, isStopDisabled, handleDisabledStationClick, onRouteChange, clearRoute]);  // Handle route calculation using unified system
+    const handleCalculateRoute = useCallback(async () => {
+    if (!fromStation || !toStation) {
+      toast.error("Please select both origin and destination stations");
+      return;
+    }
 
-  const calculateRoute = useCallback(async () => {
-    if (!fromStation || !toStation) return;
-
-    setIsLoading(true);
-    setError(null);
-    
     try {
-      const fromStationData = availableFromStations.find(s => s.station_id === fromStation);
-      const toStationData = availableFromStations.find(s => s.station_id === toStation);
+      const result = await calculateRoute(fromStation, toStation, category);
       
-      if (!fromStationData || !toStationData) {
-        throw new Error('Invalid station selection');
+      if (result?.route) {
+        // Track PWA engagement for route planning
+        trackEngagement('ROUTE_PLANNED', {
+          transportType: 'LRT-2',
+          from: fromStation,
+          to: toStation,
+          fare: result.fare,
+        });
+
+        toast.success(`Route calculated: ₱${result.fare} • ${result.route.estimatedTime} min`);
       }
-      const { fare, distance, estimatedTime } = calculateFare(fromStationData, toStationData, category);
-      
-      const tripDirection = calculateDirection(fromStationData, toStationData);
-      
-      const startSeq = Math.min(fromStationData.sequence, toStationData.sequence);
-      const endSeq = Math.max(fromStationData.sequence, toStationData.sequence);
-      
-      const routeStations = availableFromStations
-        .filter(station => station.sequence >= startSeq && station.sequence <= endSeq)
-        .sort((a, b) => {
-          return fromStationData.sequence < toStationData.sequence ? 
-            a.sequence - b.sequence : b.sequence - a.sequence;
-        });      const routeResult = {
-        from: fromStationData,
-        to: toStationData,
-        fare: fare,
-        estimatedTime: estimatedTime,
-        distance: distance,
-        direction: tripDirection,
-        route: routeStations,
-        paymentMethod: category,
-        line: 'LRT-2'
-      };      setResult(routeResult);
-      
-      // Track PWA engagement for route planning
-      trackEngagement('ROUTE_PLANNED', {
-        transportType: 'LRT-2',
-        from: fromStationData.name,
-        to: toStationData.name,
-        fare: fare,
-        distance: distance
-      });
-      
-      toast.success(`Route calculated: ₱${fare} • ${estimatedTime} min`);
-        // auto scroll
+    } catch (err) {
+      console.error('Route calculation error:', err);
+      toast.error(err.message || "Failed to calculate route");
+    }
+  }, [fromStation, toStation, category]);
+
+  // Auto-scroll to route details when route is calculated
+  useEffect(() => {
+    if (route) {
       setTimeout(() => {
         if (routeDetailsRef.current) {
           scrollElementIntoView(routeDetailsRef.current, { 
@@ -288,50 +207,20 @@ export default function LRT2RoutePlanner({ initialFromStation, onRouteChange }) 
           });
         }
       }, 600);
-
-    } catch (err) {
-      console.error('Route calculation error:', err);
-      setError(err.message || 'Failed to calculate route');
-      toast.error('Failed to calculate route');    } finally {
-      setIsLoading(false);
-    }  }, [fromStation, toStation, availableFromStations, calculateFare, calculateDirection, category]);
-
-  useEffect(() => {
+    }
+  }, [route]);useEffect(() => {
     if (fromStation && toStation) {
-      const debounced = _.debounce(calculateRoute, 300);
+      const debounced = _.debounce(handleCalculateRoute, 300);
       debounced();
       return () => debounced.cancel();
     }
-  }, [fromStation, toStation, category, calculateRoute]);
+  }, [fromStation, toStation, category]);
 
   useEffect(() => {
     if (initialFromStation?.station_id && !fromStation) {
       handleFromStationChange(initialFromStation.station_id);
     }
   }, [initialFromStation, fromStation, handleFromStationChange]);
-
-  // payments
-  const paymentMethods = [
-    {
-      id: 'sjt',
-      name: 'Single Journey Ticket',
-      description: 'Standard paper ticket',
-      icon: '🎫'
-    },
-    {
-      id: 'beep',
-      name: 'Beep Card',
-      description: 'Stored value discount',
-      icon: '💳'
-    },
-    {
-      id: 'discounted',
-      name: 'PWD/Senior',
-      description: '20% discount',
-      icon: '👥'
-    }
-  ];
-
   // todo: landmarks
   const toggleLandmarkExpansion = useCallback((stationId) => {
     setExpandedLandmarks(prev => {
@@ -355,9 +244,7 @@ export default function LRT2RoutePlanner({ initialFromStation, onRouteChange }) 
       }
       return newSet;
     });
-  }, []);
-
-  // swap stations functionality
+  }, []);  // swap stations functionality
   const handleSwapStations = useCallback(() => {
     if (!fromStation || !toStation) {
       toast.error('Please select both departure and destination stations first');
@@ -367,15 +254,26 @@ export default function LRT2RoutePlanner({ initialFromStation, onRouteChange }) 
     const tempFromStation = fromStation;
     const tempToStation = toStation;
     
-    setFromStation(tempToStation);
-    setToStation(tempFromStation);
+    // Clear current route first to prevent stale state
+    clearRoute();
     
-    // Update available stations for the new "to" selection
-    const filtered = availableFromStations.filter(station => station.station_id !== tempToStation);
-    setAvailableToStations(filtered);
-    
-    toast.success('Stations swapped successfully');
-  }, [fromStation, toStation, availableFromStations]);
+    // Use a small delay to ensure state updates are processed
+    setTimeout(() => {
+      setFromStation(tempToStation);
+      setToStation(tempFromStation);
+      
+      // Update available stations for the new "to" selection
+      const filtered = availableFromStations.filter(station => station.station_id !== tempToStation);
+      setAvailableToStations(filtered);
+      
+      // Force route recalculation after swap
+      setTimeout(() => {
+        handleCalculateRoute();
+      }, 100);
+      
+      toast.success('Stations swapped successfully');
+    }, 50);
+  }, [fromStation, toStation, availableFromStations, clearRoute, handleCalculateRoute]);
 
   return (
     <LayoutGroup>
@@ -390,10 +288,9 @@ export default function LRT2RoutePlanner({ initialFromStation, onRouteChange }) 
           className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6 h-fit order-1 lg:order-1"
           variants={itemVariants}
         >
-          <div className="flex items-center gap-3 mb-6">
-            <div className="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center">
-              <span className="text-xl">🚆</span>
-            </div>            <div>
+          <div className="flex items-center gap-3 mb-6">            <div className="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center">
+              <BootstrapIcon name="train-lightrail-front-fill" className="text-xl text-purple-600" />
+            </div><div>
               <h2 className="text-lg sm:text-xl font-semibold text-gray-900 dark:text-white">LRT-2 Route Planner</h2>
               <p className="text-sm text-gray-500 dark:text-gray-400">Purple Line • Recto ↔ Antipolo</p>
             </div>
@@ -433,9 +330,8 @@ export default function LRT2RoutePlanner({ initialFromStation, onRouteChange }) 
               className="flex justify-center"
               variants={itemVariants}
             >
-              <motion.button
-                onClick={handleSwapStations}
-                disabled={isLoading || (!fromStation || !toStation)}
+              <motion.button                onClick={handleSwapStations}
+                disabled={routeLoading || (!fromStation || !toStation)}
                 className="p-2 rounded-full bg-purple-100 dark:bg-purple-900/30 text-purple-600 dark:text-purple-400 hover:bg-purple-200 dark:hover:bg-purple-900/50 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
                 whileHover={{ scale: 1.1, rotate: 180 }}
                 whileTap={{ scale: 0.9 }}
@@ -505,7 +401,8 @@ export default function LRT2RoutePlanner({ initialFromStation, onRouteChange }) 
                     transition={selectTransition}
                   >
                     <div className="flex items-center gap-3">
-                      <span className="text-xl">{method.icon}</span>                      <div className="flex-1">
+                      <method.icon className="w-5 h-5 text-gray-600 dark:text-gray-400" />
+                      <div className="flex-1">
                         <div className="font-medium text-gray-900 dark:text-white">{method.name}</div>
                         <div className="text-sm text-gray-500 dark:text-gray-400">{method.description}</div>
                       </div>
@@ -544,34 +441,32 @@ export default function LRT2RoutePlanner({ initialFromStation, onRouteChange }) 
                   </div>
                 </motion.div>
               )}
-            </AnimatePresence>
-
-            {/* Social Media Links */}
-            <motion.div variants={itemVariants} className="pt-4 border-t border-gray-200 dark:border-gray-700">
-              <div className="flex items-center gap-2 mb-3">
-                <span className="text-sm font-medium text-gray-700 dark:text-gray-300">Follow {socialsData.transport_name}:</span>
-              </div>
-              <div className="flex items-center gap-2 flex-wrap">
-                {socialsData.social_media
-                  .filter(social => social.active)
-                  .map((social, index) => (
-                    <SocialMediaIcon 
-                      key={index}
-                      platform={social.platform} 
-                      url={social.url} 
-                      size="sm"
-                    />
-                  ))}
-              </div>
-            </motion.div>
+            </AnimatePresence>            {/* Social Media Links */}
+            {transportData?.socials && (
+              <motion.div variants={itemVariants} className="pt-4 border-t border-gray-200 dark:border-gray-700">
+                <div className="flex items-center gap-2 mb-3">
+                  <span className="text-sm font-medium text-gray-700 dark:text-gray-300">Follow {transportData.socials.transport_name}:</span>
+                </div>                <div className="flex items-center gap-2 flex-wrap">
+                  {transportData.socials.social_media
+                    ?.filter(social => social.active)
+                    ?.map((social, index) => (
+                      <SocialMediaIcon 
+                        key={index}
+                        platform={social.platform} 
+                        url={social.url} 
+                        size="sm"
+                      />
+                    ))}
+                </div>
+              </motion.div>
+            )}
           </div>
         </motion.div>
         <motion.div 
           className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6 order-2 lg:order-2"
           variants={itemVariants}
-        >
-          <AnimatePresence mode="wait">
-            {!result ? (
+        >          <AnimatePresence mode="wait">
+            {!route ? (
               <motion.div
                 key="placeholder"
                 className="text-center py-12"
@@ -579,43 +474,46 @@ export default function LRT2RoutePlanner({ initialFromStation, onRouteChange }) 
                 initial="hidden"
                 animate="visible"
                 exit="hidden"
-              >
-                <div className="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <span className="text-2xl">🚆</span>
-                </div>                <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-2">Plan Your LRT-2 Journey</h3>
+              >                <div className="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <BootstrapIcon name="train-lightrail-front-fill" className="w-8 h-8 text-purple-600" size={32} />
+                </div>
+                <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-2">Plan Your LRT-2 Journey</h3>
                 <p className="text-gray-500 dark:text-gray-400">Select your departure and destination stations to see route details, fare, and travel time.</p>
               </motion.div>
-            ) : (              <motion.div
+            ) : (
+              <motion.div
                 key="results"
                 variants={fadeVariants}
                 initial="hidden"
                 animate="visible"
                 exit="hidden"
               >
-                <div ref={routeDetailsRef} className="bg-purple-50 dark:bg-purple-900/20 rounded-lg p-4 mb-6 mt-6 scroll-mt-16 md:scroll-mt-12">                  <div className="flex items-center justify-between mb-3">
+                <div ref={routeDetailsRef} className="bg-purple-50 dark:bg-purple-900/20 rounded-lg p-4 mb-6 mt-6 scroll-mt-16 md:scroll-mt-12">
+                  <div className="flex items-center justify-between mb-3">
                     <h3 className="font-semibold text-gray-900 dark:text-white">Trip Summary</h3>
                     <div className="flex items-center gap-2 text-sm text-purple-600 dark:text-purple-400">
-                      <span className="hidden sm:block capitalize">{result.direction}</span>
+                      <span className="hidden sm:block capitalize">{route.direction}</span>
                       <span className="sm:hidden text-lg">
-                        {result.direction === 'eastbound' ? '→' : '←'}
+                        {route.direction === 'eastbound' ? '→' : '←'}
                       </span>
                       <span>•</span>
-                      <span>{result.distance} station{result.distance !== 1 ? 's' : ''}</span>
+                      <span>{route.distance} station{route.distance !== 1 ? 's' : ''}</span>
                     </div>
                   </div>
                     <div className="grid grid-cols-2 gap-4">
-                    <div className="text-center">
-                      <div className="text-xl sm:text-2xl font-bold text-purple-600 dark:text-purple-400">₱{result.fare}</div>                      <div className="text-sm text-gray-600 dark:text-gray-300">
+                    <div className="text-center">                      <div className="text-xl sm:text-2xl font-bold text-purple-600 dark:text-purple-400">₱{fare}</div>
+                      <div className="text-sm text-gray-600 dark:text-gray-300">
                         {paymentMethods.find(p => p.id === category)?.name}
-                        {category === 'beep' && result.fare < 15 && (
-                          <span className="block text-xs text-green-600 dark:text-green-400">₱2 saved</span>
+                        {category === 'beep' && route?.sjtFare && route.sjtFare > fare && (
+                          <span className="block text-xs text-green-600 dark:text-green-400">₱{route.sjtFare - fare} saved</span>
                         )}
                         {category === 'discounted' && (
                           <span className="block text-xs text-green-600 dark:text-green-400">20% discount</span>
                         )}
                       </div>
-                    </div>                    <div className="text-center">
-                      <div className="text-xl sm:text-2xl font-bold text-purple-600 dark:text-purple-400">{result.estimatedTime}</div>
+                    </div>
+                    <div className="text-center">
+                      <div className="text-xl sm:text-2xl font-bold text-purple-600 dark:text-purple-400">{route.estimatedTime}</div>
                       <div className="text-sm text-gray-600 dark:text-gray-300">minutes</div>
                     </div>
                   </div>
@@ -629,12 +527,10 @@ export default function LRT2RoutePlanner({ initialFromStation, onRouteChange }) 
                     >
                       {showCommuteDetails ? 'hide commute details' : 'see commute details'}
                     </button>
-                  </div>
-
-                  <div className="space-y-3">
-                    {result.route.map((station, index) => {
-                      const isStart = station.station_id === result.from.station_id;
-                      const isEnd = station.station_id === result.to.station_id;
+                  </div>                  <div className="space-y-3">
+                    {route.route.map((station, index) => {
+                      const isStart = station.station_id === route.fromStation.station_id;
+                      const isEnd = station.station_id === route.toStation.station_id;
                       const isExpanded = expandedStations.has(station.station_id);
                       const uniqueConnections = getUniqueConnectionTypes(station);
 
@@ -649,12 +545,15 @@ export default function LRT2RoutePlanner({ initialFromStation, onRouteChange }) 
                           onClick={() => !showCommuteDetails && uniqueConnections.length > 0 && toggleStationExpansion(station.station_id)}
                           whileHover={{ scale: !showCommuteDetails && uniqueConnections.length > 0 ? 1.02 : 1 }}
                           whileTap={{ scale: !showCommuteDetails && uniqueConnections.length > 0 ? 0.98 : 1 }}
-                        >
-                          <div className="flex items-start gap-3">
-
-                            <div className="flex flex-col items-center">
-                              <div className="text-lg">
-                                {isStart ? '🟢' : isEnd ? '🔴' : '🔵'}
+                        >                          <div className="flex items-start gap-3">                            <div className="flex flex-col items-start pt-0.5">
+                              <div className="w-4 h-4 rounded-full">
+                                {isStart ? (
+                                  <div className="w-4 h-4 bg-green-500 rounded-full"></div>
+                                ) : isEnd ? (
+                                  <div className="w-4 h-4 bg-red-500 rounded-full"></div>
+                                ) : (
+                                  <div className="w-4 h-4 bg-purple-500 rounded-full"></div>
+                                )}
                               </div>
                             </div>
 
@@ -662,11 +561,10 @@ export default function LRT2RoutePlanner({ initialFromStation, onRouteChange }) 
                               <div className="flex items-start justify-between">                                <div className="flex-1">
                                   <h5 className="font-medium text-gray-900 dark:text-white">{station.name}</h5>
                                   <p className="text-sm text-gray-500 dark:text-gray-400">{station.municipality}</p>
-                                  
-                                  {uniqueConnections.length > 0 && (
+                                    {uniqueConnections.length > 0 && (
                                     <div className="flex items-center gap-1 mt-1">
                                       {uniqueConnections.map((icon, idx) => (
-                                        <span key={idx} className="text-sm">{icon}</span>
+                                        <span key={idx}>{icon}</span>
                                       ))}
                                     </div>
                                   )}
@@ -725,8 +623,7 @@ export default function LRT2RoutePlanner({ initialFromStation, onRouteChange }) 
                 </div>
               </motion.div>
             )}
-          </AnimatePresence>
-          {error && (
+          </AnimatePresence>          {routeError && (
             <motion.div
               className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-4 text-red-700 dark:text-red-400"
               initial={{ opacity: 0, scale: 0.95 }}
@@ -737,17 +634,18 @@ export default function LRT2RoutePlanner({ initialFromStation, onRouteChange }) 
                 <ExclamationTriangleIcon className="w-5 h-5" />
                 <span className="font-medium">Error</span>
               </div>
-              <p className="mt-1 text-sm">{error}</p>
+              <p className="mt-1 text-sm">{routeError}</p>
             </motion.div>
           )}
 
-          {isLoading && (
+          {routeLoading && (
             <motion.div
               className="flex items-center justify-center py-8"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-            >              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-purple-600"></div>
+            >
+              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-purple-600"></div>
               <span className="ml-3 text-gray-600 dark:text-gray-300">Calculating route...</span>
             </motion.div>
           )}

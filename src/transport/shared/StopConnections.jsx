@@ -1,8 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-
-// todo: install and import these icons from @heroicons/react/24/outline:
-// import { TrainIcon, TruckIcon, BuildingStorefrontIcon, ClockIcon } from '@heroicons/react/24/outline';
+import { 
+  TruckIcon, 
+  BuildingStorefrontIcon,
+  ClockIcon 
+} from '@heroicons/react/24/outline';
+import BootstrapIcon from '../../components/shared/BootstrapIcon';
 
 export default function StopConnections({ connections }) {
   if (!connections) return null;
@@ -15,8 +18,7 @@ export default function StopConnections({ connections }) {
   return (
     <div className="bg-white dark:bg-neutral-800 rounded-lg border border-neutral-200 dark:border-neutral-700 p-3 space-y-3">      {rail && (
         <div className="flex items-start gap-2">
-          {/* todo: replace with <TrainIcon className="w-5 h-5 text-ph-blue-500 dark:text-ph-blue-400 shrink-0 mt-0.5" /> */}
-          <span className="w-5 h-5 inline-flex items-center justify-center text-ph-blue-500 dark:text-ph-blue-400">🚂</span>
+          <BootstrapIcon name="train-front-fill" className="w-5 h-5 text-ph-blue-500 dark:text-ph-blue-400 shrink-0 mt-0.5" size={20} />
           <div>
             <p className="text-sm font-medium text-neutral-900 dark:text-neutral-100">
               Rail Connections
@@ -49,7 +51,7 @@ export default function StopConnections({ connections }) {
 
       {future_rail && (
         <div className="flex items-start gap-2">
-          <span className="w-5 h-5 inline-flex items-center justify-center text-ph-yellow-500 dark:text-ph-yellow-400">⏳</span>
+          <ClockIcon className="w-5 h-5 text-ph-yellow-500 dark:text-ph-yellow-400 shrink-0 mt-0.5" />
           <div>
             <p className="text-sm font-medium text-neutral-900 dark:text-neutral-100">
               Future Rail Connections
@@ -66,12 +68,9 @@ export default function StopConnections({ connections }) {
             </div>
           </div>
         </div>
-      )}
-
-      {terminal && (
+      )}      {terminal && (
         <div className="flex items-start gap-2">
-          {/* todo: replace with <TruckIcon className="w-5 h-5 text-ph-green-500 dark:text-ph-green-400 shrink-0 mt-0.5" /> */}
-          <span className="w-5 h-5 inline-flex items-center justify-center text-ph-green-500 dark:text-ph-green-400">🚌</span>
+          <TruckIcon className="w-5 h-5 text-ph-green-500 dark:text-ph-green-400 shrink-0 mt-0.5" />
           <div>
             <p className="text-sm font-medium text-neutral-900 dark:text-neutral-100">
               Bus Terminal
@@ -83,10 +82,8 @@ export default function StopConnections({ connections }) {
         </div>
       )}
 
-      {mall && (
-        <div className="flex items-start gap-2">
-          {/* todo: replace with <BuildingStorefrontIcon className="w-5 h-5 text-ph-purple-500 dark:text-ph-purple-400 shrink-0 mt-0.5" /> */}
-          <span className="w-5 h-5 inline-flex items-center justify-center text-ph-purple-500 dark:text-ph-purple-400">🏬</span>
+      {mall && (        <div className="flex items-start gap-2">
+          <BuildingStorefrontIcon className="w-5 h-5 text-ph-purple-500 dark:text-ph-purple-400 shrink-0 mt-0.5" />
           <div>
             <p className="text-sm font-medium text-neutral-900 dark:text-neutral-100">
               Mall Access
@@ -110,7 +107,7 @@ export default function StopConnections({ connections }) {
         </div>
       )}      {bus_rapid_transit && (
         <div className="flex items-start gap-2">
-          <span className="w-5 h-5 inline-flex items-center justify-center text-red-500 dark:text-red-400">🚍</span>
+          <BootstrapIcon name="bus-front-fill" className="w-5 h-5 text-red-500 dark:text-red-400 shrink-0 mt-0.5" size={20} />
           <div>
             <p className="text-sm font-medium text-neutral-900 dark:text-neutral-100">
               Bus Rapid Transit
@@ -139,11 +136,9 @@ export default function StopConnections({ connections }) {
             </div>
           </div>
         </div>
-      )}
-
-      {bus_terminals && (
+      )}      {bus_terminals && (
         <div className="flex items-start gap-2">
-          <span className="w-5 h-5 inline-flex items-center justify-center text-green-500 dark:text-green-400">🚌</span>
+          <BootstrapIcon name="bus-front-fill" className="w-5 h-5 text-green-500 dark:text-green-400 shrink-0 mt-0.5" size={20} />
           <div>
             <p className="text-sm font-medium text-neutral-900 dark:text-neutral-100">
               Bus Terminals
@@ -160,11 +155,9 @@ export default function StopConnections({ connections }) {
             </div>
           </div>
         </div>
-      )}
-
-      {jeepney_routes && (
+      )}      {jeepney_routes && (
         <div className="flex items-start gap-2">
-          <span className="w-5 h-5 inline-flex items-center justify-center text-yellow-500 dark:text-yellow-400">🚐</span>
+          <BootstrapIcon name="truck-front-fill" className="w-5 h-5 text-yellow-500 dark:text-yellow-400 shrink-0 mt-0.5" size={20} />
           <div>
             <p className="text-sm font-medium text-neutral-900 dark:text-neutral-100">
               Jeepney Routes

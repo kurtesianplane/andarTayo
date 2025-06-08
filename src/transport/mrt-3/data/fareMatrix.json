@@ -1,0 +1,50 @@
+{  "fare_info": {
+    "currency": "PHP",
+    "effective_date": "2024-12-01",
+    "last_updated": "2024-12-15",
+    "note": "Fares are in Philippine Pesos based on distance. Single Journey Ticket: ₱13-28, Beep Card: ₱12-27 (₱1 discount). 20% discount applies for Senior Citizens, Persons with Disabilities (PWDs), and Students on Single Journey fares."
+  },
+  "stations": [
+    "North Avenue",
+    "Quezon Avenue",
+    "Kamuning",
+    "Cubao",
+    "Santolan-Annapolis",
+    "Ortigas",
+    "Shaw Boulevard",
+    "Boni",
+    "Guadalupe",
+    "Buendia",
+    "Ayala",
+    "Magallanes",
+    "Taft Avenue"
+  ],  "beep_card": {
+    "North Avenue": [0, 12, 12, 15, 15, 19, 19, 23, 23, 23, 27, 27, 27],
+    "Quezon Avenue": [12, 0, 12, 12, 15, 15, 19, 19, 23, 23, 23, 27, 27],
+    "Kamuning": [12, 12, 0, 12, 12, 15, 15, 19, 19, 23, 23, 23, 27],
+    "Cubao": [15, 12, 12, 0, 12, 12, 15, 15, 19, 19, 23, 23, 23],
+    "Santolan-Annapolis": [15, 15, 12, 12, 0, 12, 12, 15, 15, 19, 19, 23, 23],
+    "Ortigas": [19, 15, 15, 12, 12, 0, 12, 12, 15, 15, 19, 19, 23],
+    "Shaw Boulevard": [19, 19, 15, 15, 12, 12, 0, 12, 12, 15, 15, 19, 19],
+    "Boni": [23, 19, 19, 15, 15, 12, 12, 0, 12, 12, 15, 15, 19],
+    "Guadalupe": [23, 23, 19, 19, 15, 15, 12, 12, 0, 12, 12, 15, 15],
+    "Buendia": [23, 23, 23, 19, 19, 15, 15, 12, 12, 0, 12, 12, 15],
+    "Ayala": [27, 23, 23, 23, 19, 19, 15, 15, 12, 12, 0, 12, 12],
+    "Magallanes": [27, 27, 23, 23, 23, 19, 19, 15, 15, 12, 12, 0, 12],
+    "Taft Avenue": [27, 27, 27, 23, 23, 23, 19, 19, 15, 15, 12, 12, 0]
+  },"single_journey": {
+    "North Avenue": [0, 13, 13, 16, 16, 20, 20, 24, 24, 24, 28, 28, 28],
+    "Quezon Avenue": [13, 0, 13, 13, 16, 16, 20, 20, 24, 24, 24, 28, 28],
+    "Kamuning": [13, 13, 0, 13, 13, 16, 16, 20, 20, 24, 24, 24, 28],
+    "Cubao": [16, 13, 13, 0, 13, 13, 16, 16, 20, 20, 24, 24, 24],
+    "Santolan-Annapolis": [16, 16, 13, 13, 0, 13, 13, 16, 16, 20, 20, 24, 24],
+    "Ortigas": [20, 16, 16, 13, 13, 0, 13, 13, 16, 16, 20, 20, 24],
+    "Shaw Boulevard": [20, 20, 16, 16, 13, 13, 0, 13, 13, 16, 16, 20, 20],
+    "Boni": [24, 20, 20, 16, 16, 13, 13, 0, 13, 13, 16, 16, 20],
+    "Guadalupe": [24, 24, 20, 20, 16, 16, 13, 13, 0, 13, 13, 16, 16],
+    "Buendia": [24, 24, 24, 20, 20, 16, 16, 13, 13, 0, 13, 13, 16],
+    "Ayala": [28, 24, 24, 24, 20, 20, 16, 16, 13, 13, 0, 13, 13],
+    "Magallanes": [28, 28, 24, 24, 24, 20, 20, 16, 16, 13, 13, 0, 13],
+    "Taft Avenue": [28, 28, 28, 24, 24, 24, 20, 20, 16, 16, 13, 13, 0]
+  }
+}

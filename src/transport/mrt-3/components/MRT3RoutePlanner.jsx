@@ -2,13 +2,15 @@ import React, { useState, useEffect, useRef, useCallback } from "react";
 import PropTypes from 'prop-types';
 import toast from 'react-hot-toast';
 import { motion, AnimatePresence, LayoutGroup } from 'framer-motion';
-import { ExclamationTriangleIcon, InformationCircleIcon } from '@heroicons/react/24/outline';
+import { ExclamationTriangleIcon, InformationCircleIcon, CreditCardIcon } from '@heroicons/react/24/outline';
+import BootstrapIcon from '../../../components/shared/BootstrapIcon';
 import Tooltip from '../../../components/Tooltip';
 import AlertPopup from '../../../components/AlertPopup';
 import SocialMediaIcon from '../../../components/SocialMediaIcon';
 import StopConnections from '../../shared/StopConnections';
-import stationsData from "../data/stations.json";
-import socialsData from "../data/socials.json";
+import { useTransportData, useRoutePlanner } from '../../shared/hooks/useTransport';
+import { getConnectionIcon } from '../../shared/utils/connectionUtils.jsx';
+import { TRANSPORT_TYPES } from '../../shared/config/transportConfig';
 import _ from 'lodash';
 import { useAlerts } from '../../../context/AlertContext';
 import { usePWA } from '../../../hooks/usePWA';
@@ -60,12 +62,19 @@ const selectTransition = {
 export default function MRT3RoutePlanner({ initialFromStation, onRouteChange }) {
   const { isStopDisabled, getStopAlerts } = useAlerts();
   const { trackEngagement } = usePWA();
-  const [fromStation, setFromStation] = useState("");
+  const { data: transportData, loading: dataLoading, error: dataError } = useTransportData(TRANSPORT_TYPES.MRT3);
+  const { 
+    route, 
+    fare, 
+    loading: routeLoading, 
+    error: routeError, 
+    calculateRoute, 
+    clearRoute, 
+    getPaymentMethods 
+  } = useRoutePlanner(TRANSPORT_TYPES.MRT3);
+    const [fromStation, setFromStation] = useState("");
   const [toStation, setToStation] = useState("");
   const [category, setCategory] = useState("sjt");
-  const [result, setResult] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState(null);
   const [direction, setDirection] = useState('southbound');
   const [availableToStations, setAvailableToStations] = useState([]);
   const [expandedLandmarks, setExpandedLandmarks] = useState(new Set());
@@ -73,10 +82,21 @@ export default function MRT3RoutePlanner({ initialFromStation, onRouteChange }) 
   const [showCommuteDetails, setShowCommuteDetails] = useState(false);
   const [alertPopup, setAlertPopup] = useState({
     isOpen: false,
-    alerts: []  });
+    alerts: []
+  });
 
   const containerRef = useRef(null);
   const routeDetailsRef = useRef(null);
+  // Payment methods from unified config
+  const paymentMethods = getPaymentMethods();
+
+  // Reset category if Beep Card is selected (temporarily disabled)
+  useEffect(() => {
+    if (category === 'beep') {
+      setCategory('sjt');
+      toast.info('Beep Card is temporarily unavailable. Switched to Single Journey Ticket.');
+    }
+  }, [category]);
 
   // disabled station in case of service alerts
   const handleDisabledStationClick = useCallback((stationId) => {
@@ -84,75 +104,15 @@ export default function MRT3RoutePlanner({ initialFromStation, onRouteChange }) 
     setAlertPopup({
       isOpen: true,
       alerts: alerts
-    });  }, [getStopAlerts]);
-
-  // show available stations
+    });  }, [getStopAlerts]);  // show available stations  
   const availableFromStations = React.useMemo(() => 
-    stationsData.stations.sort((a, b) => a.sequence - b.sequence)  , []);
+    transportData?.stations?.sort((a, b) => a.sequence - b.sequence) || []
+  , [transportData?.stations]);
 
   // handle directions
   const calculateDirection = useCallback((fromStationData, toStationData) => {
-    return fromStationData.sequence < toStationData.sequence ? 'southbound' : 'northbound';  }, []);
-
-  const calculateFare = useCallback((fromStation, toStation, category) => {
-    try {
-      const distance = Math.abs(toStation.sequence - fromStation.sequence);
-      
-      let baseFare = 13;
-      if (distance === 0) {
-        baseFare = 0;
-      } else if (distance >= 1 && distance <= 2) {
-        baseFare = 13;
-      } else if (distance >= 3 && distance <= 4) {
-        baseFare = 16;
-      } else if (distance >= 5 && distance <= 7) {
-        baseFare = 20;
-      } else if (distance >= 8 && distance <= 10) {
-        baseFare = 24;
-      } else if (distance >= 11) {
-        baseFare = 28;
-      }
-      
-      let fare = baseFare;
-      if (category === 'sjt') {
-        fare = baseFare;
-      } else if (category === 'beep') {
-        fare = Math.max(baseFare - 2, 11);
-      } else if (category === 'discounted') {
-        fare = Math.round(baseFare * 0.8);
-      }
-      
-      const estimatedTime = distance * 2 + 3;
-      
-      return {
-        fare: fare,
-        distance: distance,
-        estimatedTime: Math.round(estimatedTime)
-      };
-    } catch (error) {
-      console.error('Error calculating fare:', error);
-      return { fare: 13, distance: 0, estimatedTime: 5 };
-    }
+    return fromStationData.sequence < toStationData.sequence ? 'southbound' : 'northbound';
   }, []);
-
-  const getConnectionIcon = useCallback((connectionType) => {
-    switch (connectionType) {
-      case 'rail':
-        return '🚆'
-      case 'bus_rapid_transit':
-        return '🚍';
-      case 'bus_terminals':
-      case 'jeepney_routes':
-        return '🚐'
-      case 'uv_express':
-        return '🚌';
-      case 'nearby_landmarks':
-        return '🏢';
-      default:
-        return '🚌';
-    }
-  }, []);
-
   const getUniqueConnectionTypes = useCallback((station) => {
     const connectionTypes = new Set();
     
@@ -165,8 +125,7 @@ export default function MRT3RoutePlanner({ initialFromStation, onRouteChange }) 
     }
     
     return Array.from(connectionTypes);
-  }, [getConnectionIcon]);
-  const handleFromStationChange = useCallback((stationId) => {
+  }, []);  const handleFromStationChange = useCallback((stationId) => {
     if (isStopDisabled(stationId)) {
       handleDisabledStationClick(stationId);
       return;
@@ -186,8 +145,7 @@ export default function MRT3RoutePlanner({ initialFromStation, onRouteChange }) 
       setToStation("");
     }
     
-    setResult(null);
-    setError(null);
+    clearRoute();
     
     if (onRouteChange) {
       onRouteChange({
@@ -196,17 +154,14 @@ export default function MRT3RoutePlanner({ initialFromStation, onRouteChange }) 
         line: 'mrt3'
       });
     }
-  }, [availableFromStations, isStopDisabled, handleDisabledStationClick, toStation, onRouteChange]);
-
-  const handleToStationChange = useCallback((stationId) => {
+  }, [availableFromStations, isStopDisabled, handleDisabledStationClick, toStation, onRouteChange, clearRoute]);  const handleToStationChange = useCallback((stationId) => {
     if (isStopDisabled(stationId)) {
       handleDisabledStationClick(stationId);
       return;
     }
 
     setToStation(stationId);
-    setResult(null);
-    setError(null);
+    clearRoute();
     
     if (onRouteChange) {
       const selectedFromStation = availableFromStations.find(s => s.station_id === fromStation);
@@ -219,56 +174,36 @@ export default function MRT3RoutePlanner({ initialFromStation, onRouteChange }) 
           line: 'mrt3'
         });
       }
-    }  }, [availableFromStations, fromStation, isStopDisabled, handleDisabledStationClick, onRouteChange]);
-
-  // route calculation logic
-  const calculateRoute = useCallback(async () => {
+    }
+  }, [availableFromStations, fromStation, isStopDisabled, handleDisabledStationClick, onRouteChange, clearRoute]);
+  // route calculation using unified system
+  const handleCalculateRoute = useCallback(async () => {
     if (!fromStation || !toStation) return;
-
-    setIsLoading(true);
-    setError(null);
     
     try {
-      const fromStationData = availableFromStations.find(s => s.station_id === fromStation);
-      const toStationData = availableFromStations.find(s => s.station_id === toStation);
+      const result = await calculateRoute(fromStation, toStation, category);
       
-      if (!fromStationData || !toStationData) {
-        throw new Error('Invalid station selection');
+      if (result?.route) {
+        // Track PWA engagement for route planning
+        trackEngagement('ROUTE_PLANNED', {
+          transportType: 'MRT-3',
+          from: fromStation,
+          to: toStation,
+          fare: result.fare,
+        });
+        
+        toast.success(`Route calculated: ₱${result.fare} • ${result.route?.estimatedTime} min`);
       }
-      const { fare, distance, estimatedTime } = calculateFare(fromStationData, toStationData, category);
       
-      const tripDirection = calculateDirection(fromStationData, toStationData);
-      
-      const startSeq = Math.min(fromStationData.sequence, toStationData.sequence);
-      const endSeq = Math.max(fromStationData.sequence, toStationData.sequence);
-      
-      const routeStations = availableFromStations
-        .filter(station => station.sequence >= startSeq && station.sequence <= endSeq)
-        .sort((a, b) => {
-          return fromStationData.sequence < toStationData.sequence ? 
-            a.sequence - b.sequence : b.sequence - a.sequence;
-        });      const routeResult = {
-        from: fromStationData,
-        to: toStationData,
-        fare: fare,
-        estimatedTime: estimatedTime,
-        distance: distance,
-        direction: tripDirection,
-        route: routeStations,
-        paymentMethod: category,
-        line: 'MRT-3'
-      };      setResult(routeResult);
-      
-      // Track PWA engagement for route planning
-      trackEngagement('ROUTE_PLANNED', {
-        transportType: 'MRT-3',
-        from: fromStationData.name,
-        to: toStationData.name,
-        fare: fare,
-        distance: distance
-      });
-      
-      toast.success(`Route calculated: ₱${fare} • ${estimatedTime} min`);      // auto scroll
+    } catch (err) {
+      console.error('Route calculation error:', err);
+      toast.error('Failed to calculate route');
+    }
+  }, [fromStation, toStation, category]);
+
+  // Auto-scroll to route details when route is calculated
+  useEffect(() => {
+    if (route) {
       setTimeout(() => {
         if (routeDetailsRef.current) {
           scrollElementIntoView(routeDetailsRef.current, { 
@@ -278,15 +213,8 @@ export default function MRT3RoutePlanner({ initialFromStation, onRouteChange }) 
           });
         }
       }, 600);
-      
-    } catch (err) {
-      console.error('Route calculation error:', err);
-      setError(err.message || 'Failed to calculate route');
-      toast.error('Failed to calculate route');
-    } finally {
-      setIsLoading(false);
     }
-  }, [fromStation, toStation, availableFromStations, calculateFare, category, direction]);  useEffect(() => {
+  }, [route]);useEffect(() => {
     setTimeout(() => {
       if (containerRef.current) {
         scrollElementIntoView(containerRef.current, { 
@@ -296,41 +224,18 @@ export default function MRT3RoutePlanner({ initialFromStation, onRouteChange }) 
         });
       }
     }, 1000);
-  }, []);
-
-  useEffect(() => {
+  }, []);  useEffect(() => {
     if (fromStation && toStation) {
-      const debounced = _.debounce(calculateRoute, 300);
+      const debounced = _.debounce(handleCalculateRoute, 300);
       debounced();
       return () => debounced.cancel();
     }
-  }, [fromStation, toStation, category, calculateRoute]);
-
+  }, [fromStation, toStation, category]);
   useEffect(() => {
     if (initialFromStation?.station_id && !fromStation) {
       handleFromStationChange(initialFromStation.station_id);
-    }  }, [initialFromStation, fromStation, handleFromStationChange]);
-
-  // payments
-  const paymentMethods = [
-    {
-      id: 'sjt',
-      name: 'Single Journey Ticket',
-      description: 'Standard paper ticket',
-      icon: '🎫'
-    },
-    {
-      id: 'beep',
-      name: 'Beep Card',
-      description: 'Stored value discount',
-      icon: '💳'
-    },
-    {
-      id: 'discounted',
-      name: 'PWD/Senior',
-      description: '20% discount',
-      icon: '👥'
-    }  ];
+    }
+  }, [initialFromStation, fromStation, handleFromStationChange]);
 
   // todo: landmarks
   const toggleLandmarkExpansion = useCallback((stationId) => {
@@ -354,9 +259,7 @@ export default function MRT3RoutePlanner({ initialFromStation, onRouteChange }) 
       }
       return newSet;
     });
-  }, []);
-
-  // swap stations functionality
+  }, []);  // swap stations functionality
   const handleSwapStations = useCallback(() => {
     if (!fromStation || !toStation) {
       toast.error('Please select both departure and destination stations first');
@@ -366,15 +269,26 @@ export default function MRT3RoutePlanner({ initialFromStation, onRouteChange }) 
     const tempFromStation = fromStation;
     const tempToStation = toStation;
     
-    setFromStation(tempToStation);
-    setToStation(tempFromStation);
+    // Clear current route first to prevent stale state
+    clearRoute();
     
-    // Update available stations for the new "to" selection
-    const filtered = availableFromStations.filter(station => station.station_id !== tempToStation);
-    setAvailableToStations(filtered);
-    
-    toast.success('Stations swapped successfully');
-  }, [fromStation, toStation, availableFromStations]);
+    // Use a small delay to ensure state updates are processed
+    setTimeout(() => {
+      setFromStation(tempToStation);
+      setToStation(tempFromStation);
+      
+      // Update available stations for the new "to" selection
+      const filtered = availableFromStations.filter(station => station.station_id !== tempToStation);
+      setAvailableToStations(filtered);
+      
+      // Force route recalculation after swap
+      setTimeout(() => {
+        handleCalculateRoute();
+      }, 100);
+      
+      toast.success('Stations swapped successfully');
+    }, 50);
+  }, [fromStation, toStation, availableFromStations, clearRoute, handleCalculateRoute]);
 
   return (
     <LayoutGroup>
@@ -388,10 +302,9 @@ export default function MRT3RoutePlanner({ initialFromStation, onRouteChange }) 
           className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6 h-fit order-1 lg:order-1"
           variants={itemVariants}
         >
-          <div className="flex items-center gap-3 mb-6">
-            <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
-              <span className="text-xl">🚆</span>
-            </div>            <div>
+          <div className="flex items-center gap-3 mb-6">            <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
+              <BootstrapIcon name="train-front-fill" className="text-xl text-blue-600" />
+            </div><div>
               <h2 className="text-lg sm:text-xl font-semibold text-gray-900 dark:text-white">MRT-3 Route Planner</h2>
               <p className="text-sm text-gray-500 dark:text-gray-400">Blue Line • North Avenue ↔ Taft Avenue</p>
             </div>
@@ -430,9 +343,8 @@ export default function MRT3RoutePlanner({ initialFromStation, onRouteChange }) 
               className="flex justify-center"
               variants={itemVariants}
             >
-              <motion.button
-                onClick={handleSwapStations}
-                disabled={isLoading || (!fromStation || !toStation)}
+              <motion.button                onClick={handleSwapStations}
+                disabled={routeLoading || (!fromStation || !toStation)}
                 className="p-2 rounded-full bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 hover:bg-blue-200 dark:hover:bg-blue-900/50 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
                 whileHover={{ scale: 1.1, rotate: 180 }}
                 whileTap={{ scale: 0.9 }}
@@ -484,13 +396,12 @@ export default function MRT3RoutePlanner({ initialFromStation, onRouteChange }) 
               </select>
             </motion.div>
 
-            
-            <motion.div variants={itemVariants}>
+              <motion.div variants={itemVariants}>
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">
                 Payment Method
               </label>
               <div className="grid grid-cols-1 gap-2">
-                {paymentMethods.map((method) => (
+                {paymentMethods.filter(method => method.id !== 'beep').map((method) => (
                   <motion.button
                     key={method.id}
                     onClick={() => setCategory(method.id)}
@@ -504,7 +415,7 @@ export default function MRT3RoutePlanner({ initialFromStation, onRouteChange }) 
                     transition={selectTransition}
                   >
                     <div className="flex items-center gap-3">
-                      <span className="text-xl">{method.icon}</span>
+                      <method.icon className="w-5 h-5 text-gray-600 dark:text-gray-400" />
                       <div className="flex-1">
                         <div className="font-medium text-gray-900 dark:text-white">{method.name}</div>
                         <div className="text-sm text-gray-500 dark:text-gray-400">{method.description}</div>
@@ -517,6 +428,19 @@ export default function MRT3RoutePlanner({ initialFromStation, onRouteChange }) 
                     </div>
                   </motion.button>
                 ))}
+                
+                {/* Temporarily disabled Beep Card */}
+                <motion.div
+                  className="p-3 rounded-lg border-2 border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700/50 opacity-60"
+                >
+                  <div className="flex items-center gap-3">
+                    <CreditCardIcon className="w-5 h-5 text-gray-400" />
+                    <div className="flex-1">
+                      <div className="font-medium text-gray-500 dark:text-gray-400">Beep Card</div>
+                      <div className="text-sm text-gray-400 dark:text-gray-500">Temporarily unavailable</div>
+                    </div>
+                  </div>
+                </motion.div>
 
                 <AnimatePresence>
                   {category === 'discounted' && (
@@ -542,16 +466,15 @@ export default function MRT3RoutePlanner({ initialFromStation, onRouteChange }) 
                       </div>
                     </motion.div>
                   )}
-                </AnimatePresence>
-                {/* Social Media Links */}
+                </AnimatePresence>                {/* Social Media Links */}
                 <motion.div variants={itemVariants} className="pt-4 border-t border-gray-200 dark:border-gray-700">
                   <div className="flex items-center gap-2 mb-3">
-                    <span className="text-sm font-medium text-gray-700 dark:text-gray-300">Follow {socialsData.transport_name}:</span>
+                    <span className="text-sm font-medium text-gray-700 dark:text-gray-300">Follow {transportData.socials?.transport_name || 'MRT-3'}:</span>
                   </div>
                   <div className="flex items-center gap-2 flex-wrap">
-                    {socialsData.social_media
-                      .filter(social => social.active)
-                      .map((social, index) => (
+                    {transportData.socials?.social_media
+                      ?.filter(social => social.active)
+                      ?.map((social, index) => (
                         <SocialMediaIcon 
                           key={index}
                           platform={social.platform} 
@@ -569,9 +492,8 @@ export default function MRT3RoutePlanner({ initialFromStation, onRouteChange }) 
         <motion.div 
           className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6 order-2 lg:order-2"
           variants={itemVariants}
-        >
-          <AnimatePresence mode="wait">
-            {!result ? (
+        >          <AnimatePresence mode="wait">
+            {!route ? (
               <motion.div
                 key="placeholder"
                 className="text-center py-12"
@@ -579,9 +501,8 @@ export default function MRT3RoutePlanner({ initialFromStation, onRouteChange }) 
                 initial="hidden"
                 animate="visible"
                 exit="hidden"
-              >
-                <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <span className="text-2xl">🚆</span>
+              >                <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <BootstrapIcon name="train-front-fill" className="w-8 h-8 text-blue-600" size={32} />
                 </div>
                 <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-2">Plan Your MRT-3 Journey</h3>
                 <p className="text-gray-500 dark:text-gray-400">Select your departure and destination stations to see route details, fare, and travel time.</p>
@@ -592,30 +513,32 @@ export default function MRT3RoutePlanner({ initialFromStation, onRouteChange }) 
                 initial="hidden"
                 animate="visible"
                 exit="hidden"
-              >
-                <div ref={routeDetailsRef} className="bg-blue-50 dark:bg-blue-900/20 rounded-lg p-4 mb-6 mt-6 scroll-mt-16 md:scroll-mt-12">                  <div className="flex items-center justify-between mb-3">
+              >                <div ref={routeDetailsRef} className="bg-blue-50 dark:bg-blue-900/20 rounded-lg p-4 mb-6 mt-6 scroll-mt-16 md:scroll-mt-12">
+                  <div className="flex items-center justify-between mb-3">
                     <h3 className="font-semibold text-gray-900 dark:text-white">Trip Summary</h3>
                     <div className="flex items-center gap-2 text-sm text-blue-600 dark:text-blue-400">
-                      <span className="hidden sm:block capitalize">{result.direction}</span>
+                      <span className="hidden sm:block capitalize">{route.direction}</span>
                       <span className="sm:hidden text-lg">
-                        {result.direction === 'southbound' ? '↓' : '↑'}
+                        {route.direction === 'southbound' ? '↓' : '↑'}
                       </span>
                       <span>•</span>
-                      <span>{result.distance} station{result.distance !== 1 ? 's' : ''}</span>
+                      <span>{route.distance} station{route.distance !== 1 ? 's' : ''}</span>
                     </div>
                   </div>
                     <div className="grid grid-cols-2 gap-4">
-                    <div className="text-center">
-                      <div className="text-xl sm:text-2xl font-bold text-blue-600 dark:text-blue-400">₱{result.fare}</div>
+                    <div className="text-center">                      <div className="text-xl sm:text-2xl font-bold text-blue-600 dark:text-blue-400">₱{fare}</div>
                       <div className="text-sm text-gray-600 dark:text-gray-300">
                         {paymentMethods.find(p => p.id === category)?.name}
+                        {category === 'beep' && route?.sjtFare && route.sjtFare > fare && (
+                          <span className="block text-xs text-green-600 dark:text-green-400">₱{route.sjtFare - fare} saved</span>
+                        )}
                         {category === 'discounted' && (
                           <span className="block text-xs text-green-600 dark:text-green-400">20% discount</span>
                         )}
                       </div>
                     </div>
                     <div className="text-center">
-                      <div className="text-xl sm:text-2xl font-bold text-blue-600 dark:text-blue-400">{result.estimatedTime}</div>
+                      <div className="text-xl sm:text-2xl font-bold text-blue-600 dark:text-blue-400">{route.estimatedTime}</div>
                       <div className="text-sm text-gray-600 dark:text-gray-300">minutes</div>
                     </div>
                   </div>
@@ -630,12 +553,10 @@ export default function MRT3RoutePlanner({ initialFromStation, onRouteChange }) 
                     >
                       {showCommuteDetails ? 'hide commute details' : 'see commute details'}
                     </button>
-                  </div>
-
-                  <div className="space-y-3">
-                    {result.route.map((station, index) => {
-                      const isStart = station.station_id === result.from.station_id;
-                      const isEnd = station.station_id === result.to.station_id;
+                  </div>                  <div className="space-y-3">
+                    {route.route.map((station, index) => {
+                      const isStart = station.station_id === route.fromStation.station_id;
+                      const isEnd = station.station_id === route.toStation.station_id;
                       const isExpanded = expandedStations.has(station.station_id);
                       const uniqueConnections = getUniqueConnectionTypes(station);
 
@@ -651,10 +572,15 @@ export default function MRT3RoutePlanner({ initialFromStation, onRouteChange }) 
                           whileHover={{ scale: !showCommuteDetails && uniqueConnections.length > 0 ? 1.02 : 1 }}
                           whileTap={{ scale: !showCommuteDetails && uniqueConnections.length > 0 ? 0.98 : 1 }}
                         >
-                          <div className="flex items-start gap-3">
-                            <div className="flex flex-col items-center">
-                              <div className="text-lg">
-                                {isStart ? '🟢' : isEnd ? '🔴' : '🔵'}
+                          <div className="flex items-start gap-3">                            <div className="flex flex-col items-start pt-0.5">
+                              <div className="w-4 h-4 rounded-full">
+                                {isStart ? (
+                                  <div className="w-4 h-4 bg-green-500 rounded-full"></div>
+                                ) : isEnd ? (
+                                  <div className="w-4 h-4 bg-red-500 rounded-full"></div>
+                                ) : (
+                                  <div className="w-4 h-4 bg-blue-500 rounded-full"></div>
+                                )}
                               </div>
                             </div>
 
@@ -663,11 +589,10 @@ export default function MRT3RoutePlanner({ initialFromStation, onRouteChange }) 
                                 <div className="flex-1">
                                   <h5 className="font-medium text-gray-900 dark:text-white">{station.name}</h5>
                                   <p className="text-sm text-gray-500 dark:text-gray-400">{station.municipality}</p>
-                                  
-                                  {uniqueConnections.length > 0 && (
+                                    {uniqueConnections.length > 0 && (
                                     <div className="flex items-center gap-1 mt-1">
                                       {uniqueConnections.map((icon, idx) => (
-                                        <span key={idx} className="text-sm">{icon}</span>
+                                        <span key={idx}>{icon}</span>
                                       ))}
                                     </div>
                                   )}
@@ -723,14 +648,12 @@ export default function MRT3RoutePlanner({ initialFromStation, onRouteChange }) 
                   <div className="text-xs text-gray-500 dark:text-gray-400 space-y-1">
                     <div>Operating Hours: 4:30 AM - 11:30 PM (Mon-Fri), 4:30 AM - 10:30 PM (Weekends)</div>
                     <div>Frequency: 3-5 minutes (peak), 5-7 minutes (off-peak)</div>
-                    <div>Distance-based fare: ₱13-₱28 (SJT), ₱11-₱26 (Beep Card), 20% discount (PWD/Senior)</div>
+                    <div>Distance-based fare: ₱13-₱28 (SJT), ₱12-₱27 (Beep Card), 20% discount (PWD/Senior)</div>
                   </div>
                 </div>
               </motion.div>
             )}
-          </AnimatePresence>
-
-          {error && (
+          </AnimatePresence>          {routeError && (
             <motion.div
               className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-4 text-red-700 dark:text-red-400"
               initial={{ opacity: 0, scale: 0.95 }}
@@ -741,11 +664,11 @@ export default function MRT3RoutePlanner({ initialFromStation, onRouteChange }) 
                 <ExclamationTriangleIcon className="w-5 h-5" />
                 <span className="font-medium">Error</span>
               </div>
-              <p className="mt-1 text-sm">{error}</p>
+              <p className="mt-1 text-sm">{routeError}</p>
             </motion.div>
           )}
 
-          {isLoading && (
+          {routeLoading && (
             <motion.div
               className="flex items-center justify-center py-8"
               initial={{ opacity: 0 }}

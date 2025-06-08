@@ -12,8 +12,9 @@
     "test:coverage": "vitest run --coverage"
   },
   "dependencies": {
-    "@heroicons/react": "2.1.1",
+    "@heroicons/react": "^2.1.1",
     "@react-leaflet/core": "2.1.0",
+    "bootstrap-icons": "^1.13.1",
     "date-fns": "2.30.0",
     "framer-motion": "^10.16.4",
     "leaflet": "^1.9.4",
