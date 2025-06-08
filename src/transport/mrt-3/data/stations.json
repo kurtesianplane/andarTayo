@@ -578,7 +578,7 @@
       "connections": {
         "rail" : [
            {
-            "line": "NSCR South Commuter",
+            "line": "NSCR Commuter",
             "station": "Magallanes",
             "connection_type": "pedestrian_walkway",
             "walking_time": 5

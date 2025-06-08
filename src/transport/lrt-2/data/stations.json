@@ -499,6 +499,7 @@
           "Cubao-Quiapo",
           "Cubao-Fairview",
           "Cubao-Antipolo",
+          "Cubao-Cogeo",
           "Cubao-Padilla",
           "Cubao-Divisoria",
           "Araneta-Baclaran"
@@ -699,6 +700,7 @@
           "Marikina-Antipolo",
           "Marikina - Paenaan",
           "Marikina - Padilla",
+          "Marikina Tropical-Padilla",
           "Sta Lucia - San Mateo",
           "Sta Lucia - Cainta",
           "Sta Lucia - Taytay",
@@ -753,13 +755,13 @@
           "Antipolo-Quiapo"
         ],
         "jeepney_routes": [
-          "Antipolo-Quiapo",
           "Antipolo-Marikina",
           "Upper Antipolo-Lower Antipolo",
           "Antipolo-Cainta",
           "Antipolo-Pasig",
           "Antipolo-Simbahan",
           "SM City Masinag-Padilla",
+          "Marikina Tropical-Padilla",
           "SM Masinag-Pililla "
         ]
       },

@@ -314,7 +314,7 @@
       "connections": {
          "rail": [
           {
-            "line": "NSCR South Commuter",
+            "line": "NSCR Commuter",
             "station": "Blumentritt Station",
             "walking_time": 5,
             "connection_type": "pedestrian_overpass"
@@ -426,6 +426,12 @@
             "line": "LRT-2",
             "station": "Recto",
             "walking_time": 5,
+            "connection_type": "pedestrian_overpass"
+          },
+          {
+            "line": "NSCR Commuter",
+            "station": "Tutuban",
+            "walking_time": 25,
             "connection_type": "pedestrian_overpass"
           }
         ],
