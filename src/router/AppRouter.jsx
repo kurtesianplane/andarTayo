@@ -1,6 +1,7 @@
 import React from 'react';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { AlertProvider } from '../context/AlertContext';
+import { DarkModeProvider } from '../context/DarkModeContext';
 import PWAManager from '../components/PWA/PWAManager';
 import Layout from '../components/Layout';
 import HomePage from '../pages/HomePage';
@@ -55,11 +56,13 @@ const router = createBrowserRouter([
 
 const AppRouter = () => {
   return (
-    <AlertProvider>
-      <PWAManager>
-        <RouterProvider router={router} />
-      </PWAManager>
-    </AlertProvider>
+    <DarkModeProvider>
+      <AlertProvider>
+        <PWAManager>
+          <RouterProvider router={router} />
+        </PWAManager>
+      </AlertProvider>
+    </DarkModeProvider>
   );
 };
 

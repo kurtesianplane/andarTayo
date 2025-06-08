@@ -4,9 +4,11 @@ import { Toaster } from 'react-hot-toast';
 import { SunIcon, MoonIcon, MapPinIcon, BellIcon, LockClosedIcon, HomeIcon, InformationCircleIcon } from '@heroicons/react/24/outline';
 import { AnimatePresence, motion } from 'framer-motion';
 import ServiceAlertBanner from '../components/ServiceAlertBanner';
-import NearestStopButton from '../transport/edsa-carousel/components/NearestStopButton';
 import FareInfoTooltip from '../components/FareInfoTooltip';
+import MobileNav from '../components/MobileNav';
+import AlertCard from '../components/AlertCard';
 import { useAlerts } from '../context/AlertContext';
+import { useDarkMode } from '../context/DarkModeContext';
 import { scrollToTopInstant } from '../utils/scrollUtils';
 import andarTayoLogo from '../assets/andarTayo_logo.svg';
 import PWAStatusIndicator from '../components/PWA/PWAStatusIndicator';
@@ -15,43 +17,35 @@ const Layout = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { activeAlerts } = useAlerts();
+  const { isDarkMode, toggleDarkMode } = useDarkMode();
   
-  const [isDarkMode, setIsDarkMode] = useState(false);
   const [isNearestStopOpen, setIsNearestStopOpen] = useState(false);
   const [isAlertsOpen, setIsAlertsOpen] = useState(false);
-  const [isFareInfoVisible, setIsFareInfoVisible] = useState(false);  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-
-  useEffect(() => {
+  const [isFareInfoVisible, setIsFareInfoVisible] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [mobileNavActiveTab, setMobileNavActiveTab] = useState('planner');
+  // Check if current page is a transport page
+  const isTransportPage = location.pathname.includes('/transport/');
+  const isHomePage = location.pathname === '/';
+  const isAboutPage = location.pathname === '/about';  useEffect(() => {
     scrollToTopInstant();
     setIsMobileMenuOpen(false);
-  }, [location.pathname]);
-
-  useEffect(() => {
-    if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-      setIsDarkMode(true);
-      document.documentElement.classList.add('dark');
+    // Reset mobile nav tab when navigating to transport pages
+    if (isTransportPage) {
+      setMobileNavActiveTab('planner');
     }
-  }, []);
+  }, [location.pathname, isTransportPage]);
 
-  const toggleDarkMode = () => {
-    setIsDarkMode(!isDarkMode);
-    if (!isDarkMode) {
-      document.documentElement.classList.add('dark');
-    } else {
-      document.documentElement.classList.remove('dark');
+  const handleMobileNavTabChange = (tabId) => {
+    setMobileNavActiveTab(tabId);
+    
+    if (tabId === 'alerts') {
+      setIsAlertsOpen(!isAlertsOpen);
     }
   };
-
-  const handleNearestStopFound = (stop, distance) => {
-    try {
-      setIsNearestStopOpen(false);
-      alert(`Nearest stop is ${stop.name} (${distance}km away)`);
-    } catch (err) {
-      console.error('Error in handleNearestStopFound:', err);
-    }
+  const handleFindNearestStop = () => {
+    setIsNearestStopOpen(!isNearestStopOpen);
   };
-
-  const isHomePage = location.pathname === '/';
 
   return (
     <div className={`min-h-screen bg-neutral-50 dark:bg-neutral-900 pb-16 lg:pb-0 font-sans antialiased ${isDarkMode ? 'dark' : ''}`}>
@@ -64,7 +58,7 @@ const Layout = () => {
       
       <FareInfoTooltip isVisible={isFareInfoVisible} setIsVisible={setIsFareInfoVisible} />
       
-      {!isHomePage && (
+      {(!isHomePage) && (
         <header className="bg-white dark:bg-neutral-800 border-b border-neutral-200 dark:border-neutral-700 sticky top-0 z-10">
           <nav className="px-4 h-12 flex items-center justify-between">
             <div className="flex items-center gap-2">
@@ -94,12 +88,11 @@ const Layout = () => {
                 >
                   <InformationCircleIcon className="w-4 h-4" />
                   About
-                </button>
-                <button
+                </button>                <button
                   onClick={() => setIsNearestStopOpen(!isNearestStopOpen)}
                   className={`px-2.5 py-1 text-sm rounded-md transition-colors flex items-center gap-1 ${
                     isNearestStopOpen
-                    ? 'bg-ph-blue-50 dark:bg-ph-blue-500/20 text-ph-blue-500 dark:text-ph-blue-400'
+                    ? 'bg-amber-50 dark:bg-amber-500/20 text-amber-600 dark:text-amber-400'
                     : 'text-neutral-600 dark:text-neutral-400 hover:bg-neutral-100 dark:hover:bg-neutral-700'
                   }`}
                 >
@@ -145,11 +138,9 @@ const Layout = () => {
                 )}
               </button>
               <PWAStatusIndicator />
-            </div>
-
-            <button
+            </div>            <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="md:hidden p-1 rounded-md text-neutral-600 dark:text-neutral-400 hover:bg-neutral-100 dark:hover:bg-neutral-700 transition-colors"
+              className={`md:hidden p-1 rounded-md text-neutral-600 dark:text-neutral-400 hover:bg-neutral-100 dark:hover:bg-neutral-700 transition-colors ${isTransportPage ? 'hidden' : 'block'}`}
             >
               <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 {isMobileMenuOpen ? (
@@ -159,10 +150,8 @@ const Layout = () => {
                 )}
               </svg>
             </button>
-          </nav>
-
-          <AnimatePresence>
-            {isMobileMenuOpen && (
+          </nav>          <AnimatePresence>
+            {isMobileMenuOpen && !isTransportPage && (
               <motion.div
                 initial={{ opacity: 0, height: 0 }}
                 animate={{ opacity: 1, height: "auto" }}
@@ -190,13 +179,16 @@ const Layout = () => {
                   >
                     <InformationCircleIcon className="w-4 h-4" />
                     About
-                  </button>
-                  <button
+                  </button>                  <button
                     onClick={() => {
                       setIsNearestStopOpen(!isNearestStopOpen);
                       setIsMobileMenuOpen(false);
                     }}
-                    className="w-full flex items-center gap-2 px-3 py-2 text-sm text-neutral-600 dark:text-neutral-400 hover:bg-neutral-100 dark:hover:bg-neutral-700 rounded-md transition-colors"
+                    className={`w-full flex items-center gap-2 px-3 py-2 text-sm rounded-md transition-colors ${
+                      isNearestStopOpen
+                        ? 'bg-amber-50 dark:bg-amber-500/20 text-amber-600 dark:text-amber-400'
+                        : 'text-neutral-600 dark:text-neutral-400 hover:bg-neutral-100 dark:hover:bg-neutral-700'
+                    }`}
                   >
                     <MapPinIcon className="w-4 h-4" />
                     Find Nearest Stop
@@ -228,28 +220,67 @@ const Layout = () => {
             )}
           </AnimatePresence>
         </header>
-      )}
-
-      <AnimatePresence>
+      )}      <AnimatePresence>
         {isNearestStopOpen && (
-          <NearestStopButton 
-            onStopFound={handleNearestStopFound}
-            onClose={() => setIsNearestStopOpen(false)}
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: 'auto' }}
+            exit={{ opacity: 0, height: 0 }}
+            className="relative z-50 bg-amber-50 dark:bg-amber-900/20 border-b border-amber-200 dark:border-amber-600"
+          >
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+              <div className="flex items-center justify-between mb-3">
+                <h3 className="text-lg font-semibold text-amber-800 dark:text-amber-200 flex items-center gap-2">
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                  Find Stop Feature
+                </h3>
+                <button
+                  onClick={() => setIsNearestStopOpen(false)}
+                  className="text-amber-400 hover:text-amber-600 dark:hover:text-amber-300"
+                >
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
+              </div>
+              <div className="flex items-start gap-3">
+                <div className="flex-shrink-0 text-2xl">🚧</div>
+                <div>
+                  <div className="font-medium text-amber-800 dark:text-amber-200">Coming Soon</div>
+                  <div className="text-sm text-amber-700 dark:text-amber-300 mt-1">
+                    We're working on an advanced stop finder feature that will help you locate the nearest transit stops 
+                    based on your current location. Stay tuned for this exciting update!
+                  </div>
+                </div>
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>      <AnimatePresence>
+        {isAlertsOpen && (
+          <AlertCard
+            isVisible={isAlertsOpen}
+            onDismiss={() => setIsAlertsOpen(false)}
+            alerts={activeAlerts}
           />
         )}
-      </AnimatePresence>
-
-      <AnimatePresence>
-        {isAlertsOpen && activeAlerts.length > 0 && (
-          <div className="relative z-50">
-            <ServiceAlertBanner alerts={activeAlerts} expanded />
-          </div>
-        )}
-      </AnimatePresence>
-
-      <main>
+      </AnimatePresence><main>
         <Outlet />
       </main>
+
+      {/* Mobile Navigation for Transport Pages */}
+      {isTransportPage && (
+        <MobileNav
+          activeTab={mobileNavActiveTab}
+          onTabChange={handleMobileNavTabChange}
+          activeAlertsCount={activeAlerts.length}
+          isDarkMode={isDarkMode}
+          onToggleDarkMode={toggleDarkMode}
+          onFindNearestStop={handleFindNearestStop}
+        />
+      )}
     </div>
   );
 };

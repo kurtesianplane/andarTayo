@@ -128,18 +128,15 @@ const MobileInstallInstructions = ({
     }
   };
 
-  const { browser, os, steps } = getBrowserInstructions();
-
-  return (
-    <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-end justify-center p-4">
-      <div className="bg-white rounded-t-3xl shadow-2xl w-full max-w-md transform transition-transform duration-300 ease-out max-h-[85vh] overflow-hidden">
-        <div className="relative p-6 pb-4 bg-gradient-to-r from-green-600 to-green-700 text-white rounded-t-3xl">
-          <button
+  const { browser, os, steps } = getBrowserInstructions();  return (
+    <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-end justify-center p-0">
+      <div className="bg-white dark:bg-gray-800 rounded-t-3xl shadow-2xl w-full max-w-md transform transition-transform duration-300 ease-out max-h-[90vh] overflow-hidden relative">
+        <div className="relative p-6 pb-4 bg-gradient-to-r from-green-600 to-green-700 dark:from-green-700 dark:to-green-800 text-white rounded-t-3xl">          <button
             onClick={onDismiss}
-            className="absolute top-4 right-4 p-2 hover:bg-white/20 rounded-full transition-colors"
+            className="absolute top-4 right-4 p-2 hover:bg-white/20 dark:hover:bg-white/10 rounded-full transition-colors z-10 text-white"
             aria-label="Close install instructions"
           >
-            <XMarkIcon className="w-5 h-5" />
+            <XMarkIcon className="w-6 h-6" />
           </button>
           
           <div className="pr-12">
@@ -148,11 +145,10 @@ const MobileInstallInstructions = ({
               <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
                 <path fillRule="evenodd" d="M3 5a2 2 0 012-2h10a2 2 0 012 2v8a2 2 0 01-2 2h-2.22l.123.489.804.804A1 1 0 0113 18H7a1 1 0 01-.707-1.707l.804-.804L7.22 15H5a2 2 0 01-2-2V5zm5.771 7H5V5h10v7H8.771z" />
               </svg>
-            </h3>
-            <p className="text-green-100 text-sm leading-relaxed">
+            </h3>            <p className="text-green-100 dark:text-green-200 text-sm leading-relaxed">
               Add to your home screen for the best experience
             </p>
-            <div className="mt-2 text-xs text-green-200">
+            <div className="mt-2 text-xs text-green-200 dark:text-green-300">
               {browser} on {os}
             </div>
           </div>
@@ -161,42 +157,40 @@ const MobileInstallInstructions = ({
         <div className="p-6 overflow-y-auto">
           <div className="flex items-center justify-center mb-6">
             {steps.map((_, index) => (
-              <React.Fragment key={index}>
-                <div 
+              <React.Fragment key={index}>                <div 
                   className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold ${
                     index <= currentStep 
                       ? 'bg-green-500 text-white' 
-                      : 'bg-gray-200 text-gray-500'
+                      : 'bg-gray-200 dark:bg-gray-600 text-gray-500 dark:text-gray-400'
                   }`}
                 >
                   {index + 1}
                 </div>
-                {index < steps.length - 1 && (
-                  <div 
+                {index < steps.length - 1 && (                  <div 
                     className={`w-8 h-0.5 ${
-                      index < currentStep ? 'bg-green-500' : 'bg-gray-200'
+                      index < currentStep ? 'bg-green-500' : 'bg-gray-200 dark:bg-gray-600'
                     }`}
                   />
                 )}
               </React.Fragment>
             ))}
           </div>
-          <div className="mb-6">
-            <div className="flex items-center gap-4 mb-4">
-              <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
-                {React.createElement(steps[currentStep].icon, { className: "w-6 h-6 text-green-600" })}
+          <div className="mb-6">            <div className="flex items-center gap-4 mb-4">
+              <div className="w-12 h-12 bg-green-100 dark:bg-green-900/30 rounded-full flex items-center justify-center">
+                {React.createElement(steps[currentStep].icon, { className: "w-6 h-6 text-green-600 dark:text-green-400" })}
               </div>
               <div className="flex-1">
-                <h4 className="font-semibold text-gray-900 text-lg">
+                <h4 className="font-semibold text-gray-900 dark:text-white text-lg">
                   {steps[currentStep].title}
                 </h4>
-                <p className="text-gray-600 text-sm mt-1">
+                <p className="text-gray-600 dark:text-gray-300 text-sm mt-1">
                   {steps[currentStep].description}
                 </p>
               </div>
             </div>
             
-            <div className="bg-gray-50 rounded-lg p-4">              <p className="text-sm text-gray-700 flex items-start gap-2">
+            <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-4">
+              <p className="text-sm text-gray-700 dark:text-gray-300 flex items-start gap-2">
                 <svg className="w-4 h-4 text-yellow-500 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                   <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" />
                 </svg>
@@ -205,11 +199,10 @@ const MobileInstallInstructions = ({
             </div>
           </div>
 
-          <div className="flex gap-3">
-            {currentStep > 0 && (
+          <div className="flex gap-3">            {currentStep > 0 && (
               <button
                 onClick={() => setCurrentStep(currentStep - 1)}
-                className="flex-1 py-3 px-4 border border-gray-300 text-gray-700 font-medium rounded-lg hover:bg-gray-50 transition-colors"
+                className="flex-1 py-3 px-4 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 font-medium rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
               >
                 Previous
               </button>
@@ -231,11 +224,9 @@ const MobileInstallInstructions = ({
                 Got it!
               </button>
             )}
-          </div>
-
-          <div className="mt-6 p-4 bg-blue-50 rounded-lg">
-            <h5 className="font-medium text-blue-900 mb-2">Why install?</h5>
-            <ul className="text-sm text-blue-800 space-y-1">
+          </div>          <div className="mt-6 p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg">
+            <h5 className="font-medium text-blue-900 dark:text-blue-200 mb-2">Why install?</h5>
+            <ul className="text-sm text-blue-800 dark:text-blue-300 space-y-1">
               <li>• Faster loading and better performance</li>
               <li>• Works offline when internet is slow</li>
               <li>• Easy access from your home screen</li>

@@ -1,15 +1,26 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { TruckIcon } from '@heroicons/react/24/outline';
+import { useNavigate } from 'react-router-dom';
+import { TruckIcon, InformationCircleIcon, MapPinIcon, BellIcon, SunIcon, MoonIcon } from '@heroicons/react/24/outline';
 import BootstrapIcon from '../../components/shared/BootstrapIcon';
+import AlertCard from '../../components/AlertCard';
 import andarTayoLogo from '../../assets/andarTayo_logo.svg';
+import { useAlerts } from '../../context/AlertContext';
+import { useDarkMode } from '../../context/DarkModeContext';
+import PWAStatusIndicator from '../../components/PWA/PWAStatusIndicator';
 
-const TransportLanding = ({ onModeSelect }) => {  const transportModes = [
-    {
+const TransportLanding = ({ onModeSelect }) => {
+  const navigate = useNavigate();
+  const { activeAlerts } = useAlerts();
+  const { isDarkMode, toggleDarkMode } = useDarkMode();
+  
+  const [isNearestStopOpen, setIsNearestStopOpen] = useState(false);  const [isAlertsOpen, setIsAlertsOpen] = useState(false);
+
+  const transportModes = [    {
       id: 'edsa-carousel',
       name: 'EDSA Carousel',
       description: 'Bus Rapid Transit System along EDSA',
-      icon: <TruckIcon className="w-10 h-10" />,
+      icon: <BootstrapIcon name="bus-front-fill" className="w-10 h-10" size={40} />,
       color: '#dc2626',
       stats: {
         stations: '18+ stops',
@@ -93,12 +104,131 @@ const TransportLanding = ({ onModeSelect }) => {  const transportModes = [
                   andarTayo!
                 </span>
               </h1>
-            </div>
-            <p className="text-base sm:text-lg lg:text-xl xl:text-2xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto leading-relaxed">
+            </div>            <p className="text-base sm:text-lg lg:text-xl xl:text-2xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto leading-relaxed">
               Your intelligent companion for Metro Manila's growing transit network
             </p>
-          </motion.div>
+              {/* Navigation Buttons */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.4 }}
+              className="mt-8 flex flex-wrap items-center justify-center gap-2 sm:gap-3"
+            >
+              <motion.button
+                onClick={() => navigate('/about')}
+                className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg transition-all duration-200 shadow-sm hover:shadow-md"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                <InformationCircleIcon className="w-4 h-4" />
+                About
+              </motion.button>
+                <motion.button
+                onClick={() => setIsNearestStopOpen(!isNearestStopOpen)}
+                className={`inline-flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-lg transition-all duration-200 shadow-sm hover:shadow-md ${
+                  isNearestStopOpen
+                    ? 'bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-400 border border-amber-300 dark:border-amber-600'
+                    : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 border border-gray-200 dark:border-gray-600'
+                }`}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                <MapPinIcon className="w-4 h-4" />
+                Find Stop
+              </motion.button>
+              
+              <motion.button
+                onClick={() => setIsAlertsOpen(!isAlertsOpen)}
+                className={`inline-flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-lg transition-all duration-200 shadow-sm hover:shadow-md relative ${
+                  isAlertsOpen
+                    ? 'bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400 border border-blue-300 dark:border-blue-600'
+                    : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 border border-gray-200 dark:border-gray-600'
+                }`}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                <div className="relative">
+                  <BellIcon className="w-4 h-4" />
+                  {activeAlerts.length > 0 && !isAlertsOpen && (
+                    <div className="absolute -top-0.5 -right-0.5 w-2 h-2 bg-red-500 rounded-full animate-pulse"></div>
+                  )}
+                </div>
+                Alerts
+                {activeAlerts.length > 0 && (
+                  <span className="ml-1 px-1.5 py-0.5 text-xs font-medium bg-red-100 text-red-600 dark:bg-red-500/20 dark:text-red-400 rounded-full">
+                    {activeAlerts.length}
+                  </span>
+                )}
+              </motion.button>              
+              <motion.button
+                onClick={toggleDarkMode}
+                className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg transition-all duration-200 shadow-sm hover:shadow-md"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                title="Toggle Dark Mode"
+              >
+                {isDarkMode ? (
+                  <SunIcon className="w-4 h-4" />
+                ) : (
+                  <MoonIcon className="w-4 h-4" />
+                )}
+                {isDarkMode ? 'Light' : 'Dark'}
+              </motion.button>
+                <motion.div
+                className="inline-flex"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                <PWAStatusIndicator showInstallButton={true} />
+              </motion.div>
+            </motion.div>          </motion.div>
         </div>
+          {/* Coming Soon for Find Stop */}
+        {isNearestStopOpen && (
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: 'auto' }}
+            exit={{ opacity: 0, height: 0 }}
+            className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-8"
+          >
+            <div className="bg-amber-50 dark:bg-amber-900/20 rounded-lg shadow-lg border border-amber-200 dark:border-amber-600 p-6">
+              <div className="flex items-center justify-between mb-3">
+                <h3 className="text-lg font-semibold text-amber-800 dark:text-amber-200 flex items-center gap-2">
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                  Find Stop Feature
+                </h3>
+                <button
+                  onClick={() => setIsNearestStopOpen(false)}
+                  className="text-amber-400 hover:text-amber-600 dark:hover:text-amber-300"
+                >
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
+              </div>
+              <div className="space-y-3">
+                <div className="flex items-start gap-3">
+                  <div className="flex-shrink-0 text-2xl">🚧</div>
+                  <div>
+                    <div className="font-medium text-amber-800 dark:text-amber-200">Coming Soon</div>
+                    <div className="text-sm text-amber-700 dark:text-amber-300 mt-1">
+                      We're working on an advanced stop finder feature that will help you locate the nearest transit stops 
+                      based on your current location. Stay tuned for this exciting update!
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </motion.div>
+        )}        
+        {/* Service Alerts Display */}
+        <AlertCard
+          isVisible={isAlertsOpen}
+          onDismiss={() => setIsAlertsOpen(false)}
+          alerts={activeAlerts}
+        />
       </div>      {/* Transport Modes Section */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-16">
         <motion.div
@@ -212,9 +342,24 @@ const TransportLanding = ({ onModeSelect }) => {  const transportModes = [
                   </div>
                 </div>
               )}
-            </motion.div>
-          ))}
+            </motion.div>          ))}
         </div>
+        
+        {/* Made with Love Footer */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.5 }}
+          className="text-center mt-16 pt-8 border-t border-gray-200 dark:border-gray-700"
+        >
+          <p className="text-gray-500 dark:text-gray-400 flex items-center justify-center gap-2">
+            Made with 
+            <svg className="w-4 h-4 text-red-500" fill="currentColor" viewBox="0 0 20 20">
+              <path fillRule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" />
+            </svg>
+            for Filipino commuters
+          </p>
+        </motion.div>
       </div>
     </div>
   );

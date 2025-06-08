@@ -26,7 +26,7 @@ const BootstrapIcon = ({
       style={style}
       {...props}
     >
-      <use xlinkHref={`/node_modules/bootstrap-icons/bootstrap-icons.svg#${name}`} />
+      <use xlinkHref={`/bootstrap-icons.svg#${name}`} />
     </svg>
   );
 };

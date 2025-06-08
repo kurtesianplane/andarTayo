@@ -1,5 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import BootstrapIcon from '../components/shared/BootstrapIcon';
 import andarTayoLogo from '../assets/andarTayo_logo.svg';
 
 const AboutPage = () => {
@@ -108,21 +109,13 @@ const AboutPage = () => {
                 <BootstrapIcon name="train-front-fill" className="text-2xl mb-2 text-purple-600" />
                 <h3 className="font-semibold text-purple-700 dark:text-purple-300">LRT-2</h3>
                 <p className="text-sm text-purple-600 dark:text-purple-400">13 stations</p>
-              </div><div className="text-center p-4 bg-blue-50 dark:bg-blue-900/20 rounded-xl">
-                <svg className="w-8 h-8 mx-auto mb-2 text-blue-600" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M3 6h18v2H3V6zm0 4h18v2H3v-2zm0 4h18v2H3v-2z" />
-                  <path d="M1 14h2v2H1v-2zm0-4h2v2H1v-2zm0-4h2v2H1V6z" />
-                </svg>
+              </div>              <div className="text-center p-4 bg-blue-50 dark:bg-blue-900/20 rounded-xl">
+                <BootstrapIcon name="train-front-fill" className="text-2xl mb-2 text-blue-600" />
                 <h3 className="font-semibold text-blue-700 dark:text-blue-300">MRT-3</h3>
                 <p className="text-sm text-blue-600 dark:text-blue-400">13 stations</p>
               </div>
               <div className="text-center p-4 bg-red-50 dark:bg-red-900/20 rounded-xl">
-                <svg className="w-8 h-8 mx-auto mb-2 text-red-600" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M4 4h16v12H4V4zm14 2H6v8h12V6zM2 18h20v2H2v-2z" />
-                  <rect x="6" y="8" width="3" height="4" />
-                  <rect x="11" y="8" width="3" height="4" />
-                  <rect x="16" y="8" width="2" height="4" />
-                </svg>
+                <BootstrapIcon name="bus-front-fill" className="text-2xl mb-2 text-red-600" />
                 <h3 className="font-semibold text-red-700 dark:text-red-300">EDSA Carousel</h3>
                 <p className="text-sm text-red-600 dark:text-red-400">Coming Soon</p>
               </div>
