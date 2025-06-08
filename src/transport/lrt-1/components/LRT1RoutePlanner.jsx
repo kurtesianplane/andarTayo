@@ -164,6 +164,8 @@ export default function LRT1RoutePlanner({ initialFromStation, onRouteChange }) 
         return '🚐'
       case 'uv_express':
         return '🚌';
+      case 'ferry_service':
+        return '⛴️';
     }
   }, []);
 

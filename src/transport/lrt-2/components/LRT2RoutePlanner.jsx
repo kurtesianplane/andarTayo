@@ -159,6 +159,8 @@ export default function LRT2RoutePlanner({ initialFromStation, onRouteChange }) 
         return '🚌';
       case 'nearby_landmarks':
         return '🏢';
+      case 'ferry_service':
+        return '⛴️';
     }
   }, []);
 

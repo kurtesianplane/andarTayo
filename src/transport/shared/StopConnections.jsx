@@ -7,9 +7,9 @@ import PropTypes from 'prop-types';
 export default function StopConnections({ connections }) {
   if (!connections) return null;
 
-  const { rail, terminal, mall, future_rail, bus_rapid_transit, bus_terminals, jeepney_routes } = connections;
+  const { rail, terminal, mall, future_rail, bus_rapid_transit, bus_terminals, jeepney_routes, ferry_service } = connections;
 
-  const hasConnections = rail || terminal || mall || future_rail || bus_rapid_transit || bus_terminals || jeepney_routes;
+  const hasConnections = rail || terminal || mall || future_rail || bus_rapid_transit || bus_terminals || jeepney_routes || ferry_service;
   if (!hasConnections) return null;
 
   return (
@@ -182,6 +182,50 @@ export default function StopConnections({ connections }) {
           </div>
         </div>
       )}
+
+      {ferry_service && (
+        <div className="flex items-start gap-2">
+          {/* todo: replace with <ClockIcon className="w-5 h-5 text-ph-blue-700 dark:text-ph-blue-300 shrink-0 mt-0.5" /> */}
+          <span className="w-5 h-5 inline-flex items-center justify-center text-ph-blue-700 dark:text-ph-blue-300">⛴️</span>
+          <div>
+            <p className="text-sm font-medium text-neutral-900 dark:text-neutral-100">
+              Ferry Service
+            </p>
+            <div className="mt-1 flex flex-wrap gap-1.5">
+              {ferry_service.map((ferry, index) => {
+                if (typeof ferry === 'string') {
+                  return (
+                    <span
+                      key={`ferry-${index}`}
+                      className="inline-flex items-center px-2 py-1 rounded-md text-xs font-medium bg-blue-50 dark:bg-blue-500/10 text-blue-700 dark:text-blue-300"
+                    >
+                      {ferry}
+                    </span>
+                  );
+                } else if (typeof ferry === 'object' && ferry !== null) {
+                  // Support for object type ferry connection
+                  const { route, stop, walking_time } = ferry;
+                  return (
+                    <span
+                      key={`ferry-${index}`}
+                      className="inline-flex items-center px-2 py-1 rounded-md text-xs font-medium bg-blue-50 dark:bg-blue-500/10 text-blue-700 dark:text-blue-300"
+                      title={stop ? `${stop}${walking_time ? ` (${walking_time} min walk)` : ''}` : route}
+                    >
+                      {route}{stop ? `: ${stop}` : ''}
+                      {walking_time && (
+                        <span className="ml-1 text-[12px] opacity-75">
+                          ({walking_time} min)
+                        </span>
+                      )}
+                    </span>
+                  );
+                }
+                return null;
+              })}
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
@@ -216,6 +260,7 @@ StopConnections.propTypes = {
       ])
     ),
     bus_terminals: PropTypes.arrayOf(PropTypes.string),
-    jeepney_routes: PropTypes.arrayOf(PropTypes.string)
+    jeepney_routes: PropTypes.arrayOf(PropTypes.string),
+    ferry_service: PropTypes.arrayOf(PropTypes.string)
   })
 };

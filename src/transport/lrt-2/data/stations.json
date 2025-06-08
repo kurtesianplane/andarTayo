@@ -85,10 +85,30 @@
         ],
         "bus_rapid_transit": [
           {
-            "system": "EDSA Carousel",
-            "stop": "EDSA-Taft",
+            "system": "Quiapo-Angono (Route 2)",
+            "stop": "Quiapo",
             "connection_type": "walking_distance",
-            "walking_time": 15
+            "walking_time": 10
+          },
+          {
+            "system": "FTI-Divisoria (PNR-1)",
+            "stop": "Recto",
+            "connection_type": "sidewalk",
+            "walking_time": 5
+          },
+           {
+            "system": "Alabang-Divisoria (PNR-2)",
+            "stop": "Recto",
+            "connection_type": "sidewalk",
+            "walking_time": 5
+          }
+        ],
+        "ferry_service" : [
+          {
+            "route": "Pasig River Ferry",
+            "stop": "Quinta Market",
+            "connection_type": "walking_distance",
+            "walking_time": 25
           }
         ],
         "bus_terminals": [
@@ -141,6 +161,14 @@
           "Sampaloc-Divisoria",
           "Legarda-Pier",
           "España-Quiapo"
+        ],
+         "bus_rapid_transit": [
+          {
+            "system": "Quiapo-Angono (Route 2)",
+            "stop": "Bustillos",
+            "connection_type": "sidewalk",
+            "walking_time": 5
+          }
         ]
       },
       "nearby_landmarks": [
@@ -179,6 +207,14 @@
           "Punta-Divisoria",
           "Recto-Cubao",
           "Pureza-Baclaran"
+        ],
+        "bus_rapid_transit": [
+          {
+            "system": "Quiapo-Angono (Route 2)",
+            "stop": "Pureza",
+            "connection_type": "sidewalk",
+            "walking_time": 5
+          }
         ]
       },
       "nearby_landmarks": [
@@ -218,6 +254,14 @@
           "V. Mapa-Divisoria",
           "Sta. Mesa Heights-Lawton",
           "V. Mapa-Pier"
+        ],
+        "bus_rapid_transit": [
+          {
+            "system": "Quiapo-Angono (Route 2)",
+            "stop": "V. Mapa",
+            "connection_type": "sidewalk",
+            "walking_time": 5
+          }
         ]
       },
       "nearby_landmarks": [
@@ -257,6 +301,14 @@
           "San Juan-Divisoria",
           "Greenhills-Lawton",
           "J. Ruiz-Baclaran"
+        ],
+        "bus_rapid_transit": [
+          {
+            "system": "Antipolo-Quiapo (Route 3)",
+            "stop": "J. Ruiz",
+            "connection_type": "sidewalk",
+            "walking_time": 5
+          }
         ]
       },
       "nearby_landmarks": [
@@ -295,6 +347,26 @@
           "New Manila-Divisoria",
           "Gilmore-Baclaran",
           "Aurora Boulevard-Lawton"
+        ],
+        "bus_rapid_transit": [
+          {
+            "system": "Antipolo-Quiapo (Route 3)",
+            "stop": "Gilmore",
+            "connection_type": "sidewalk",
+            "walking_time": 5
+          },
+          {
+            "system": "Q City Bus via Welcome Rotonda-Gilmore",
+            "stop": "Aurora Boulevard / Hemady St.",
+            "connection_type": "sidewalk",
+            "walking_time": 3
+          },
+          {
+            "system": "Quiapo-Angono (Route 2)",
+            "stop": "Granada St.",
+            "connection_type": "sidewalk",
+            "walking_time": 10
+          }
         ]
       },
       "nearby_landmarks": [
@@ -334,6 +406,14 @@
           "Betty Go-Belmonte-Lawton",
           "Timog-Divisoria",
           "E. Rodriguez-Quiapo"
+        ],
+           "bus_rapid_transit": [
+          {
+            "system": "Antipolo-Quiapo (Route 3)",
+            "stop": "Betty Go",
+            "connection_type": "sidewalk",
+            "walking_time": 5
+          }
         ]
       },
       "nearby_landmarks": [
@@ -381,10 +461,16 @@
             "walking_time": 8
           },
           {
-            "system": "Antipolo-Cubao (Route 3)",
+            "system": "Antipolo-Quiapo (Route 3)",
             "stop": "Cubao",
             "connection_type": "sidewalk",
             "walking_time": 5
+          },
+          {
+            "system": "Q City Bus via Qc Hall-Cubao",
+            "stop": "Ali Mall",
+            "connection_type": "sidewalk",
+            "walking_time": 15
           }
         ],
         
@@ -445,10 +531,16 @@
         ],
         "bus_rapid_transit": [
           {
-            "system": "Antipolo-Cubao (Route 3)",
+            "system": "Antipolo-Quiapo (Route 3)",
             "stop": "Anonas",
             "connection_type": "sidewalk",
             "walking_time": 5
+          },
+          {
+            "system": "Q City Bus via Welcome Rotonda-Katipunan",
+            "stop": "Anonas",
+            "connection_type": "sidewalk",
+            "walking_time": 3
           }
         ]
       },
@@ -456,7 +548,10 @@
         "Technological Institute of the Philippines (TIP)",
         "Anonas City Center",
         "Project 8 Market",
-        "Roosevelt Avenue"
+        "Roosevelt Avenue",
+        "St. Joseph the Worker Parish",
+        "St. Paul University Quezon City",
+        "Hi-top Supermarket"
       ],
       "passenger_volume": {
         "daily_average": 20000,
@@ -491,10 +586,16 @@
         ],
         "bus_rapid_transit": [
           {
-            "system": "Antipolo-Cubao (Route 3)",
+            "system": "Antipolo-Quiapo (Route 3)",
             "stop": "Katipunan",
             "connection_type": "sidewalk",
             "walking_time": 5
+          },
+          {
+            "system": "Q City Bus via Welcome Rotonda-Katipunan",
+            "stop": "Katipunan",
+            "connection_type": "sidewalk",
+            "walking_time": 3
           }
         ]
       },
@@ -533,7 +634,7 @@
         ],
         "bus_rapid_transit": [
           {
-            "system": "Antipolo-Cubao (Route 3)",
+            "system": "Antipolo-Quiapo (Route 3)",
             "stop": "Santolan",
             "connection_type": "sidewalk",
             "walking_time": 5
@@ -592,7 +693,7 @@
         ],
         "bus_rapid_transit": [
           {
-            "system": "Antipolo-Cubao (Route 3)",
+            "system": "Antipolo-Quiapo (Route 3)",
             "stop": "Robinsoms Metro East",
             "connection_type": "sidewalk",
             "walking_time": 3
@@ -633,10 +734,10 @@
       "connections": {
         "bus_terminals": [
           "East Gate Business Center",
-          "Antipolo-Cubao"
+          "Antipolo-Quiapo"
         ],
         "jeepney_routes": [
-          "Antipolo-Cubao",
+          "Antipolo-Quiapo",
           "Antipolo-Marikina",
           "Upper Antipolo-Lower Antipolo",
           "Antipolo-Cainta",

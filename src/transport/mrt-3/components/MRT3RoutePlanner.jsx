@@ -148,6 +148,8 @@ export default function MRT3RoutePlanner({ initialFromStation, onRouteChange }) 
         return '🚌';
       case 'nearby_landmarks':
         return '🏢';
+      case 'ferry_service':
+        return '⛴️';
       default:
         return '🚌';
     }

@@ -437,6 +437,14 @@
             "walking_time": 1
           }
         ],
+        "ferry_service": [
+          {
+            "route": "Pasig River Ferry",
+            "stop": "Guadalupe",
+            "connection_type": "pedestrian_walkway",
+            "walking_time": 15
+          }
+        ],
         "jeepney_routes": [
           "Guadalupe-Makati CBD",
           "Guadalupe-Fort Bonifacio"

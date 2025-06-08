@@ -433,6 +433,26 @@
           "Doroteo Jose-Quiapo",
           "Doroteo Jose-Sta. Cruz"
         ],
+          "bus_rapid_transit": [
+          {
+            "system": "Quiapo-Angono (Route 2)",
+            "stop": "Quiapo",
+            "connection_type": "walking_distance",
+            "walking_time": 10
+          },
+          {
+            "system": "FTI-Divisoria (PNR-1)",
+            "stop": "Recto",
+            "connection_type": "sidewalk",
+            "walking_time": 5
+          },
+           {
+            "system": "Alabang-Divisoria (PNR-2)",
+            "stop": "Recto",
+            "connection_type": "sidewalk",
+            "walking_time": 5
+          }
+        ],
         "nearby_landmarks": [
           "Doroteo Jose Street",
           "Manila Central University"
@@ -468,10 +488,25 @@
           "Carriedo-Binondo",
           "Carriedo-Sta. Cruz"
         ],
+        "ferry_service" : [
+            {
+            "route": "Pasig River Ferry",
+            "stop": "Quinta Market",
+            "connection_type": "walking_distance",
+            "walking_time": 10
+          },
+          {
+            "route": "Pasig River Ferry",
+            "stop": "Escolta",
+            "connection_type": "walking_distance",
+            "walking_time": 15
+          }
+        ],
         "nearby_landmarks": [
           "Carriedo Fountain",
           "Quiapo Church",
-          "Plaza Miranda"
+          "Plaza Miranda",
+          "Quinta Market"
         ]
       }
     },
