@@ -1,12 +1,12 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import PropTypes from 'prop-types';
+import BootstrapIcon from './shared/BootstrapIcon';
 
-const SocialMediaIcon = ({ platform, url, className = '', size = 'md' }) => {
-  // Define platform-specific icons and colors
+const SocialMediaIcon = ({ platform, url, className = '', size = 'md' }) => {  // Define platform-specific icons and colors
   const platformConfig = {
     facebook: {
-      icon: '📘',
+      icon: 'facebook',
       name: 'Facebook',
       bgColor: 'bg-blue-600 hover:bg-blue-700',
       textColor: 'text-white',
@@ -14,7 +14,7 @@ const SocialMediaIcon = ({ platform, url, className = '', size = 'md' }) => {
       hoverBg: 'hover:bg-blue-50 dark:hover:bg-blue-500/10'
     },
     twitter: {
-      icon: '🐦',
+      icon: 'twitter',
       name: 'Twitter',
       bgColor: 'bg-sky-500 hover:bg-sky-600',
       textColor: 'text-white',
@@ -22,7 +22,7 @@ const SocialMediaIcon = ({ platform, url, className = '', size = 'md' }) => {
       hoverBg: 'hover:bg-sky-50 dark:hover:bg-sky-500/10'
     },
     instagram: {
-      icon: '📷',
+      icon: 'instagram',
       name: 'Instagram',
       bgColor: 'bg-pink-600 hover:bg-pink-700',
       textColor: 'text-white',
@@ -30,7 +30,7 @@ const SocialMediaIcon = ({ platform, url, className = '', size = 'md' }) => {
       hoverBg: 'hover:bg-pink-50 dark:hover:bg-pink-500/10'
     },
     youtube: {
-      icon: '📺',
+      icon: 'youtube',
       name: 'YouTube',
       bgColor: 'bg-red-600 hover:bg-red-700',
       textColor: 'text-white',
@@ -38,7 +38,7 @@ const SocialMediaIcon = ({ platform, url, className = '', size = 'md' }) => {
       hoverBg: 'hover:bg-red-50 dark:hover:bg-red-500/10'
     },
     tiktok: {
-      icon: '🎵',
+      icon: 'tiktok',
       name: 'TikTok',
       bgColor: 'bg-gray-900 hover:bg-black',
       textColor: 'text-white',
@@ -46,7 +46,7 @@ const SocialMediaIcon = ({ platform, url, className = '', size = 'md' }) => {
       hoverBg: 'hover:bg-gray-50 dark:hover:bg-gray-500/10'
     },
     website: {
-      icon: '🌐',
+      icon: 'globe',
       name: 'Website',
       bgColor: 'bg-green-600 hover:bg-green-700',
       textColor: 'text-white',
@@ -54,14 +54,14 @@ const SocialMediaIcon = ({ platform, url, className = '', size = 'md' }) => {
       hoverBg: 'hover:bg-green-50 dark:hover:bg-green-500/10'
     },
     email: {
-      icon: '📧',
+      icon: 'envelope-fill',
       name: 'Email',
       bgColor: 'bg-gray-600 hover:bg-gray-700',
       textColor: 'text-white',
       borderColor: 'border-gray-200 dark:border-gray-700',
       hoverBg: 'hover:bg-gray-50 dark:hover:bg-gray-500/10'
     },    phone: {
-      icon: '📞',
+      icon: 'telephone-fill',
       name: 'Phone',
       bgColor: 'bg-emerald-600 hover:bg-emerald-700',
       textColor: 'text-white',
@@ -69,7 +69,7 @@ const SocialMediaIcon = ({ platform, url, className = '', size = 'md' }) => {
       hoverBg: 'hover:bg-emerald-50 dark:hover:bg-emerald-500/10'
     },
     hotline: {
-      icon: '☎️',
+      icon: 'telephone-fill',
       name: 'Hotline',
       bgColor: 'bg-red-600 hover:bg-red-700',
       textColor: 'text-white',
@@ -162,13 +162,14 @@ const SocialMediaIcon = ({ platform, url, className = '', size = 'md' }) => {
         type: "spring",
         stiffness: 300,
         damping: 30
-      }}
-      title={getTitle()}
+      }}      title={getTitle()}
       aria-label={getAriaLabel()}
     >
-      <span className={`${sizes.icon} select-none`}>
-        {config.icon}
-      </span>
+      <BootstrapIcon 
+        name={config.icon} 
+        className={`${sizes.icon} select-none`}
+        size={size === 'sm' ? 14 : size === 'lg' ? 20 : 16}
+      />
     </motion.button>
   );
 };

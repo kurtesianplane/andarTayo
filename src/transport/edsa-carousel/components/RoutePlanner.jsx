@@ -6,12 +6,13 @@ import { ExclamationTriangleIcon, InformationCircleIcon } from '@heroicons/react
 import Tooltip from '../../../components/Tooltip';
 import AlertPopup from '../../../components/AlertPopup';
 import StopConnections from '../../shared/StopConnections';
-import stopsData from "../data/stops.json";
-import stopDetailsData from "../data/stopDetails.json";
-import fareMatrix from "../data/fareMatrix.json";
+import SocialMediaIcon from '../../../components/SocialMediaIcon';
 import _ from 'lodash';
 import { useAlerts } from '../../../context/AlertContext';
 import { usePWA } from '../../../hooks/usePWA';
+import { useTransportData, useRoutePlanner } from '../../shared/hooks/useTransport';
+import { getConnectionIcon } from '../../shared/utils/connectionUtils.jsx';
+import { TRANSPORT_TYPES } from '../../shared/config/transportConfig';
 
 // Animation variants
 const containerVariants = {
@@ -70,12 +71,22 @@ const selectTransition = {
 export default function EDSACarouselRoutePlanner({ initialFromStop, onRouteChange }) {
   const { isStopDisabled, getStopAlerts } = useAlerts();
   const { trackEngagement } = usePWA();
+  
+  // Use unified transport data system
+  const { data: transportData, loading: dataLoading, error: dataError } = useTransportData(TRANSPORT_TYPES.EDSA_CAROUSEL);
+  const { 
+    route, 
+    fare, 
+    loading: routeLoading, 
+    error: routeError, 
+    calculateRoute, 
+    clearRoute, 
+    getPaymentMethods 
+  } = useRoutePlanner(TRANSPORT_TYPES.EDSA_CAROUSEL);
+  
   const [fromStop, setFromStop] = useState("");
   const [toStop, setToStop] = useState("");
   const [category, setCategory] = useState("regular"); // Passenger category
-  const [result, setResult] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState(null);
   const [direction, setDirection] = useState('southbound');
   const [availableToStops, setAvailableToStops] = useState([]);
   const [expandedLandmarks, setExpandedLandmarks] = useState(new Set());
@@ -86,6 +97,13 @@ export default function EDSACarouselRoutePlanner({ initialFromStop, onRouteChang
     alerts: []
   });
 
+  // Loading and error states from unified system
+  const isLoading = dataLoading || routeLoading;
+  const error = dataError || routeError;
+
+  // Payment methods from unified config
+  const paymentMethods = getPaymentMethods();
+
   // Handle disabled stop selection
   const handleDisabledStopClick = useCallback((stopId) => {
     const alerts = getStopAlerts(stopId);
@@ -93,71 +111,17 @@ export default function EDSACarouselRoutePlanner({ initialFromStop, onRouteChang
       isOpen: true,
       alerts: alerts
     });
-  }, [getStopAlerts]);
-
-  // Memoize the available stops
+  }, [getStopAlerts]);  // Memoize the available stops
   const availableFromStops = React.useMemo(() => 
-    stopsData.sort((a, b) => a.sequence - b.sequence)
-  , []);
-
-  // Calculate direction based on sequence
-  const calculateDirection = useCallback((fromStopData, toStopData) => {
-    // Monumento=1 is northbound terminus, PITX=23 is southbound terminus
-    // If going from lower sequence to higher sequence = southbound (towards PITX)
-    // If going from higher sequence to lower sequence = northbound (towards Monumento)
-    return fromStopData.sequence < toStopData.sequence ? 'southbound' : 'northbound';
-  }, []);
-
-  // EDSA Carousel fare calculation with distance-based pricing and passenger categories
-  const calculateFare = useCallback((fromStop, toStop, category) => {
-    try {
-      // Calculate distance based on cumulative distances between stops
-      let totalDistance = 0;
-      const startSeq = Math.min(fromStop.sequence, toStop.sequence);
-      const endSeq = Math.max(fromStop.sequence, toStop.sequence);
-      
-      // Sum up distances between consecutive stops
-      for (let seq = startSeq; seq < endSeq; seq++) {
-        const currentStop = stopsData.find(s => s.sequence === seq);
-        if (currentStop && stopDetailsData.stops[currentStop.stop_id]) {
-          totalDistance += stopDetailsData.stops[currentStop.stop_id].distance_to_next || 1.0;
-        }
-      }
-      
-      // Get fare structure for the passenger category
-      const fareData = fareMatrix[category] || fareMatrix.regular;
-      
-      // Calculate fare: base fare + (distance - min_km) * per_km rate
-      let fare = fareData.base_fare;
-      if (totalDistance > fareData.min_km) {
-        fare += (totalDistance - fareData.min_km) * fareData.per_km;
-      }
-      
-      // Round to nearest peso
-      fare = Math.round(fare);
-      
-      // Calculate estimated travel time (approximately 3 minutes per km + buffer for stops)
-      const numberOfStops = Math.abs(toStop.sequence - fromStop.sequence);
-      const estimatedTime = Math.round(totalDistance * 3 + numberOfStops * 1.5);
-      
-      return {
-        fare: fare,
-        distance: Math.round(totalDistance * 100) / 100, // Round to 2 decimal places
-        estimatedTime: Math.max(estimatedTime, 5) // Minimum 5 minutes
-      };
-    } catch (error) {
-      console.error('Error calculating fare:', error);
-      return { fare: 15, distance: 0, estimatedTime: 10 };
-    }
-  }, []);
-
+    transportData?.stations ? transportData.stations.sort((a, b) => a.sequence - b.sequence) : []
+  , [transportData?.stations]);
   // Update available destination stops when origin changes
   useEffect(() => {
-    if (fromStop) {
-      const fromStopData = stopsData.find(s => s.stop_id === fromStop);
+    if (fromStop && transportData?.stations) {
+      const fromStopData = transportData.stations.find(s => s.stop_id === fromStop);
       if (fromStopData) {
         // Filter out the selected origin and any disabled stops
-        const available = stopsData.filter(stop => 
+        const available = transportData.stations.filter(stop => 
           stop.stop_id !== fromStop && !isStopDisabled(stop.stop_id)
         );
         setAvailableToStops(available);
@@ -165,131 +129,64 @@ export default function EDSACarouselRoutePlanner({ initialFromStop, onRouteChang
         // Reset destination if it's the same as origin or disabled
         if (toStop === fromStop || isStopDisabled(toStop)) {
           setToStop("");
-          setResult(null);
         }
       }
     } else {
       setAvailableToStops([]);
       setToStop("");
-      setResult(null);
     }
-  }, [fromStop, toStop, isStopDisabled]);
-
+  }, [fromStop, toStop, isStopDisabled, transportData?.stations]);
   // Set initial from stop if provided
   useEffect(() => {
     if (initialFromStop && initialFromStop.stop_id && !fromStop) {
       setFromStop(initialFromStop.stop_id);
     }
-  }, [initialFromStop, fromStop]);
-
-  // Calculate route when both stops are selected
-  const calculateRoute = useCallback(async () => {
-    if (!fromStop || !toStop) return;
-
-    setIsLoading(true);
-    setError(null);
+  }, [initialFromStop, fromStop]);  // Handle route calculation using unified system
+  const handleCalculateRoute = useCallback(async () => {
+    if (!fromStop || !toStop) {
+      return;
+    }
 
     try {
-      // Find stop data
-      const fromStopData = stopsData.find(s => s.stop_id === fromStop);
-      const toStopData = stopsData.find(s => s.stop_id === toStop);
+      const result = await calculateRoute(fromStop, toStop, category);
+      
+      if (result?.route) {
+        // Track PWA engagement for route planning
+        trackEngagement('ROUTE_PLANNED', {
+          transportType: 'EDSA Carousel',
+          from: result.route.fromStation?.name,
+          to: result.route.toStation?.name,
+          fare: result.fare,
+          distance: result.route.distance
+        });
 
-      if (!fromStopData || !toStopData) {
-        throw new Error('Stop not found');
+        // Notify parent component of route change
+        if (onRouteChange) {
+          onRouteChange(result.route);
+        }
+
+        // Show success toast
+        toast.success(`Route calculated: ₱${result.fare} (${result.route.distance}km)`);
       }
-
-      // Calculate trip direction
-      const tripDirection = calculateDirection(fromStopData, toStopData);
-
-      // Calculate fare and travel details
-      const fareDetails = calculateFare(fromStopData, toStopData, category);
-
-      // Generate route path
-      const startSeq = Math.min(fromStopData.sequence, toStopData.sequence);
-      const endSeq = Math.max(fromStopData.sequence, toStopData.sequence);
-      const routeStops = stopsData
-        .filter(s => s.sequence >= startSeq && s.sequence <= endSeq)
-        .sort((a, b) => a.sequence - b.sequence);
-
-      // If going northbound, reverse the route
-      if (tripDirection === 'northbound') {
-        routeStops.reverse();
-      }
-
-      const routeResult = {
-        from: fromStopData,
-        to: toStopData,
-        direction: tripDirection,
-        fare: fareDetails.fare,
-        distance: fareDetails.distance,
-        estimatedTime: fareDetails.estimatedTime,
-        stops: routeStops,
-        category: category,
-        numberOfStops: Math.abs(toStopData.sequence - fromStopData.sequence),
-        operatingHours: "5:00 AM - 10:00 PM",
-        frequency: "5-10 minutes"
-      };      setResult(routeResult);
-
-      // Track PWA engagement for route planning
-      trackEngagement('ROUTE_PLANNED', {
-        transportType: 'EDSA Carousel',
-        from: fromStopData.name,
-        to: toStopData.name,
-        fare: fareDetails.fare,
-        distance: fareDetails.distance
-      });
-
-      // Notify parent component of route change
-      if (onRouteChange) {
-        onRouteChange(routeResult);
-      }
-
-      // Show success toast
-      toast.success(`Route calculated: ₱${fareDetails.fare} (${fareDetails.distance}km)`);
-
     } catch (err) {
       console.error('Route calculation error:', err);
-      setError(err.message || 'Failed to calculate route');
-      toast.error('Failed to calculate route');
-    } finally {
-      setIsLoading(false);
+      toast.error(err.message || "Failed to calculate route");
     }
-  }, [fromStop, toStop, category, calculateDirection, calculateFare, onRouteChange]);
+  }, [fromStop, toStop, category, onRouteChange]);
 
   // Trigger calculation when inputs change
   useEffect(() => {
     if (fromStop && toStop && fromStop !== toStop) {
-      const timeoutId = setTimeout(calculateRoute, 300);
-      return () => clearTimeout(timeoutId);
+      const debounced = _.debounce(handleCalculateRoute, 300);
+      debounced();
+      return () => debounced.cancel();
     }
-  }, [fromStop, toStop, category, calculateRoute]);
-
-  // Get connection icons for a stop
-  const getConnectionIcon = useCallback((stop) => {
-    const details = stopDetailsData.stops[stop.stop_id];
-    if (!details || !details.connections) return '';
-
-    const connections = details.connections;
-    const icons = [];
-    
-    if (connections.rail && connections.rail.length > 0) {
-      icons.push('🚆'); // Rail connection
-    }
-    if (connections.terminal && connections.terminal.length > 0) {
-      icons.push('🚌'); // Terminal/Bus connection
-    }
-    if (connections.mall && connections.mall.length > 0) {
-      icons.push('🏢'); // Mall connection
-    }
-    
-    return icons.join(' ');
-  }, []);
-
+  }, [fromStop, toStop, category]);
   // Get unique connection types for filtering
   const getUniqueConnectionTypes = useCallback((stops) => {
     const types = new Set();
     stops.forEach(stop => {
-      const details = stopDetailsData.stops[stop.stop_id];
+      const details = transportData?.stopDetails?.[stop.stop_id];
       if (details && details.connections) {
         Object.keys(details.connections).forEach(type => {
           if (details.connections[type] && details.connections[type].length > 0) {
@@ -299,7 +196,7 @@ export default function EDSACarouselRoutePlanner({ initialFromStop, onRouteChang
       }
     });
     return Array.from(types);
-  }, []);
+  }, [transportData?.stopDetails]);
 
   // Toggle landmarks expansion for a stop
   const toggleLandmarks = useCallback((stopId) => {
@@ -387,11 +284,10 @@ export default function EDSACarouselRoutePlanner({ initialFromStop, onRouteChang
                          disabled:opacity-50 disabled:cursor-not-allowed"
                 disabled={isLoading}
                 transition={selectTransition}
-              >
-                <option value="">Select origin stop</option>
+              >                <option value="">Select origin stop</option>
                 {availableFromStops.map(stop => {
                   const isDisabled = isStopDisabled(stop.stop_id);
-                  const connectionIcon = getConnectionIcon(stop);
+                  const connectionIcon = getConnectionIcon(stop, transportData?.stopDetails);
                   
                   return (
                     <option 
@@ -422,10 +318,9 @@ export default function EDSACarouselRoutePlanner({ initialFromStop, onRouteChang
                          disabled:opacity-50 disabled:cursor-not-allowed"
                 disabled={isLoading || !fromStop}
                 transition={selectTransition}
-              >
-                <option value="">Select destination stop</option>
+              >                <option value="">Select destination stop</option>
                 {availableToStops.map(stop => {
-                  const connectionIcon = getConnectionIcon(stop);
+                  const connectionIcon = getConnectionIcon(stop, transportData?.stopDetails);
                   
                   return (
                     <option key={stop.stop_id} value={stop.stop_id}>
@@ -434,9 +329,7 @@ export default function EDSACarouselRoutePlanner({ initialFromStop, onRouteChang
                   );
                 })}
               </motion.select>
-            </motion.div>
-
-            {/* Passenger Category */}
+            </motion.div>            {/* Passenger Category */}
             <motion.div layout className="space-y-2">
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
                 Passenger Category
@@ -448,12 +341,12 @@ export default function EDSACarouselRoutePlanner({ initialFromStop, onRouteChang
                 className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 
                          bg-white dark:bg-gray-700 text-gray-900 dark:text-white
                          focus:ring-orange-500 focus:border-orange-500 transition-all duration-200"
-                transition={selectTransition}
-              >
-                <option value="regular">Regular</option>
-                <option value="student">Student</option>
-                <option value="pwd">PWD</option>
-                <option value="senior">Senior Citizen</option>
+                transition={selectTransition}              >
+                {paymentMethods.map(method => (
+                  <option key={method.id} value={method.id}>
+                    {method.name}
+                  </option>
+                ))}
               </motion.select>
             </motion.div>
           </div>
@@ -490,11 +383,9 @@ export default function EDSACarouselRoutePlanner({ initialFromStop, onRouteChang
             </motion.div>
           )}
         </AnimatePresence>
-      </motion.div>
-
-      {/* Trip Summary */}
+      </motion.div>      {/* Trip Summary */}
       <AnimatePresence>
-        {result && (
+        {route && (
           <motion.div
             variants={fadeVariants}
             initial="hidden"
@@ -502,37 +393,44 @@ export default function EDSACarouselRoutePlanner({ initialFromStop, onRouteChang
             exit="hidden"
             className="bg-orange-50 dark:bg-orange-900/20 rounded-xl shadow-lg p-6 border border-orange-200 dark:border-orange-800"
           >
-            <div className="flex items-center justify-between mb-4">              <h2 className="text-lg sm:text-xl font-semibold text-orange-600 dark:text-orange-400">
+            <div className="flex items-center justify-between mb-4">
+              <h2 className="text-lg sm:text-xl font-semibold text-orange-600 dark:text-orange-400">
                 Trip Summary
-              </h2>
-              <div className="text-sm text-orange-600 dark:text-orange-400">
-                {result.direction === 'southbound' ? '🚌 → PITX' : '🚌 → Monumento'}
+              </h2>              <div className="text-sm text-orange-600 dark:text-orange-400 flex items-center gap-1">
+                <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M4 4h16v12H4V4zm14 2H6v8h12V6zM2 18h20v2H2v-2z" />
+                  <rect x="6" y="8" width="3" height="4" />
+                  <rect x="11" y="8" width="3" height="4" />
+                  <rect x="16" y="8" width="2" height="4" />
+                </svg>
+                {route.direction === 'southbound' ? '→ PITX' : '→ Monumento'}
               </div>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
               <div className="text-center">
                 <div className="text-xl sm:text-2xl font-bold text-orange-600 dark:text-orange-400">
-                  ₱{result.fare}
+                  ₱{route.fare}
                 </div>
                 <div className="text-sm text-gray-600 dark:text-gray-300">
                   {category.charAt(0).toUpperCase() + category.slice(1)} Fare
                 </div>
-              </div>              <div className="text-center">
+              </div>
+              <div className="text-center">
                 <div className="text-xl sm:text-2xl font-bold text-orange-600 dark:text-orange-400">
-                  {result.distance}km
+                  {route.distance}km
                 </div>
                 <div className="text-sm text-gray-600 dark:text-gray-300">Distance</div>
               </div>
               <div className="text-center">
                 <div className="text-xl sm:text-2xl font-bold text-orange-600 dark:text-orange-400">
-                  {result.estimatedTime}min
+                  {route.estimatedTime}min
                 </div>
                 <div className="text-sm text-gray-600 dark:text-gray-300">Estimated Time</div>
               </div>
               <div className="text-center">
                 <div className="text-xl sm:text-2xl font-bold text-orange-600 dark:text-orange-400">
-                  {result.numberOfStops}
+                  {route.numberOfStops}
                 </div>
                 <div className="text-sm text-gray-600 dark:text-gray-300">Stops</div>
               </div>
@@ -558,8 +456,7 @@ export default function EDSACarouselRoutePlanner({ initialFromStop, onRouteChang
                   exit={{ opacity: 0, height: 0 }}
                   transition={{ duration: 0.3, ease: "easeInOut" }}
                   className="mt-4 space-y-4"
-                >
-                  {/* Operating Info */}
+                >                  {/* Operating Info */}
                   <div className="bg-white dark:bg-gray-800 rounded-lg p-4 border border-orange-200 dark:border-orange-700">
                     <h3 className="font-semibold text-gray-900 dark:text-white mb-2">
                       Operating Information
@@ -567,25 +464,23 @@ export default function EDSACarouselRoutePlanner({ initialFromStop, onRouteChang
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
                       <div>
                         <span className="font-medium text-gray-700 dark:text-gray-300">Hours:</span>
-                        <span className="ml-2 text-gray-600 dark:text-gray-400">{result.operatingHours}</span>
+                        <span className="ml-2 text-gray-600 dark:text-gray-400">{route.operatingHours || "5:00 AM - 10:00 PM"}</span>
                       </div>
                       <div>
                         <span className="font-medium text-gray-700 dark:text-gray-300">Frequency:</span>
-                        <span className="ml-2 text-gray-600 dark:text-gray-400">{result.frequency}</span>
+                        <span className="ml-2 text-gray-600 dark:text-gray-400">{route.frequency || "5-10 minutes"}</span>
                       </div>
                     </div>
-                  </div>
-
-                  {/* Route Path */}
+                  </div>                  {/* Route Path */}
                   <div className="bg-white dark:bg-gray-800 rounded-lg p-4 border border-orange-200 dark:border-orange-700">
                     <h3 className="font-semibold text-gray-900 dark:text-white mb-3">
-                      Route Path ({result.stops.length} stops)
+                      Route Path ({route.route?.length || 0} stops)
                     </h3>
                     <div className="space-y-2">
-                      {result.stops.map((stop, index) => {
-                        const isOrigin = stop.stop_id === result.from.stop_id;
-                        const isDestination = stop.stop_id === result.to.stop_id;
-                        const connectionIcon = getConnectionIcon(stop);
+                      {route.route?.map((stop, index) => {
+                        const isOrigin = stop.stop_id === route.fromStation?.stop_id;
+                        const isDestination = stop.stop_id === route.toStation?.stop_id;
+                        const connectionIcon = getConnectionIcon(stop, transportData?.stopDetails);
                         
                         return (
                           <motion.div
@@ -624,7 +519,7 @@ export default function EDSACarouselRoutePlanner({ initialFromStop, onRouteChang
                               {/* Stop Connections */}
                               <StopConnections 
                                 stop={stop}
-                                stopDetails={stopDetailsData.stops[stop.stop_id]}
+                                stopDetails={transportData?.stopDetails?.[stop.stop_id]}
                                 isExpanded={expandedStops.has(stop.stop_id)}
                                 onToggle={() => toggleStopDetails(stop.stop_id)}
                                 colorScheme="orange"
@@ -632,12 +527,34 @@ export default function EDSACarouselRoutePlanner({ initialFromStop, onRouteChang
                             </div>
                           </motion.div>
                         );
-                      })}
-                    </div>
+                      })}                    </div>
                   </div>
                 </motion.div>
               )}
             </AnimatePresence>
+
+            {/* Social Media & Updates */}
+            {transportData?.socials && (
+              <div className="mt-4 pt-4 border-t border-orange-200 dark:border-orange-700">
+                <div className="flex flex-wrap items-center gap-2 mb-2">
+                  <span className="text-sm font-medium text-gray-700 dark:text-gray-300">Follow {transportData.socials.transport_name}:</span>
+                </div>                <div className="flex flex-wrap gap-2">
+                  {transportData.socials.social_media
+                    ?.filter(social => social.active)
+                    .map((social, index) => (
+                      <SocialMediaIcon
+                        key={index}
+                        platform={social.platform}
+                        url={social.url}
+                        className="!w-auto !h-auto !px-3 !py-1 !rounded-full !text-xs !font-medium
+                                 !bg-orange-100 !text-orange-700 hover:!bg-orange-200 dark:!bg-orange-900/30 
+                                 dark:!text-orange-300 dark:hover:!bg-orange-900/50 !transition-colors !duration-200"
+                        size="sm"
+                      />
+                    ))}
+                </div>
+              </div>
+            )}
           </motion.div>
         )}
       </AnimatePresence>

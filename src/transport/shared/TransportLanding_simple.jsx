@@ -1,5 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import BootstrapIcon from '../../components/shared/BootstrapIcon';
 import andarTayoLogo from '../../assets/andarTayo_logo.svg';
 
 const TransportLanding = ({ onModeSelect }) => {
@@ -8,7 +9,12 @@ const TransportLanding = ({ onModeSelect }) => {
       id: 'edsa-carousel',
       name: 'EDSA Carousel',
       description: 'Bus Rapid Transit System along EDSA',
-      icon: '🚌',
+      icon: <svg className="w-8 h-8" fill="currentColor" viewBox="0 0 24 24">
+        <path d="M4 4h16v12H4V4zm14 2H6v8h12V6zM2 18h20v2H2v-2z" />
+        <rect x="6" y="8" width="3" height="4" />
+        <rect x="11" y="8" width="3" height="4" />
+        <rect x="16" y="8" width="2" height="4" />
+      </svg>,
       color: '#dc2626',
       stats: {
         stations: '18+ stops',
@@ -22,7 +28,7 @@ const TransportLanding = ({ onModeSelect }) => {
       id: 'lrt-2',
       name: 'LRT Line 2',
       description: 'Light Rail Transit from Recto to Antipolo',
-      icon: '🚇',
+      icon: 'train-front-fill',
       color: '#8E44AD',
       stats: {
         stations: '13 stations',
@@ -36,7 +42,7 @@ const TransportLanding = ({ onModeSelect }) => {
       id: 'mrt-3',
       name: 'MRT Line 3',
       description: 'Metro Rail Transit from North Avenue to Taft Avenue',
-      icon: '🚊',
+      icon: 'train-front-fill',
       color: '#1e40af',
       stats: {
         stations: '13 stations',
@@ -50,7 +56,7 @@ const TransportLanding = ({ onModeSelect }) => {
       id: 'lrt-1',
       name: 'LRT Line 1',
       description: 'Light Rail Transit from Roosevelt to Dr. Santos',
-      icon: '🚈',
+      icon: 'train-front-fill',
       color: '#16a34a',
       stats: {
         stations: '25 stations',
@@ -142,12 +148,15 @@ const TransportLanding = ({ onModeSelect }) => {
                 }}
               >
                 <div className="flex items-start justify-between">
-                  <div className="flex items-center gap-4">
-                    <div 
+                  <div className="flex items-center gap-4">                    <div 
                       className="w-12 h-12 sm:w-14 sm:h-14 lg:w-16 lg:h-16 rounded-2xl flex items-center justify-center text-2xl sm:text-3xl shadow-lg"
-                      style={{ backgroundColor: `${mode.color}20` }}
+                      style={{ backgroundColor: `${mode.color}20`, color: mode.color }}
                     >
-                      {mode.icon}
+                      {typeof mode.icon === 'string' ? (
+                        <BootstrapIcon name={mode.icon} className="w-8 h-8" />
+                      ) : (
+                        mode.icon
+                      )}
                     </div>
                     <div>
                       <h3 className="text-lg sm:text-xl lg:text-2xl font-bold text-gray-900 dark:text-white mb-2">

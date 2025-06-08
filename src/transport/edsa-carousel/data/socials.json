@@ -1,0 +1,53 @@
+{
+  "transport_name": "EDSA Carousel",
+  "transport_description": "EDSA Bus Rapid Transit (BRT) - Orange Line",
+  "official_name": "Department of Transportation (DOTr)",
+  "social_media": [
+    {
+      "platform": "facebook",
+      "url": "https://www.facebook.com/OfficialDOTr",
+      "display_name": "@OfficialDOTr",
+      "active": true
+    },
+    {
+      "platform": "twitter",
+      "url": "https://x.com/DOTrPH",
+      "display_name": "@DOTrPH",
+      "active": true
+    },
+    {
+      "platform": "youtube",
+      "url": "https://www.youtube.com/@OfficialDOTr",
+      "display_name": "@OfficialDOTr",
+      "active": true
+    },
+    {
+      "platform": "website",
+      "url": "https://dotr.gov.ph/",
+      "display_name": "Official Website",
+      "active": true
+    },
+    {
+      "platform": "email",
+      "url": "mailto:info@dotr.gov.ph",
+      "display_name": "info@dotr.gov.ph",
+      "active": true
+    }
+  ],
+  "updates": [
+    {
+      "type": "info",
+      "title": "EDSA Carousel Operating Hours",
+      "message": "Operating daily from 5:00 AM to 10:00 PM with frequent service every 5-10 minutes during peak hours.",
+      "timestamp": "2024-01-15T08:00:00Z",
+      "active": true
+    },
+    {
+      "type": "notice",
+      "title": "Cashless Payment Only",
+      "message": "EDSA Carousel accepts contactless payments via beep cards, GCash, PayMaya, and other electronic payment methods. Cash payments are not accepted.",
+      "timestamp": "2024-01-10T10:00:00Z",
+      "active": true
+    }
+  ]
+}
