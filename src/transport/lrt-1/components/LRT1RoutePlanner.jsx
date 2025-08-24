@@ -261,8 +261,8 @@ export default function LRT1RoutePlanner({ initialFromStation, onRouteChange }) 
         <motion.div 
           className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6 h-fit order-1 lg:order-1"
           variants={itemVariants}
-        >          <div className="flex items-center gap-3 mb-6">            <div className="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center">
-              <BootstrapIcon name="train-lightrail-front-fill" className="text-xl text-green-600" />
+        >          <div className="flex items-center gap-3 mb-6">            <div className="w-14 h-14 bg-green-100 rounded-lg flex items-center justify-center">
+              <BootstrapIcon name="train-lightrail-front-fill" size={32} style={{ color: '#16a34a' }} />
             </div><div>
               <h2 className="text-lg sm:text-xl font-semibold text-gray-900 dark:text-white">LRT-1 Route Planner</h2>
               <p className="text-sm text-gray-500 dark:text-gray-400">Green Line • Fernando Poe Jr. (Formerly Roosevelt) ↔ Dr. Santos</p>
@@ -324,9 +324,8 @@ export default function LRT1RoutePlanner({ initialFromStation, onRouteChange }) 
                 whileTap={{ scale: 0.9 }}
                 transition={springTransition}
                 title="Swap departure and destination stations"
-              >
-                <svg 
-                  className="w-5 h-5" 
+              >                <svg 
+                  className="w-6 h-6" 
                   fill="none" 
                   stroke="currentColor" 
                   viewBox="0 0 24 24"
@@ -398,16 +397,15 @@ export default function LRT1RoutePlanner({ initialFromStation, onRouteChange }) 
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
                     transition={springTransition}
-                  >
-                    <div className="flex items-center gap-3">
-                      <method.icon className="w-5 h-5 text-gray-600 dark:text-gray-400" />
+                  >                    <div className="flex items-center gap-3">
+                      <method.icon className="w-6 h-6 text-gray-600 dark:text-gray-400" />
                       <div className="flex-1">
                         <div className="font-medium text-gray-900 dark:text-white">{method.name}</div>
                         <div className="text-sm text-gray-500 dark:text-gray-400">{method.description}</div>
                       </div>
                       {category === method.id && (
-                        <div className="w-5 h-5 bg-green-500 rounded-full flex items-center justify-center">
-                          <div className="w-2 h-2 bg-white rounded-full"></div>
+                        <div className="w-6 h-6 bg-green-500 rounded-full flex items-center justify-center">
+                          <div className="w-3 h-3 bg-white rounded-full"></div>
                         </div>
                       )}
                     </div>
@@ -425,9 +423,8 @@ export default function LRT1RoutePlanner({ initialFromStation, onRouteChange }) 
                   exit={{ opacity: 0, height: 0 }}
                   transition={{ duration: 0.3 }}
                   className="bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-700 rounded-lg p-4"
-                >
-                  <div className="flex items-start gap-3">
-                    <InformationCircleIcon className="w-5 h-5 text-green-600 dark:text-green-400 flex-shrink-0 mt-0.5" />
+                >                  <div className="flex items-start gap-3">
+                    <InformationCircleIcon className="w-6 h-6 text-green-600 dark:text-green-400 flex-shrink-0 mt-0.5" />
                     <div className="flex-1">
                       <h4 className="font-medium text-green-900 dark:text-green-100 mb-1">
                         PWD/Senior Citizen Discount
@@ -449,12 +446,11 @@ export default function LRT1RoutePlanner({ initialFromStation, onRouteChange }) 
                 <div className="flex items-center gap-2 flex-wrap">
                   {transportData.socials.social_media
                     ?.filter(social => social.active)
-                    ?.map((social, index) => (
-                      <SocialMediaIcon 
+                    ?.map((social, index) => (                      <SocialMediaIcon 
                         key={index}
                         platform={social.platform} 
                         url={social.url} 
-                        size="sm"
+                        size="md"
                       />
                     ))}
                 </div>
@@ -476,8 +472,8 @@ export default function LRT1RoutePlanner({ initialFromStation, onRouteChange }) 
                 initial="hidden"
                 animate="visible"
                 exit="hidden"
-              >                <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <BootstrapIcon name="train-lightrail-front-fill" className="w-8 h-8 text-green-600" size={32} />
+              >                <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <BootstrapIcon name="train-lightrail-front-fill" size={48} style={{ color: '#16a34a' }} />
                 </div>
                 <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-2">Plan Your LRT-1 Journey</h3>
                 <p className="text-gray-500 dark:text-gray-400">Select your departure and destination stations to see route details, fare, and travel time.</p>
@@ -666,7 +662,7 @@ export default function LRT1RoutePlanner({ initialFromStation, onRouteChange }) 
               exit={{ opacity: 0, scale: 0.95 }}
             >
               <div className="flex items-center gap-2">
-                <ExclamationTriangleIcon className="w-5 h-5" />
+                <ExclamationTriangleIcon className="w-6 h-6" />
                 <span className="font-medium">Error</span>
               </div>
               <p className="mt-1 text-sm">{routeError}</p>

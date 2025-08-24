@@ -18,7 +18,7 @@ export default function StopConnections({ connections }) {
   return (
     <div className="bg-white dark:bg-neutral-800 rounded-lg border border-neutral-200 dark:border-neutral-700 p-3 space-y-3">      {rail && (
         <div className="flex items-start gap-2">
-          <BootstrapIcon name="train-front-fill" className="w-5 h-5 text-ph-blue-500 dark:text-ph-blue-400 shrink-0 mt-0.5" size={20} />
+          <BootstrapIcon name="train-front-fill" className="w-5 h-5 text-ph-blue-500 dark:text-ph-blue-400 shrink-0 mt-0.5" />
           <div>
             <p className="text-sm font-medium text-neutral-900 dark:text-neutral-100">
               Rail Connections
@@ -107,7 +107,7 @@ export default function StopConnections({ connections }) {
         </div>
       )}      {bus_rapid_transit && (
         <div className="flex items-start gap-2">
-          <BootstrapIcon name="bus-front-fill" className="w-5 h-5 text-red-500 dark:text-red-400 shrink-0 mt-0.5" size={20} />
+          <BootstrapIcon name="bus-front-fill" className="w-5 h-5 text-red-500 dark:text-red-400 shrink-0 mt-0.5" />
           <div>
             <p className="text-sm font-medium text-neutral-900 dark:text-neutral-100">
               Bus Rapid Transit
@@ -138,7 +138,7 @@ export default function StopConnections({ connections }) {
         </div>
       )}      {bus_terminals && (
         <div className="flex items-start gap-2">
-          <BootstrapIcon name="bus-front-fill" className="w-5 h-5 text-green-500 dark:text-green-400 shrink-0 mt-0.5" size={20} />
+          <BootstrapIcon name="bus-front-fill" className="w-5 h-5 text-green-500 dark:text-green-400 shrink-0 mt-0.5" />
           <div>
             <p className="text-sm font-medium text-neutral-900 dark:text-neutral-100">
               Bus Terminals
@@ -157,7 +157,7 @@ export default function StopConnections({ connections }) {
         </div>
       )}      {jeepney_routes && (
         <div className="flex items-start gap-2">
-          <BootstrapIcon name="truck-front-fill" className="w-5 h-5 text-yellow-500 dark:text-yellow-400 shrink-0 mt-0.5" size={20} />
+          <BootstrapIcon name="truck-front-fill" className="w-5 h-5 text-yellow-500 dark:text-yellow-400 shrink-0 mt-0.5" />
           <div>
             <p className="text-sm font-medium text-neutral-900 dark:text-neutral-100">
               Jeepney Routes

@@ -16,6 +16,19 @@ const PWAStatusIndicator = ({ className = '', showInstallButton = false }) => {
     return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
   };
 
+  const isIOS = () => {
+    return /iPad|iPhone|iPod/.test(navigator.userAgent) || 
+           (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+  };
+
+  const isIOSSafari = () => {
+    const ua = navigator.userAgent.toLowerCase();
+    return isIOS() && /safari/.test(ua) && !/chrome|crios|fxios/.test(ua);
+  };
+
+  // Check if we can show install option
+  const canShowInstall = canInstall || (isIOSSafari() && !isInstalled);
+
   const handleInstallClick = async () => {
     if (isMobile()) {
       setShowMobileInstructions(true);
@@ -28,10 +41,10 @@ const PWAStatusIndicator = ({ className = '', showInstallButton = false }) => {
     }
   };
 
-  const shouldShowStatus = !isOnline || (isMobile() && (isInstalled || canInstall));
+  const shouldShowStatus = !isOnline || (isMobile() && (isInstalled || canShowInstall));
 
   // Show install button on mobile homepage if requested
-  if (showInstallButton && isMobile() && !isInstalled && canInstall) {
+  if (showInstallButton && isMobile() && !isInstalled && canShowInstall) {
     return (
       <>
         <button
@@ -77,8 +90,7 @@ const PWAStatusIndicator = ({ className = '', showInstallButton = false }) => {
             <span className="hidden sm:inline">App Mode</span>
           </div>
         )}
-        
-        {isMobile() && !isInstalled && canInstall && (
+          {isMobile() && !isInstalled && canShowInstall && (
           <button
             onClick={handleInstallClick}
             className="flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium bg-gray-100 hover:bg-gray-200 text-gray-700 transition-colors dark:bg-gray-700 dark:hover:bg-gray-600 dark:text-gray-300"

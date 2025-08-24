@@ -16,14 +16,15 @@ const MobileInstallInstructions = ({
   const [currentStep, setCurrentStep] = useState(0);
 
   if (!isVisible) return null;
-
   const getBrowserInstructions = () => {
     const userAgent = navigator.userAgent.toLowerCase();
-    const isIOS = /iphone|ipad|ipod/.test(userAgent);
+    const isIOS = /iphone|ipad|ipod/.test(userAgent) || 
+                  (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
     const isAndroid = /android/.test(userAgent);
-    const isSafari = /safari/.test(userAgent) && !/chrome/.test(userAgent);
-    const isChrome = /chrome/.test(userAgent);
+    const isSafari = /safari/.test(userAgent) && !/chrome|crios|fxios/.test(userAgent);
+    const isChrome = /chrome/.test(userAgent) && !/edg/.test(userAgent);
     const isFirefox = /firefox/.test(userAgent);
+    const isEdge = /edg/.test(userAgent);
 
     if (isIOS && isSafari) {
       return {
@@ -33,20 +34,44 @@ const MobileInstallInstructions = ({
           {
             icon: ShareIcon,
             title: 'Tap the Share button',
-            description: 'Look for the share icon at the bottom of your screen',
-            detail: 'It looks like a square with an arrow pointing up'
+            description: 'Look for the share icon at the bottom center of your screen',
+            detail: 'It looks like a square with an arrow pointing up ⬆️'
           },
           {
             icon: PlusIcon,
             title: 'Select "Add to Home Screen"',
             description: 'Scroll down in the share menu to find this option',
-            detail: 'You might need to scroll down to see it'
+            detail: 'It has a plus (+) icon next to it'
           },
           {
             icon: DevicePhoneMobileIcon,
             title: 'Tap "Add" to confirm',
             description: 'andarTayo! will be added to your home screen',
-            detail: 'You can now access it like any other app'
+            detail: 'You can now access it like any other app!'
+          }
+        ]
+      };
+    } else if (isIOS && !isSafari) {
+      return {
+        browser: 'iOS Browser',
+        os: 'iOS',
+        steps: [
+          {
+            icon: GlobeAltIcon,
+            title: 'Open in Safari',
+            description: 'Copy this URL and open it in Safari browser',
+            detail: 'PWA installation only works in Safari on iOS'
+          },
+          {
+            icon: ShareIcon,
+            title: 'Use Safari\'s Share button',
+            description: 'Follow the Safari installation steps',
+            detail: 'Safari is required for iOS app installation'
+          },          {
+            icon: DevicePhoneMobileIcon,
+            title: 'Add to Home Screen',
+            description: 'Complete the installation in Safari',
+            detail: 'The app will then work from your home screen'
           }
         ]
       };

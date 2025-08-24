@@ -26,11 +26,39 @@ export const usePWA = () => {
   });
   const [showInstallPrompt, setShowInstallPrompt] = useState(false);
 
+  // Helper function to detect iOS
+  const isIOS = () => {
+    return /iPad|iPhone|iPod/.test(navigator.userAgent) || 
+           (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+  };
+
+  // Helper function to detect iOS Safari
+  const isIOSSafari = () => {
+    const ua = navigator.userAgent.toLowerCase();
+    return isIOS() && /safari/.test(ua) && !/chrome|crios|fxios/.test(ua);
+  };
+
   useEffect(() => {
+    // Debug logging for iOS detection
+    if (isIOS()) {
+      console.log('iOS device detected');
+      console.log('User agent:', navigator.userAgent);
+      console.log('Is iOS Safari:', isIOSSafari());
+      console.log('Is standalone:', window.navigator.standalone);
+      console.log('Display mode standalone:', window.matchMedia('(display-mode: standalone)').matches);
+    }
+
+    // Check if already installed
     if (window.matchMedia('(display-mode: standalone)').matches || 
         window.navigator.standalone === true) {
       setInstallState(PWA_INSTALL_STATES.INSTALLED);
       return;
+    }
+
+    // On iOS Safari, we can show install instructions even without beforeinstallprompt
+    if (isIOSSafari()) {
+      setInstallState(PWA_INSTALL_STATES.AVAILABLE);
+      console.log('iOS Safari detected - setting install state to AVAILABLE');
     }
 
     const savedEngagement = localStorage.getItem('andartayo-engagement');
@@ -120,7 +148,6 @@ export const usePWA = () => {
 
     checkContextualPrompt(event);
   }, [userEngagement]);
-
   const checkContextualPrompt = useCallback((triggerEvent) => {
     const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
     if (!isMobile || installState !== PWA_INSTALL_STATES.AVAILABLE || showInstallPrompt) {
@@ -130,7 +157,13 @@ export const usePWA = () => {
     const { routesPlanned, transportsViewed, visitCount, sessionStart } = userEngagement;
     const sessionDuration = Date.now() - sessionStart;
 
-    const shouldShow = (
+    // For iOS, be more aggressive about showing install prompts since it's manual
+    const shouldShow = isIOSSafari() ? (
+      (triggerEvent === ENGAGEMENT_EVENTS.ROUTE_PLANNED && routesPlanned >= 1) ||
+      (triggerEvent === ENGAGEMENT_EVENTS.TRANSPORT_VIEWED && transportsViewed.size >= 1) ||
+      (visitCount >= 2) ||
+      (sessionDuration > 180000) // 3 minutes instead of 5
+    ) : (
       (triggerEvent === ENGAGEMENT_EVENTS.ROUTE_PLANNED && routesPlanned >= 2) ||
       (triggerEvent === ENGAGEMENT_EVENTS.TRANSPORT_VIEWED && transportsViewed.size >= 2) ||
       (visitCount >= 3 && routesPlanned > 0) ||
@@ -141,8 +174,12 @@ export const usePWA = () => {
       setTimeout(() => setShowInstallPrompt(true), 1500);
     }
   }, [installState, showInstallPrompt, userEngagement]);
-
   const installPWA = useCallback(async () => {
+    // For iOS Safari, we can't programmatically install, just show instructions
+    if (isIOSSafari()) {
+      return false; // This will trigger showing instructions
+    }
+
     if (!installPrompt) return false;
 
     try {

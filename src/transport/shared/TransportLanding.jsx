@@ -15,25 +15,23 @@ const TransportLanding = ({ onModeSelect }) => {
   const { isDarkMode, toggleDarkMode } = useDarkMode();
   
   const [isNearestStopOpen, setIsNearestStopOpen] = useState(false);  const [isAlertsOpen, setIsAlertsOpen] = useState(false);
-
   const transportModes = [    {
       id: 'edsa-carousel',
       name: 'EDSA Carousel',
       description: 'Bus Rapid Transit System along EDSA',
-      icon: <BootstrapIcon name="bus-front-fill" className="w-10 h-10" size={40} />,
+      icon: <BootstrapIcon name="bus-front-fill" />,
       color: '#dc2626',
       stats: {
         stations: '18+ stops',
         length: '23.4 km',
         frequency: '3-5 mins'
-      },
-      features: ['Dedicated bus lanes', 'Low-floor, all-airconditioned', 'Specified stops with MRT-3 and LRT-1 connections'],
-      available: false
-    },    {
+      },      features: ['Dedicated bus lanes', 'Low-floor, all-airconditioned', 'Specified stops with MRT-3 and LRT-1 connections'],
+      available: true
+    },{
       id: 'lrt-2',
       name: 'LRT Line 2',
       description: 'Light Rail Transit from Recto to Antipolo',
-      icon: <BootstrapIcon name="train-lightrail-front-fill" className="w-10 h-10" size={40} />,
+      icon: <BootstrapIcon name="train-lightrail-front-fill" />,
       color: '#8E44AD',
       stats: {
         stations: '13 stations',
@@ -46,7 +44,7 @@ const TransportLanding = ({ onModeSelect }) => {
       id: 'mrt-3',
       name: 'MRT Line 3',
       description: 'Metro Rail Transit from North Avenue to Taft Avenue',
-      icon: <BootstrapIcon name="train-front-fill" className="w-10 h-10" size={40} />,
+      icon: <BootstrapIcon name="train-front-fill" />,
       color: '#1e40af',
       stats: {
         stations: '13 stations',
@@ -55,12 +53,11 @@ const TransportLanding = ({ onModeSelect }) => {
       },
       features: ['North to south Metro Manila railway', 'Passes through business districts', 'Has connections with LRT-2, EDSA Carousel, and LRT-1'],
       available: true
-    },    
-    {
+    },      {
       id: 'lrt-1',
       name: 'LRT Line 1',
       description: 'Light Rail Transit from Fernando Poe Jr. (Formerly Roosevelt) to Dr. Santos',
-      icon: <BootstrapIcon name="train-lightrail-front-fill" className="w-10 h-10" size={40} />,
+      icon: <BootstrapIcon name="train-lightrail-front-fill" />,
       color: '#16a34a',
       stats: {
         stations: '25 stations',
@@ -267,14 +264,13 @@ const TransportLanding = ({ onModeSelect }) => {
                   background: `linear-gradient(135deg, ${mode.color}15 0%, ${mode.color}25 100%)`
                 }}
               >
-                <div className="flex items-start justify-between gap-4">
-                  <div className="flex items-start gap-3 sm:gap-4 flex-1 min-w-0">                    <div 
-                      className="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl flex items-center justify-center shadow-lg flex-shrink-0"
+                <div className="flex items-start justify-between gap-4">                  <div className="flex items-start gap-3 sm:gap-4 flex-1 min-w-0">                    <div 
+                      className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl flex items-center justify-center shadow-lg flex-shrink-0"
                       style={{ backgroundColor: `${mode.color}20` }}
-                    >
-                      {React.cloneElement(mode.icon, { 
-                        className: "w-6 h-6 sm:w-7 sm:h-7",
-                        style: { color: mode.color }
+                    >                      {React.cloneElement(mode.icon, { 
+                        size: 64,
+                        style: { color: mode.color },
+                        color: mode.color
                       })}
                     </div>
                     <div className="flex-1 min-w-0">

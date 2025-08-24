@@ -20,9 +20,8 @@ const TransportLanding = ({ onModeSelect }) => {
         stations: '18+ stops',
         length: '23.4 km',
         frequency: '3-5 mins'
-      },
-      features: ['Dedicated bus lanes', 'Low-floor, all-airconditioned', 'Specified stops with MRT-3 and LRT-1 connections'],
-      available: false
+      },      features: ['Dedicated bus lanes', 'Low-floor, all-airconditioned', 'Specified stops with MRT-3 and LRT-1 connections'],
+      available: true
     },
     {
       id: 'lrt-2',
@@ -147,15 +146,13 @@ const TransportLanding = ({ onModeSelect }) => {
                   background: `linear-gradient(135deg, ${mode.color}15 0%, ${mode.color}25 100%)`
                 }}
               >
-                <div className="flex items-start justify-between">
-                  <div className="flex items-center gap-4">                    <div 
-                      className="w-12 h-12 sm:w-14 sm:h-14 lg:w-16 lg:h-16 rounded-2xl flex items-center justify-center text-2xl sm:text-3xl shadow-lg"
+                <div className="flex items-start justify-between">                  <div className="flex items-center gap-4">                    <div 
+                      className="w-16 h-16 sm:w-20 sm:h-20 lg:w-24 lg:h-24 rounded-2xl flex items-center justify-center text-2xl sm:text-3xl shadow-lg"
                       style={{ backgroundColor: `${mode.color}20`, color: mode.color }}
-                    >
-                      {typeof mode.icon === 'string' ? (
-                        <BootstrapIcon name={mode.icon} className="w-8 h-8" />
+                    >                      {typeof mode.icon === 'string' ? (
+                        <BootstrapIcon name={mode.icon} size={64} color={mode.color} />
                       ) : (
-                        mode.icon
+                        React.cloneElement(mode.icon, { size: 64, color: mode.color })
                       )}
                     </div>
                     <div>
