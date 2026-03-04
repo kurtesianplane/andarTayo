@@ -1,3 +1,52 @@
 {
-  "alerts": []
+  "alerts": [
+    {
+      "id": "mrt3-maintenance-2025-08",
+      "title": "MRT-3 Limited Service",
+      "description": "Due to ongoing maintenance work, MRT-3 is operating with reduced frequency between North Avenue and Quezon Avenue stations. Expect 5-10 minute delays during peak hours.",
+      "severity": "medium",
+      "affected_lines": ["mrt-3"],
+      "affected_stops": ["north_avenue", "quezon_avenue", "gma_kamuning"],
+      "start_date": "2025-08-25T06:00:00Z",
+      "end_date": "2025-08-26T22:00:00Z",
+      "disable_stops": false,
+      "type": "service_disruption"
+    },
+    {
+      "id": "lrt1-carriedo-closure-2025-08",
+      "title": "LRT-1 Carriedo Station Closure",
+      "description": "Carriedo Station is temporarily closed for elevator repairs and platform maintenance. Passengers may use nearby United Nations or Central Terminal stations as alternatives.",
+      "severity": "high",
+      "affected_lines": ["lrt-1"],
+      "affected_stops": ["carriedo"],
+      "start_date": "2025-08-25T00:00:00Z",
+      "end_date": "2025-08-27T23:59:59Z",
+      "disable_stops": true,
+      "type": "station_closure"
+    },
+    {
+      "id": "edsa-express-update-2025-08",
+      "title": "EDSA Carousel Express Service",
+      "description": "New express stops have been added during peak hours (7-9 AM, 5-7 PM) to improve service. Limited stops at major terminals only.",
+      "severity": "low",
+      "affected_lines": ["edsa-carousel"],
+      "affected_stops": [],
+      "start_date": "2025-08-24T00:00:00Z",
+      "end_date": "2025-09-01T23:59:59Z",
+      "disable_stops": false,
+      "type": "service_update"
+    },
+    {
+      "id": "lrt2-weekend-schedule-2025-08",
+      "title": "LRT-2 Weekend Schedule Change",
+      "description": "Modified weekend operating hours. Service starts at 5:30 AM instead of 5:00 AM on Saturdays and Sundays.",
+      "severity": "low",
+      "affected_lines": ["lrt-2"],
+      "affected_stops": [],
+      "start_date": "2025-08-24T00:00:00Z",
+      "end_date": "2025-09-07T23:59:59Z",
+      "disable_stops": false,
+      "type": "schedule_change"
+    }
+  ]
 }

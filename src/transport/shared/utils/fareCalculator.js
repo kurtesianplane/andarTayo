@@ -43,7 +43,7 @@ export class FareCalculator {
     const fareMatrix = await this.loadFareMatrix();
 
     let fareKey;
-    let applyDiscount = false;
+    let discountRate = 0;
     
     switch (paymentMethod) {
       case 'sjt':
@@ -52,15 +52,15 @@ export class FareCalculator {
       case 'beep':
         fareKey = 'beep_card';
         break;
+      case 'student':
+        // Students get 50% discount on SJT (per RA 11314)
+        fareKey = 'single_journey';
+        discountRate = 0.5;
+        break;
       case 'discounted':
-        // First try to find dedicated discounted_beep fare matrix
-        if (fareMatrix['discounted_beep']) {
-          fareKey = 'discounted_beep';
-        } else {
-          // Fall back to single journey with 20% discount
-          fareKey = 'single_journey';
-          applyDiscount = true;
-        }
+        // PWD/Senior get 50% discount (per RA 9994 for seniors, RA 7277 for PWD)
+        fareKey = 'single_journey';
+        discountRate = 0.5;
         break;
       default:
         fareKey = 'single_journey';
@@ -71,37 +71,89 @@ export class FareCalculator {
       throw new Error(`Fare data not found for payment method: ${paymentMethod}`);
     }
 
-    // Get station names for lookup
-    const fromStationName = fromStation.name;
-    const toStationName = toStation.name;
+    // Get station names for lookup - normalize by removing parenthetical suffixes
+    const normalizeStationName = (name) => {
+      // Remove " (Formerly ...)" or " Station" suffixes
+      return name
+        .replace(/\s*\(Formerly[^)]*\)/gi, '')
+        .replace(/\s*\(formerly[^)]*\)/gi, '')
+        .replace(/\s+Station$/i, '')
+        .trim();
+    };
 
-    // Check if stations exist in fare matrix
-    if (!fareMatrix[fareKey][fromStationName]) {
+    const fromStationName = normalizeStationName(fromStation.name);
+    const toStationName = normalizeStationName(toStation.name);
+
+    // Get the station order from fareMatrix
+    const stationOrder = fareMatrix.stations || Object.keys(fareMatrix[fareKey]);
+    
+    // Find matching station names (case-insensitive, with normalization)
+    const findStationInMatrix = (targetName) => {
+      // Try exact match first
+      if (fareMatrix[fareKey][targetName]) return targetName;
+      
+      // Try normalized match
+      const normalizedTarget = normalizeStationName(targetName).toLowerCase();
+      for (const matrixStation of Object.keys(fareMatrix[fareKey])) {
+        if (normalizeStationName(matrixStation).toLowerCase() === normalizedTarget) {
+          return matrixStation;
+        }
+      }
+      
+      // Try partial match (station name contains or is contained by target)
+      for (const matrixStation of Object.keys(fareMatrix[fareKey])) {
+        const normalizedMatrix = normalizeStationName(matrixStation).toLowerCase();
+        if (normalizedTarget.includes(normalizedMatrix) || normalizedMatrix.includes(normalizedTarget)) {
+          return matrixStation;
+        }
+      }
+      
+      return null;
+    };
+
+    const fromMatrixKey = findStationInMatrix(fromStationName);
+    const toMatrixKey = findStationInMatrix(toStationName);
+
+    if (!fromMatrixKey) {
       throw new Error(`Fare data not found for station: ${fromStationName}`);
     }
 
-    // Get fare by station names - fareMatrix uses station names as keys, and values are arrays indexed by station order
-    const stationOrder = fareMatrix.stations || Object.keys(fareMatrix[fareKey]);
-    const toIndex = stationOrder.indexOf(toStationName);
+    // Find the index of the destination station in the station order
+    const findStationIndex = (targetName) => {
+      const normalizedTarget = normalizeStationName(targetName).toLowerCase();
+      return stationOrder.findIndex(s => 
+        normalizeStationName(s).toLowerCase() === normalizedTarget ||
+        normalizedTarget.includes(normalizeStationName(s).toLowerCase()) ||
+        normalizeStationName(s).toLowerCase().includes(normalizedTarget)
+      );
+    };
+
+    const toIndex = findStationIndex(toStationName);
     
     if (toIndex === -1) {
       throw new Error(`Station ${toStationName} not found in fare matrix`);
-    }    const fare = fareMatrix[fareKey][fromStationName][toIndex];
+    }    const fare = fareMatrix[fareKey][fromMatrixKey][toIndex];
     if (fare === undefined || fare === null) {
       throw new Error(`No fare data available for route from ${fromStationName} to ${toStationName}`);
     }
 
-    // Apply 20% discount if needed
-    if (applyDiscount) {
-      return Math.round(fare * 0.8);
+    // Apply discount if needed
+    if (discountRate > 0) {
+      return Math.round(fare * (1 - discountRate));
     }
 
     return fare;
   }
   async calculateDistanceBasedFare(fromStation, toStation, paymentMethod) {
     const fareMatrix = await this.loadFareMatrix();
-    this.fareMatrix = fareMatrix; // Store for distance calculation
+    this.fareMatrix = fareMatrix;
     
+    // Check if fareMatrix has a MATRIX calculation type (new format)
+    if (fareMatrix.calculation?.type === 'MATRIX' && fareMatrix.regular) {
+      return this.calculateBRTMatrixFare(fromStation, toStation, paymentMethod, fareMatrix);
+    }
+
+    // Legacy distance-based calculation
     const distance = this.calculateDistance(fromStation, toStation);
 
     const paymentConfig = fareMatrix[paymentMethod];
@@ -116,6 +168,71 @@ export class FareCalculator {
     }
 
     return base_fare + ((distance - min_km) * per_km);
+  }
+
+  calculateBRTMatrixFare(fromStation, toStation, paymentMethod, fareMatrix) {
+    // Normalize stop names to match fareMatrix keys
+    const normalizeStopName = (name) => {
+      return name
+        .toLowerCase()
+        .replace(/\s*\(formerly[^)]*\)/gi, '')
+        .replace(/\s+station$/i, '')
+        .replace(/\s*-\s*annapolis/i, '')  // Santolan-Annapolis -> santolan
+        .replace(/\s*\/\s*one ayala/i, '')  // Ayala / One Ayala -> Ayala
+        .replace(/\s*\/\s*fernando poe jr\.?/i, '')  // Roosevelt / Fernando Poe Jr. -> Roosevelt
+        .replace(/\s*\/\s*ormoc/i, '')  // Philam / Ormoc -> Philam
+        .replace(/\s+road$/i, '')  // Kaingin Road -> Kaingin
+        .replace(/sm\s+mall\s+of\s+asia/i, 'sm_moa')
+        .replace(/mall\s+of\s+asia/i, 'sm_moa')
+        .replace(/sm\s+north\s+edsa/i, 'sm_north_edsa')
+        .replace(/city\s+of\s+dreams/i, 'city_of_dreams')
+        .replace(/ayala\s+malls\s+manila\s+bay/i, 'ayala_malls_manila_bay')
+        .replace(/roxas\s+boulevard/i, 'roxas_blvd')
+        .replace(/taft\s+avenue/i, 'taft_avenue')
+        .replace(/north\s+avenue/i, 'north_avenue')
+        .replace(/quezon\s+avenue/i, 'quezon_avenue')
+        .replace(/main\s+avenue/i, 'main_avenue')
+        .replace(/bagong\s+barrio/i, 'bagong_barrio')
+        .replace(/nepa\s+q-?mart/i, 'nepa_q_mart')
+        .replace(/one\s+ayala/i, 'one_ayala')
+        .replace(/philam\s+qc/i, 'philam_qc')
+        .replace(/dfa\s*-?\s*aseana/i, 'dfa')
+        .replace(/\s+/g, '_')
+        .replace(/-/g, '_')
+        .trim();
+    };
+
+    const fromKey = normalizeStopName(fromStation.name);
+    const toKey = normalizeStopName(toStation.name);
+
+    // Try to find fare in matrix (check both directions)
+    let fare = fareMatrix.regular[fromKey]?.[toKey];
+    if (fare === undefined) {
+      fare = fareMatrix.regular[toKey]?.[fromKey];
+    }
+
+    if (fare === undefined) {
+      // Fallback to distance-based calculation
+      const distance = this.calculateDistance(fromStation, toStation);
+      const { base_fare, per_km, base_km } = fareMatrix.calculation;
+      if (distance <= base_km) {
+        fare = base_fare;
+      } else {
+        fare = base_fare + ((distance - base_km) * per_km);
+      }
+      // Round to nearest 0.25
+      fare = Math.round(fare * 4) / 4;
+    }
+
+    // Apply discount for student/pwd/senior (50% off per RA 11314, RA 9994, RA 7277)
+    if (paymentMethod === 'student' || paymentMethod === 'pwd' || paymentMethod === 'senior') {
+      const discountRate = fareMatrix.calculation?.discount_rate || 0.50;
+      fare = fare * (1 - discountRate);
+      // Round to nearest 0.25
+      fare = Math.round(fare * 4) / 4;
+    }
+
+    return fare;
   }
   calculateDistanceTierFare(fromStation, toStation, paymentMethod) {
     const distance = this.calculateDistance(fromStation, toStation);
@@ -148,35 +265,22 @@ export class FareCalculator {
       return Math.abs(toStation.sequence - fromStation.sequence);
     }
 
-    // For BRT systems, use actual distance if available
+    // For BRT systems (EDSA Carousel), use distance_km field
+    if (fromStation.distance_km !== undefined && toStation.distance_km !== undefined) {
+      return Math.abs(toStation.distance_km - fromStation.distance_km);
+    }
+
+    // Legacy: check for 'distance' field
     if (fromStation.distance !== undefined && toStation.distance !== undefined) {
       return Math.abs(toStation.distance - fromStation.distance);
     }
 
-    // For EDSA Carousel, try to get distance from fare matrix
-    if (this.transportType === 'edsa-carousel' && this.fareMatrix) {
-      const fromStationName = fromStation.name || fromStation.stop_id;
-      const toStationName = toStation.name || toStation.stop_id;
-      
-      // Try to get distance from northbound or southbound data
-      const northbound = this.fareMatrix.northbound;
-      const southbound = this.fareMatrix.southbound;
-      
-      if (northbound && northbound[fromStationName] && northbound[fromStationName][toStationName]) {
-        return northbound[fromStationName][toStationName];
-      }
-      
-      if (southbound && southbound[fromStationName] && southbound[fromStationName][toStationName]) {
-        return southbound[fromStationName][toStationName];
-      }
-      
-      // If not found in matrix, calculate based on coordinates
-      if (fromStation.lat && fromStation.lng && toStation.lat && toStation.lng) {
-        return this.calculateHaversineDistance(fromStation, toStation);
-      }
+    // Calculate using coordinates if available
+    if (fromStation.lat && fromStation.lng && toStation.lat && toStation.lng) {
+      return this.calculateHaversineDistance(fromStation, toStation);
     }
 
-    // Fallback to sequence-based calculation
+    // Fallback to sequence-based calculation (rough estimate)
     return Math.abs(toStation.sequence - fromStation.sequence);
   }
 

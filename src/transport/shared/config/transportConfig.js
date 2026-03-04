@@ -29,9 +29,15 @@ export const PAYMENT_METHODS = {
       icon: CreditCardIcon
     },
     { 
+      id: 'student', 
+      name: 'Student',
+      description: '50% discount with valid school ID',
+      icon: AcademicCapIcon
+    },
+    { 
       id: 'discounted', 
       name: 'PWD/Senior',
-      description: '20% discount for qualified passengers',
+      description: '50% discount for qualified passengers',
       icon: HeartIcon
     }
   ],
@@ -45,19 +51,19 @@ export const PAYMENT_METHODS = {
     { 
       id: 'student', 
       name: 'Student',
-      description: 'Discounted student fare',
+      description: '50% discount with valid ID',
       icon: AcademicCapIcon
     },
     { 
       id: 'pwd', 
       name: 'PWD',
-      description: 'Person with Disability discount',
+      description: '50% discount',
       icon: HeartIcon
     },
     { 
       id: 'senior', 
       name: 'Senior Citizen',
-      description: 'Senior citizen discount',
+      description: '50% discount',
       icon: UserIcon
     }
   ]
@@ -92,7 +98,7 @@ export const TRANSPORT_CONFIG = {
     name: 'MRT-3',
     type: 'rail',
     paymentMethods: PAYMENT_METHODS.RAIL,
-    fareCalculationType: FARE_CALCULATION_TYPES.DISTANCE_TIERS,
+    fareCalculationType: FARE_CALCULATION_TYPES.MATRIX,
     dataPath: 'mrt-3',
     stationKey: 'stations',
     sequenceKey: 'sequence'
@@ -116,12 +122,15 @@ export const CONNECTION_TYPES = {
   UV_EXPRESS: 'uv_express'
 };
 
+// MRT-3 fare tiers (as of 2025)
+// Distance = number of stations traveled
 export const MRT3_FARE_TIERS = [
   { minDistance: 1, maxDistance: 2, fare: 13 },
-  { minDistance: 3, maxDistance: 4, fare: 15 },
+  { minDistance: 3, maxDistance: 4, fare: 16 },
   { minDistance: 5, maxDistance: 6, fare: 20 },
-  { minDistance: 7, maxDistance: 8, fare: 25 },
-  { minDistance: 9, maxDistance: 10, fare: 28 }
+  { minDistance: 7, maxDistance: 8, fare: 24 },
+  { minDistance: 9, maxDistance: 10, fare: 28 },
+  { minDistance: 11, maxDistance: 13, fare: 28 }
 ];
 
 /**

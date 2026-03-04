@@ -1,116 +1,155 @@
 {
-  "regular": {
+  "fare_info": {
+    "currency": "PHP",
+    "effective_date": "2025-04-01",
+    "last_updated": "2026-03-04",
+    "source": "Sakay.ph / LTFRB Official Fare Matrix",
+    "note": "EDSA Carousel fares are distance-based. Base fare ₱15.00 covers first 5km, then ₱2.65/km. 50% discount for students, PWD, and senior citizens applies EVERYDAY including weekends and holidays."
+  },
+  "calculation": {
+    "type": "MATRIX",
     "base_fare": 15.00,
     "per_km": 2.65,
-    "min_km": 4
+    "base_km": 5,
+    "discount_rate": 0.50
   },
-  "student": {
-    "base_fare": 12.00,
-    "per_km": 2.12,
-    "min_km": 4
-  },
-  "pwd": {
-    "base_fare": 12.00,
-    "per_km": 2.12,
-    "min_km": 4
-  },
-  "senior": {
-    "base_fare": 12.00,
-    "per_km": 2.12,
-    "min_km": 4
-  },
-  "northbound": {
-    "PITX": {
-      "CITY_OF_DREAMS": 0.7,
-      "DFA": 1.5,
-      "ROXAS_EB": 2.6,
-      "TAFT_EB": 3.6,
-      "ONE_AYALA": 5.8,
-      "BUENDIA": 7.8,
-      "GUADALUPE": 10.8,
-      "ORTIGAS": 13.4,
-      "SANTOLAN": 15.8,
-      "MAIN_AVE": 17.4,
-      "NEPA_QMART": 19.2,
-      "QUEZON_AVE": 20.5,
-      "NORTH_AVE": 22.0,
-      "MUNOZ": 23.1,
-      "KAINGIN": 24.2,
-      "BALINTAWAK": 25.0,
-      "BAGONG_BARRIO": 26.55,
-      "MONUMENTO": 28.1
+  "regular": {
+    "monumento": {
+      "bagong_barrio": 15.00, "balintawak": 15.00, "kaingin": 15.00, "roosevelt": 15.00, 
+      "sm_north_edsa": 15.00, "north_avenue": 15.75, "philam_qc": 17.00, "quezon_avenue": 19.25,
+      "kamuning": 21.25, "nepa_q_mart": 23.50, "main_avenue": 28.00, "santolan": 29.75,
+      "ortigas": 36.50, "guadalupe": 42.75, "buendia": 48.00, "one_ayala": 50.25, "ayala": 50.25,
+      "tramo": 58.75, "taft_avenue": 59.50, "roxas_blvd": 62.00, "sm_moa": 64.25,
+      "dfa": 68.00, "ayala_malls_manila_bay": 71.75, "pitx": 75.50
     },
-    "fares": {
-      "CITY_OF_DREAMS": 15.00,
-      "DFA": 15.00,
-      "ROXAS_EB": 15.00,
-      "TAFT_EB": 15.00,
-      "ONE_AYALA": 24.00,
-      "BUENDIA": 26.50,
-      "GUADALUPE": 31.50,
-      "ORTIGAS": 38.00,
-      "SANTOLAN": 44.75,
-      "MAIN_AVE": 46.50,
-      "NEPA_QMART": 51.25,
-      "QUEZON_AVE": 55.50,
-      "NORTH_AVE": 59.00,
-      "MUNOZ": 63.50,
-      "KAINGIN": 65.75,
-      "BALINTAWAK": 67.75,
-      "BAGONG_BARRIO": 69.50,
-      "MONUMENTO": 73.00
-    }
-  },
-  "southbound": {
-    "MONUMENTO": {
-      "BAGONG_BARRIO": 0.55,
-      "BALINTAWAK": 2.10,
-      "KAINGIN": 2.90,
-      "MUNOZ": 4.00,
-      "NORTH_AVE": 5.50,
-      "QUEZON_AVE": 6.80,
-      "NEPA_QMART": 8.60,
-      "MAIN_AVE": 10.20,
-      "SANTOLAN": 11.00,
-      "ORTIGAS": 13.40,
-      "GUADALUPE": 15.80,
-      "BUENDIA": 18.80,
-      "ONE_AYALA": 20.80,
-      "TRAMO": 22.30,
-      "TAFT_WB": 23.30,
-      "ROXAS_WB": 25.90,
-      "MOA": 26.90,
-      "DFA": 27.70,
-      "AYALA_MALLS_MB": 28.40,
-      "PITX": 28.10
+    "bagong_barrio": {
+      "balintawak": 15.00, "kaingin": 15.00, "roosevelt": 15.00, "sm_north_edsa": 15.00,
+      "north_avenue": 15.00, "philam_qc": 15.00, "quezon_avenue": 15.75, "kamuning": 17.75,
+      "nepa_q_mart": 20.00, "main_avenue": 24.50, "santolan": 26.25, "ortigas": 33.00,
+      "guadalupe": 39.50, "buendia": 44.75, "one_ayala": 47.00, "ayala": 47.00, "tramo": 55.25,
+      "taft_avenue": 56.25, "roxas_blvd": 58.50, "sm_moa": 61.00, "dfa": 64.75,
+      "ayala_malls_manila_bay": 66.75, "pitx": 70.50
     },
-    "fares": {
-      "BAGONG_BARRIO": 15.00,
-      "BALINTAWAK": 15.00,
-      "KAINGIN": 15.00,
-      "MUNOZ": 15.00,
-      "NORTH_AVE": 15.75,
-      "QUEZON_AVE": 19.25,
-      "NEPA_QMART": 23.50,
-      "MAIN_AVE": 28.00,
-      "SANTOLAN": 29.75,
-      "ORTIGAS": 36.50,
-      "GUADALUPE": 42.75,
-      "BUENDIA": 48.00,
-      "ONE_AYALA": 50.25,
-      "TRAMO": 58.75,
-      "TAFT_WB": 59.50,
-      "ROXAS_WB": 62.00,
-      "MOA": 64.25,
-      "DFA": 68.00,
-      "AYALA_MALLS_MB": 71.75,
-      "PITX": 75.50
+    "balintawak": {
+      "kaingin": 15.00, "roosevelt": 15.00, "sm_north_edsa": 15.00, "north_avenue": 15.00,
+      "philam_qc": 15.00, "quezon_avenue": 15.00, "kamuning": 16.00, "nepa_q_mart": 18.25,
+      "main_avenue": 22.75, "santolan": 24.50, "ortigas": 31.25, "guadalupe": 37.50,
+      "buendia": 42.75, "one_ayala": 45.00, "ayala": 45.00, "tramo": 53.50, "taft_avenue": 54.25,
+      "roxas_blvd": 56.75, "sm_moa": 59.00, "dfa": 62.75, "ayala_malls_manila_bay": 65.00, "pitx": 68.75
+    },
+    "kaingin": {
+      "roosevelt": 15.00, "sm_north_edsa": 15.00, "north_avenue": 15.00, "philam_qc": 15.00,
+      "quezon_avenue": 15.00, "kamuning": 15.00, "nepa_q_mart": 16.25, "main_avenue": 20.75,
+      "santolan": 22.50, "ortigas": 29.25, "guadalupe": 35.75, "buendia": 40.75,
+      "one_ayala": 43.25, "ayala": 43.25, "tramo": 51.50, "taft_avenue": 52.50, "roxas_blvd": 54.75,
+      "sm_moa": 57.25, "dfa": 60.75, "ayala_malls_manila_bay": 63.00, "pitx": 66.75
+    },
+    "roosevelt": {
+      "sm_north_edsa": 15.00, "north_avenue": 15.00, "philam_qc": 15.00, "quezon_avenue": 15.00,
+      "kamuning": 15.00, "nepa_q_mart": 15.00, "main_avenue": 18.50, "santolan": 20.25,
+      "ortigas": 27.00, "guadalupe": 33.25, "buendia": 38.50, "one_ayala": 40.75, "ayala": 40.75,
+      "tramo": 49.25, "taft_avenue": 50.00, "roxas_blvd": 52.50, "sm_moa": 54.75,
+      "dfa": 58.50, "ayala_malls_manila_bay": 60.75, "pitx": 64.50
+    },
+    "sm_north_edsa": {
+      "north_avenue": 15.00, "philam_qc": 15.00, "quezon_avenue": 15.00, "kamuning": 15.00,
+      "nepa_q_mart": 15.00, "main_avenue": 16.00, "santolan": 17.75, "ortigas": 24.75,
+      "guadalupe": 31.00, "buendia": 36.00, "one_ayala": 38.50, "ayala": 38.50, "tramo": 40.75,
+      "taft_avenue": 49.25, "roxas_blvd": 50.00, "sm_moa": 52.50, "dfa": 56.25,
+      "ayala_malls_manila_bay": 58.00, "pitx": 63.00
+    },
+    "north_avenue": {
+      "philam_qc": 15.00, "quezon_avenue": 15.00, "kamuning": 15.00, "nepa_q_mart": 15.00,
+      "main_avenue": 15.00, "santolan": 15.75, "ortigas": 22.50, "guadalupe": 28.75,
+      "buendia": 34.00, "one_ayala": 36.25, "ayala": 36.25, "tramo": 44.75, "taft_avenue": 45.50,
+      "roxas_blvd": 48.00, "sm_moa": 50.25, "dfa": 54.00, "ayala_malls_manila_bay": 56.25, "pitx": 60.00
+    },
+    "philam_qc": {
+      "quezon_avenue": 15.00, "kamuning": 15.00, "nepa_q_mart": 15.00, "main_avenue": 15.00,
+      "santolan": 15.00, "ortigas": 21.50, "guadalupe": 27.75, "buendia": 33.00,
+      "one_ayala": 35.25, "ayala": 35.25, "tramo": 43.75, "taft_avenue": 44.75, "roxas_blvd": 47.00,
+      "sm_moa": 49.25, "dfa": 53.00, "ayala_malls_manila_bay": 55.25, "pitx": 59.00
+    },
+    "quezon_avenue": {
+      "kamuning": 15.00, "nepa_q_mart": 15.00, "main_avenue": 15.00, "santolan": 15.00,
+      "ortigas": 19.00, "guadalupe": 25.50, "buendia": 30.75, "one_ayala": 33.00, "ayala": 33.00,
+      "tramo": 41.25, "taft_avenue": 42.25, "roxas_blvd": 44.50, "sm_moa": 47.00,
+      "dfa": 50.50, "ayala_malls_manila_bay": 52.75, "pitx": 56.50
+    },
+    "kamuning": {
+      "nepa_q_mart": 15.00, "main_avenue": 15.00, "santolan": 15.00, "ortigas": 17.25,
+      "guadalupe": 23.75, "buendia": 29.00, "one_ayala": 31.25, "ayala": 31.25, "tramo": 39.50,
+      "taft_avenue": 40.50, "roxas_blvd": 42.75, "sm_moa": 45.25, "dfa": 49.00,
+      "ayala_malls_manila_bay": 51.00, "pitx": 54.75
+    },
+    "nepa_q_mart": {
+      "main_avenue": 15.00, "santolan": 15.00, "ortigas": 15.00, "guadalupe": 21.00,
+      "buendia": 26.25, "one_ayala": 28.50, "ayala": 28.50, "tramo": 37.00, "taft_avenue": 38.00,
+      "roxas_blvd": 40.25, "sm_moa": 42.75, "dfa": 46.25, "ayala_malls_manila_bay": 48.50, "pitx": 52.25
+    },
+    "main_avenue": {
+      "santolan": 15.00, "ortigas": 15.00, "guadalupe": 15.00, "buendia": 20.00,
+      "one_ayala": 22.25, "ayala": 22.25, "tramo": 30.75, "taft_avenue": 31.50, "roxas_blvd": 34.00,
+      "sm_moa": 36.25, "dfa": 40.00, "ayala_malls_manila_bay": 42.25, "pitx": 46.00
+    },
+    "santolan": {
+      "ortigas": 15.00, "guadalupe": 15.00, "buendia": 15.00, "one_ayala": 15.75, "ayala": 15.75,
+      "tramo": 24.00, "taft_avenue": 25.00, "roxas_blvd": 27.25, "sm_moa": 29.75,
+      "dfa": 33.25, "ayala_malls_manila_bay": 35.50, "pitx": 39.25
+    },
+    "ortigas": {
+      "guadalupe": 15.00, "buendia": 15.00, "one_ayala": 15.00, "ayala": 15.00, "tramo": 17.50,
+      "taft_avenue": 18.50, "roxas_blvd": 20.75, "sm_moa": 23.25, "dfa": 27.00,
+      "ayala_malls_manila_bay": 29.00, "pitx": 33.00
+    },
+    "guadalupe": {
+      "buendia": 15.00, "one_ayala": 15.00, "ayala": 15.00, "tramo": 15.00, "taft_avenue": 15.00,
+      "roxas_blvd": 15.50, "sm_moa": 18.00, "dfa": 21.75, "ayala_malls_manila_bay": 23.75, "pitx": 27.75
+    },
+    "buendia": {
+      "one_ayala": 15.00, "ayala": 15.00, "tramo": 15.00, "taft_avenue": 15.00, "roxas_blvd": 15.00,
+      "sm_moa": 15.75, "dfa": 19.50, "ayala_malls_manila_bay": 21.50, "pitx": 25.50
+    },
+    "one_ayala": {
+      "ayala": 15.00, "tramo": 15.00, "taft_avenue": 15.00, "roxas_blvd": 15.00, "sm_moa": 15.00,
+      "dfa": 15.00, "ayala_malls_manila_bay": 15.00, "pitx": 17.00
+    },
+    "ayala": {
+      "tramo": 15.00, "taft_avenue": 15.00, "roxas_blvd": 15.00, "sm_moa": 15.00,
+      "dfa": 15.00, "ayala_malls_manila_bay": 15.00, "pitx": 17.00
+    },
+    "tramo": {
+      "taft_avenue": 15.00, "roxas_blvd": 15.00, "sm_moa": 15.00, "dfa": 15.00,
+      "ayala_malls_manila_bay": 15.00, "pitx": 16.00
+    },
+    "taft_avenue": {
+      "roxas_blvd": 15.00, "sm_moa": 15.00, "dfa": 15.00, "ayala_malls_manila_bay": 15.00, "pitx": 15.00
+    },
+    "roxas_blvd": {
+      "sm_moa": 15.00, "dfa": 15.00, "ayala_malls_manila_bay": 15.00, "pitx": 15.00
+    },
+    "sm_moa": {
+      "dfa": 15.00, "ayala_malls_manila_bay": 15.00, "pitx": 15.00
+    },
+    "dfa": {
+      "ayala_malls_manila_bay": 15.00, "pitx": 15.00
+    },
+    "ayala_malls_manila_bay": {
+      "pitx": 15.00
+    },
+    "pitx": {
+      "city_of_dreams": 15.00, "dfa": 15.00, "roxas_blvd": 15.00, "taft_avenue": 15.00,
+      "ayala": 24.00, "buendia": 26.50, "guadalupe": 31.50, "ortigas": 38.00, "santolan": 44.75,
+      "main_avenue": 46.25, "nepa_q_mart": 51.25, "kamuning": 53.50, "quezon_avenue": 55.50,
+      "philam_qc": 57.75, "north_avenue": 59.00, "sm_north_edsa": 61.75, "roosevelt": 63.50,
+      "kaingin": 65.75, "balintawak": 67.75, "bagong_barrio": 69.50, "monumento": 73.00
+    },
+    "city_of_dreams": {
+      "dfa": 15.00, "roxas_blvd": 15.00, "taft_avenue": 15.00, "ayala": 17.75, "buendia": 20.00,
+      "guadalupe": 25.00, "ortigas": 31.50, "santolan": 38.25, "main_avenue": 40.00,
+      "nepa_q_mart": 44.75, "kamuning": 47.00, "quezon_avenue": 49.00, "philam_qc": 51.25,
+      "north_avenue": 52.50, "sm_north_edsa": 54.50, "roosevelt": 57.00, "kaingin": 59.25,
+      "balintawak": 61.25, "bagong_barrio": 63.25, "monumento": 66.50
     }
-  },
-  "discounts": {
-    "regular": 1.0,
-    "student": 0.8,
-    "pwd": 0.8,
-    "senior": 0.8
   }
-} 
+}

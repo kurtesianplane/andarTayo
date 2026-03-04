@@ -1,11 +1,14 @@
 {
-  "name": "andarTayo!",
+  "name": "andartayo",
   "private": true,
   "version": "0.0.1",
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "npm run sync-fares && vite build",
+    "build:local": "vite build",
+    "sync-fares": "node scripts/sync-fares.js",
+    "seed-db": "node scripts/seed-supabase.js",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
     "test": "vitest",
@@ -14,18 +17,22 @@
   "dependencies": {
     "@heroicons/react": "^2.1.1",
     "@react-leaflet/core": "2.1.0",
+    "@supabase/supabase-js": "^2.98.0",
     "bootstrap-icons": "^1.13.1",
+    "cheerio": "^1.0.0-rc.12",
     "date-fns": "2.30.0",
     "framer-motion": "^10.16.4",
     "leaflet": "^1.9.4",
     "lodash": "^4.17.21",
+    "lucide-react": "^0.576.0",
     "prop-types": "^15.8.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-hot-toast": "^2.4.1",
     "react-leaflet": "^4.2.1",
     "react-query": "3.39.3",
-    "react-router-dom": "^7.6.2"
+    "react-router-dom": "^7.6.2",
+    "rss-parser": "^3.12.0"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "6.1.4",

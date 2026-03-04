@@ -11,8 +11,9 @@ export class RouteCalculator {
   async calculateRoute(fromStationId, toStationId) {
     const stations = await this.dataLoader.loadStations();
     
-    const fromStation = stations.find(s => s.station_id === fromStationId);
-    const toStation = stations.find(s => s.station_id === toStationId);
+    // Support both station_id (rail) and stop_id (BRT)
+    const fromStation = stations.find(s => (s.station_id || s.stop_id) === fromStationId);
+    const toStation = stations.find(s => (s.station_id || s.stop_id) === toStationId);
     
     if (!fromStation || !toStation) {
       throw new Error('Invalid station selection');
@@ -100,7 +101,7 @@ export class RouteCalculator {
 
   async getStationById(stationId) {
     const stations = await this.dataLoader.loadStations();
-    return stations.find(s => s.station_id === stationId);
+    return stations.find(s => (s.station_id || s.stop_id) === stationId);
   }
 
   async getStationsBySequenceRange(minSeq, maxSeq) {
@@ -113,8 +114,8 @@ export class RouteCalculator {
   async validateRoute(fromStationId, toStationId) {
     const stations = await this.dataLoader.loadStations();
     
-    const fromStation = stations.find(s => s.station_id === fromStationId);
-    const toStation = stations.find(s => s.station_id === toStationId);
+    const fromStation = stations.find(s => (s.station_id || s.stop_id) === fromStationId);
+    const toStation = stations.find(s => (s.station_id || s.stop_id) === toStationId);
     
     const errors = [];
     

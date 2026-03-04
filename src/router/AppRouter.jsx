@@ -1,68 +1,42 @@
 import React from 'react';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import { AlertProvider } from '../context/AlertContext';
-import { DarkModeProvider } from '../context/DarkModeContext';
 import PWAManager from '../components/PWA/PWAManager';
 import Layout from '../components/Layout';
-import HomePage from '../pages/HomePage';
 import AboutPage from '../pages/AboutPage';
-import OfflinePage from '../pages/OfflinePage';
-import MaintainerPage from '../pages/MaintainerPage';
-import LRT1Page from '../pages/transport/LRT1Page';
-import LRT2Page from '../pages/transport/LRT2Page';
-import MRT3Page from '../pages/transport/MRT3Page';
-import EDSACarouselPage from '../pages/transport/EDSACarouselPage';
+import PlanPage from '../pages/PlanPage';
+import AlertsPage from '../pages/AlertsPage';
+import NewsPage from '../pages/NewsPage';
 
 const router = createBrowserRouter([
   {
-    path: "/",
+    path: '/',
     element: <Layout />,
     children: [
       {
         index: true,
-        element: <HomePage />
+        element: <PlanPage />,
       },
       {
-        path: "about",
-        element: <AboutPage />
+        path: 'alerts',
+        element: <AlertsPage />,
       },
       {
-        path: "offline",
-        element: <OfflinePage />
+        path: 'news',
+        element: <NewsPage />,
       },
       {
-        path: "maintainer",
-        element: <MaintainerPage />
+        path: 'about',
+        element: <AboutPage />,
       },
-      {
-        path: "transport/lrt-1",
-        element: <LRT1Page />
-      },
-      {
-        path: "transport/lrt-2",
-        element: <LRT2Page />
-      },
-      {
-        path: "transport/mrt-3",
-        element: <MRT3Page />
-      },
-      {
-        path: "transport/edsa-carousel",
-        element: <EDSACarouselPage />
-      }
-    ]
-  }
+    ],
+  },
 ]);
 
 const AppRouter = () => {
   return (
-    <DarkModeProvider>
-      <AlertProvider>
-        <PWAManager>
-          <RouterProvider router={router} />
-        </PWAManager>
-      </AlertProvider>
-    </DarkModeProvider>
+    <PWAManager>
+      <RouterProvider router={router} />
+    </PWAManager>
   );
 };
 

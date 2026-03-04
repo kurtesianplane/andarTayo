@@ -1,5 +1,6 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
-import alertsData from '../data/alerts.json';
+import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
+// removed static alerts import
+import { fetchAutoAlerts } from '../services/autoAlerts';
 
 const AlertContext = createContext();
 
@@ -12,49 +13,55 @@ export const useAlerts = () => {
 };
 
 export const AlertProvider = ({ children }) => {
-  const [alerts, setAlerts] = useState([]);
+  const [alerts, setAlerts] = useState([]); // auto only now
   const [activeAlerts, setActiveAlerts] = useState([]);
+  const [loadingAuto, setLoadingAuto] = useState(false);
+  const [lastAutoFetch, setLastAutoFetch] = useState(null);
+  const [autoError, setAutoError] = useState(null);
+
+  const refreshAutoAlerts = useCallback(async () => {
+    setLoadingAuto(true);
+    setAutoError(null);
+    try {
+      const controller = new AbortController();
+      const autoList = await fetchAutoAlerts({ signal: controller.signal });
+      setAlerts(autoList);
+      setLastAutoFetch(new Date().toISOString());
+    } catch (e) {
+      setAutoError(e.message || 'Auto alerts fetch failed');
+    } finally {
+      setLoadingAuto(false);
+    }
+  }, []);
 
   useEffect(() => {
-    // Load alerts from JSON data
-    setAlerts(alertsData.alerts);
-  }, []);  useEffect(() => {
-    // Filter active alerts based on current date
+    refreshAutoAlerts();
+    const id = setInterval(refreshAutoAlerts, 5 * 60 * 1000);
+    return () => clearInterval(id);
+  }, [refreshAutoAlerts]);
+
+  useEffect(() => {
     const now = new Date();
-    const active = alerts.filter(alert => {
+    setActiveAlerts(alerts.filter(alert => {
       const startDate = new Date(alert.start_date);
       const endDate = new Date(alert.end_date);
       return now >= startDate && now <= endDate;
-    });
-    setActiveAlerts(active);
+    }));
   }, [alerts]);
 
-  const isStopDisabled = (stopId) => {
-    return activeAlerts.some(alert => 
-      alert.disable_stops && 
-      alert.affected_stops.includes(stopId)
-    );
-  };
-
-  const getStopAlerts = (stopId) => {
-    return activeAlerts.filter(alert => 
-      alert.affected_stops.includes(stopId)
-    );
-  };  const updateAlerts = (newAlerts) => {
-    setAlerts(newAlerts);
-  };
+  const isStopDisabled = (stopId) => activeAlerts.some(alert => alert.disable_stops && alert.affected_stops.includes(stopId));
+  const getStopAlerts = (stopId) => activeAlerts.filter(alert => alert.affected_stops.includes(stopId));
 
   const value = {
     alerts,
     activeAlerts,
     isStopDisabled,
     getStopAlerts,
-    updateAlerts
+    refreshAutoAlerts,
+    loadingAuto,
+    lastAutoFetch,
+    autoError
   };
 
-  return (
-    <AlertContext.Provider value={value}>
-      {children}
-    </AlertContext.Provider>
-  );
+  return <AlertContext.Provider value={value}>{children}</AlertContext.Provider>;
 };

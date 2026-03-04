@@ -54,8 +54,13 @@ export const useRoutePlanner = (transportType) => {
       setRouteCalculator(new RouteCalculator(transportType));
       setFareCalculator(new FareCalculator(transportType));
     }
-  }, [transportType]);  const calculateRoute = useCallback(async (fromStationId, toStationId, paymentMethod = 'sjt') => {
+  }, [transportType]);  const calculateRoute = useCallback(async (fromStationId, toStationId, paymentMethod) => {
     if (!routeCalculator || !fareCalculator) return;
+
+    // Default payment method based on transport type
+    const config = TRANSPORT_CONFIG[transportType];
+    const defaultPayment = config?.type === 'brt' ? 'regular' : 'sjt';
+    const effectivePayment = paymentMethod || defaultPayment;
 
     try {
       setLoading(true);
@@ -65,18 +70,20 @@ export const useRoutePlanner = (transportType) => {
       const fareResult = await fareCalculator.calculateFare(
         routeResult.fromStation, 
         routeResult.toStation, 
-        paymentMethod
+        effectivePayment
       );
 
-      // Calculate SJT fare for comparison purposes (needed for savings display)
-      const sjtFareResult = paymentMethod !== 'sjt' 
-        ? await fareCalculator.calculateFare(routeResult.fromStation, routeResult.toStation, 'sjt')
-        : fareResult;
+      // Calculate base fare for comparison purposes (needed for savings display)
+      // For rail: SJT fare, for BRT: regular fare
+      let baseFare = fareResult;
+      if (config?.type !== 'brt' && effectivePayment !== 'sjt') {
+        baseFare = await fareCalculator.calculateFare(routeResult.fromStation, routeResult.toStation, 'sjt');
+      }
 
-      // Add SJT fare to route object for savings comparison
+      // Add base fare to route object for savings comparison
       const enrichedRoute = {
         ...routeResult,
-        sjtFare: sjtFareResult
+        sjtFare: baseFare
       };
 
       setRoute(enrichedRoute);
@@ -90,7 +97,7 @@ export const useRoutePlanner = (transportType) => {
     } finally {
       setLoading(false);
     }
-  }, [routeCalculator, fareCalculator]);
+  }, [routeCalculator, fareCalculator, transportType]);
 
   const clearRoute = useCallback(() => {
     setRoute(null);
