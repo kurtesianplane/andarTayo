@@ -40,7 +40,7 @@ export class RouteCalculator {
   }
   calculateDirection(fromStation, toStation) {
     if (this.transportType === 'edsa-carousel') {
-      return fromStation.sequence < toStation.sequence ? 'northbound' : 'southbound';
+      return fromStation.sequence < toStation.sequence ? 'southbound' : 'northbound';
     }
     
     if (this.transportType === 'lrt-2') {
