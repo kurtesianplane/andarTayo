@@ -51,19 +51,19 @@ export const PAYMENT_METHODS = {
     { 
       id: 'student', 
       name: 'Student',
-      description: '50% discount with valid ID',
+      description: '20% discount with valid ID',
       icon: AcademicCapIcon
     },
     { 
       id: 'pwd', 
       name: 'PWD',
-      description: '50% discount',
+      description: '20% discount',
       icon: HeartIcon
     },
     { 
       id: 'senior', 
       name: 'Senior Citizen',
-      description: '50% discount',
+      description: '20% discount',
       icon: UserIcon
     }
   ]

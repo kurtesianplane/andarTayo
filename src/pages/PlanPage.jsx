@@ -34,7 +34,7 @@ const PAYMENT_INFO = {
   sjt: { icon: Ticket, name: 'Single Journey Ticket', shortName: 'SJT' },
   beep: { icon: CreditCard, name: 'Beep Card', shortName: 'Beep' },
   student: { icon: GraduationCap, name: 'Student (50% off)', shortName: 'Student' },
-  discounted: { icon: Heart, name: 'PWD/Senior (20% off)', shortName: 'PWD' },
+  discounted: { icon: Heart, name: 'PWD/Senior (50% off)', shortName: 'PWD' },
 };
 
 // Animation variants
@@ -486,7 +486,7 @@ const PlanPage = () => {
                 >
                   {isBRT && (
                     <div className="text-xs text-zinc-500 text-center py-2">
-                      50% discount for students, PWD, and seniors — <span className="text-zinc-700 dark:text-zinc-300 font-medium">valid everyday including weekends & holidays</span>
+                      20% discount for students, PWD, and seniors — <span className="text-zinc-700 dark:text-zinc-300 font-medium">valid everyday including weekends & holidays</span>
                     </div>
                   )}
 
