@@ -15,6 +15,55 @@ const RSS_SOURCES = [
     url: 'https://dotr.gov.ph/index.php/component/content/?format=feed&type=rss',
     category: 'transit',
     author: 'DOTr'
+  },
+  {
+    id: 'inquirer',
+    type: 'rss',
+    url: 'https://www.inquirer.net/fullfeed',
+    category: 'news',
+    author: 'Inquirer'
+  },
+  {
+    id: 'interaksyon',
+    type: 'rss',
+    url: 'https://interaksyon.philstar.com/feed/',
+    category: 'news',
+    author: 'Interaksyon'
+  },
+  {
+    id: 'philstar',
+    type: 'rss',
+    url: 'https://www.philstar.com/rss/headlines',
+    category: 'news',
+    author: 'Philstar'
+  },
+  {
+    id: 'rappler',
+    type: 'rss',
+    url: 'https://www.rappler.com/feed/',
+    category: 'news',
+    author: 'Rappler'
+  },
+  {
+    id: 'manila-bulletin',
+    type: 'rss',
+    url: 'https://mb.com.ph/feed/',
+    category: 'news',
+    author: 'Manila Bulletin'
+  },
+  {
+    id: 'gma-news',
+    type: 'rss',
+    url: 'https://www.gmanetwork.com/news/rss/',
+    category: 'news',
+    author: 'GMA News'
+  },
+  {
+    id: 'abs-cbn',
+    type: 'rss',
+    url: 'https://news.abs-cbn.com/rss/latest.xml',
+    category: 'news',
+    author: 'ABS-CBN'
   }
 ];
 
@@ -47,7 +96,17 @@ function normalizeItem(raw) {
 async function fetchRssSource(src) {
   try {
     const feed = await parser.parseURL(src.url);
-    return feed.items.slice(0, 10).map(item => normalizeItem({
+    // Transport-related keywords
+    const keywords = [
+      'mrt', 'lrt', 'bus', 'commute', 'traffic', 'dotr', 'train', 'jeepney',
+      'public transport', 'fare', 'station', 'route', 'terminal', 'transit', 'rail', 'carousel', 'beep', 'stop', 'metro', 'edsa', 'pwds', 'senior', 'student', 'passenger', 'congestion', 'transportation', 'mass transit', 'brt', 'lrt-1', 'lrt-2', 'mrt-3', 'ltfrb', 'mmda', 'uv express', 'tricycle', 'p2p', 'beep card', 'beep', 'fare hike', 'fare matrix', 'fares', 'service disruption', 'maintenance', 'schedule', 'arrival', 'departure', 'terminal', 'route', 'line', 'station', 'stop', 'commuter', 'volume', 'crowd', 'density', 'alert', 'announcement', 'update', 'car', 'busway', 'footbridge', 'carousel', 'brt', 'rapid transit', 'railway', 'railroad', 'public', 'transport', 'transit', 'metro', 'manila', 'philippines'
+    ];
+    // Filter for transport-related articles
+    const filtered = feed.items.filter(item => {
+      const text = [item.title, item.contentSnippet, item.content, item['content:encoded']].join(' ').toLowerCase();
+      return keywords.some(k => text.includes(k));
+    });
+    return filtered.slice(0, 10).map(item => normalizeItem({
       id: `${src.id}-${item.guid || item.link || item.pubDate}`,
       category: src.category,
       title: item.title,
