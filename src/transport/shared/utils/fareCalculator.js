@@ -224,9 +224,10 @@ export class FareCalculator {
       fare = Math.round(fare * 4) / 4;
     }
 
-    // Apply discount for student/pwd/senior (50% off per RA 11314, RA 9994, RA 7277)
+    // Apply discount for student/pwd/senior
     if (paymentMethod === 'student' || paymentMethod === 'pwd' || paymentMethod === 'senior') {
-      const discountRate = fareMatrix.calculation?.discount_rate || 0.50;
+      // For EDSA Carousel (BRT), discount is only 20%
+      const discountRate = this.config.type === 'brt' ? 0.20 : 0.50;
       fare = fare * (1 - discountRate);
       // Round to nearest 0.25
       fare = Math.round(fare * 4) / 4;
@@ -296,6 +297,7 @@ export class FareCalculator {
   }
 
   getPaymentMethods() {
+    if (!this.config || !this.config.paymentMethods) return [];
     return this.config.paymentMethods;
   }
 }
